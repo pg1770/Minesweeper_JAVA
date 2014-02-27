@@ -71,7 +71,7 @@ public class Model {
 		public void Yolo(){};
 		public int MinesAround(int x, int y){
 		  
-		  return;
+		  return 0;
 		}
 		
 		public void LeftClick(int x, int y){
