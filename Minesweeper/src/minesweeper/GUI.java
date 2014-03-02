@@ -115,7 +115,7 @@ public class GUI extends JFrame {
 		for(int i = 0; i < cell_num_x; i++)
 			for(int j = 0; j < cell_num_y; j++ )
 			{
-				String path = "im.jpg";
+				String path = "resources\\im.jpg";
 				set_field(new Point(i,j),path);
 			}
 		

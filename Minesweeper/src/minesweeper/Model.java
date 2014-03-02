@@ -68,29 +68,69 @@ public class Model {
 		}
 		
 		public abstract void Draw();
+		
 		public void Yolo(){};
+		
 		public int MinesAround(int x, int y){
 		  
 		  return 0;
 		}
 		
+		public void MineMark(int x, int y){
+		  if(uiBoard[x][y].uiStatus == SquareUI.FLAGGED && logicBoard[x][y].sqValue == SquareLogic.MINE){
+		    logicBoard[x][y].sqValue = SquareLogic.MARKED;
+		    --minesNo;
+		    ++markedNo;
+		  } 
+		    
+		  if(uiBoard[x][y].uiStatus != SquareUI.FLAGGED && logicBoard[x][y].sqValue == SquareLogic.MARKED){
+		    logicBoard[x][y].sqValue = SquareLogic.MINE;
+		    ++minesNo;
+        --markedNo;
+		  } 
+		}
+		
 		public void LeftClick(int x, int y){
 			switch(uiBoard[x][y].uiStatus){
-				case SquareUI.FLAGGED: uiBoard[x][y].uiStatus = SquareUI.UNKNOWN; break;
-			  case SquareUI.QMARKED: uiBoard[x][y].uiStatus = SquareUI.UNKNOWN; break;
-				case SquareUI.REVEALED: ;
-				case SquareUI.UNKNOWN: {
-				  --cellsLeft;
-				  if(logicBoard[x][y].sqValue == SquareLogic.MINE) Yolo();
-				  else logicBoard[x][y].sqValue = MinesAround(x,y);
-				}
-				default: System.out.println("Error");
+			case SquareUI.FLAGGED: ; break;
+			case SquareUI.REVEALED: ; break;
+			case SquareUI.QMARKED: {
+        --cellsLeft;
+        if(logicBoard[x][y].sqValue == SquareLogic.MINE) Yolo();
+        else logicBoard[x][y].sqValue = MinesAround(x,y);
+      } break;
+			case SquareUI.UNKNOWN: {
+			  --cellsLeft;
+			  if(logicBoard[x][y].sqValue == SquareLogic.MINE) Yolo();
+			  else logicBoard[x][y].sqValue = MinesAround(x,y);
+			  break;
+			} 
+			default: System.out.println("LeftClick Error"); break;
 			}
-			
-		} 
+		}
+		
+		public void RightClick(int x, int y){ 
+		  switch(uiBoard[x][y].uiStatus){
+		  case SquareUI.FLAGGED: {
+		    uiBoard[x][y].uiStatus = SquareUI.QMARKED; 
+		    MineMark(x, y);
+		    break; 
+		  }
+		  case SquareUI.QMARKED: uiBoard[x][y].uiStatus = SquareUI.UNKNOWN; break;
+		  case SquareUI.UNKNOWN: {
+		    uiBoard[x][y].uiStatus = SquareUI.FLAGGED; 
+		    MineMark(x, y);
+		    break; 
+		  }
+		  case SquareUI.REVEALED: ; break;
+		  default: System.out.println("RightClick Error"); break;
+		  }
+		}
+		
+		public void MiddleClick(){
+		  
+		}
+		
 	}
-	
-	
-	
 	
 }

@@ -2,6 +2,7 @@ package minesweeper;
 
 
 import java.awt.Point;
+import java.io.IOException;
 
 public class Control {
 
@@ -12,7 +13,7 @@ public class Control {
 		this.gui = gui;
 	}
 	
-	public void set_new_minefield(int x, int y)
+	public void set_new_minefield(int x, int y) throws IOException
 	{
 		gui.set_new_Size(x, y);
 	}
