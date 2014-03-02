@@ -76,7 +76,7 @@ public class GUI extends JFrame {
 		Point cell_num = new Point();
 		cell_num.x = (int)(p.x/cell_size);
 		cell_num.y = (int)(p.y/cell_size);
-		String path = "im2.jpg";
+		String path = "resources\\im2.jpg";
 		set_field(cell_num,path);
 		control.click_happend(cell_num);
 		repaint();
