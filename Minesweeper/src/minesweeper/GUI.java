@@ -158,17 +158,6 @@ public class GUI extends JFrame {
 			buttons[pos.x][pos.y].setBorder(BorderFactory.createLineBorder(Color.orange));
 			//buttons[pos.x][pos.y].setBackground(Color.orange);
 			buttons[pos.x][pos.y].setSize(cell_size, cell_size);
-			/*
-			buttons[pos.x][pos.y].addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					System.out.println("The frame was clicked." + pos.x + pos.y);
-					
-				}
-			});
-			
-			
-			*/
 			
 			final JButton btn = buttons[pos.x][pos.y];
 			btn.addMouseListener(new MouseAdapter() {
