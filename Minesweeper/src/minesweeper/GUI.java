@@ -1,11 +1,15 @@
 package minesweeper;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
@@ -29,7 +33,7 @@ public class GUI extends JFrame {
 	int fields_panel_size_offset_x = 0;
 	int fields_panel_size_offest_y = 0;
 
-	int cell_size = 30;
+	int cell_size = 40;
 
 	int cell_num_x = 20;
 	int cell_num_y = 30;
@@ -38,13 +42,14 @@ public class GUI extends JFrame {
 	Control control;
 
 	BufferedImage [] field_images = new BufferedImage[13];
-	one_Field ff;
+	//one_Field ff;
 	
 	public GUI(Control c) throws IOException
 	{
 		super("Minesweeper");
 		control = c;
 		fields_panel = new Fields_panel_c();
+		/*add(fields_panel);
 		
 		fields_panel.addMouseListener(new MouseAdapter() {
 
@@ -59,14 +64,11 @@ public class GUI extends JFrame {
             }
         });
 
-	
-		add(fields_panel);
 		setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//setResizable(false);
-		set_new_Size(10,20);
-		setVisible(true);
-		repaint();
+		*/
+		set_new_Size(2,2);
+		//repaint();
 	}
 
 	void click_happend(Point p) throws IOException
@@ -76,10 +78,11 @@ public class GUI extends JFrame {
 		Point cell_num = new Point();
 		cell_num.x = (int)(p.x/cell_size);
 		cell_num.y = (int)(p.y/cell_size);
-		String path = "resources\\im2.jpg";
-		set_field(cell_num,path);
-		control.click_happend(cell_num);
+		String path = "resources\\im2.png";
+		
+		//control.click_happend(cell_num);
 		repaint();
+		set_field(cell_num,path);
 	}
 
 	public void set_new_Size(int x, int y) throws IOException
@@ -111,16 +114,17 @@ public class GUI extends JFrame {
 				(cell_num_y)*cell_size +400
 				);
 		fields_panel.setBorder(BorderFactory.createLineBorder(Color.black));
-		
+		setVisible(true);
 		for(int i = 0; i < cell_num_x; i++)
 			for(int j = 0; j < cell_num_y; j++ )
 			{
-				String path = "resources\\im.jpg";
+				String path = "resources\\im.png";
 				set_field(new Point(i,j),path);
 			}
 		
 		setSize(screen_size_x,screen_size_y);
 		add(fields_panel);
+
 		repaint();
 		System.out.println("ez");
 	}
@@ -132,55 +136,41 @@ public class GUI extends JFrame {
 	
 	class Fields_panel_c extends JPanel{
 
-		one_Field [][] fields;
+		//one_Field [][] fields;
+		JButton [][] buttons;
 		
 		private static final long serialVersionUID = 1L;
 
 		public Fields_panel_c()
 		{
-			fields = new one_Field[cell_num_x][cell_num_y];
+			buttons = new JButton[cell_num_x][cell_num_y];		
 		}
 		
 		public void set_field(Point pos, BufferedImage im)
 		{
-			fields[pos.x][pos.y] = new one_Field(im, pos);	
-		}
-		
-		
-		@Override
-	    public void paintComponent(Graphics g){
-			super.paintComponent(g);
-			g.setColor(Color.black);
-			for(int x = 0; x < cell_num_x; x++ )
-				for(int y = 0; y < cell_num_y; y++ )
-					g.drawImage(fields[x][y].own_image, fields[x][y].position.x*cell_size, fields[x][y].position.y*cell_size, this);
-		}
+			String s = pos.x + " " + pos.y;
 			
-	}
-
-	class one_Field{
-		
-		BufferedImage own_image;
-		Point position = new Point();
-		
-		public one_Field(BufferedImage im, Point pos)
-		{
-			position.x = pos.x;
-			position.y = pos.y;
-			own_image = im;
-		}
-		
-		public void set_image(BufferedImage im)
-		{
-			own_image = im;
-		}
-		
-		public void set_position(Point p)
-		{
-			position.x = p.x;
-			position.y = p.y;
+			buttons[pos.x][pos.y] = new JButton(s);
+			
+			buttons[pos.x][pos.y].setIcon(new ImageIcon("resources\\im2.jpg"));
+			
+			buttons[pos.x][pos.y].setLocation(pos.x*cell_size, pos.y*cell_size);
+			buttons[pos.x][pos.y].setBorder(BorderFactory.createLineBorder(Color.orange));
+			//buttons[pos.x][pos.y].setBackground(Color.orange);
+			buttons[pos.x][pos.y].setSize(cell_size, cell_size);
+			/*
+			buttons[pos.x][pos.y].addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("The frame was clicked." + pos.x + pos.y);
+					
+				}
+			});
+			*/
+			add(buttons[pos.x][pos.y]);
+			buttons[pos.x][pos.y].setVisible(true);
+			
 		}
 	}
-
 
 }
