@@ -166,7 +166,21 @@ public class GUI extends JFrame {
 					
 				}
 			});
+			
+			
 			*/
+			
+			final JButton btn = buttons[pos.x][pos.y];
+			btn.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								Point p = btn.getLocation();
+								Point pos = new Point(p.x/cell_size, p.y/cell_size);
+								System.out.println("The frame was clicked." + pos.x + " " + pos.y);
+							}
+												
+							});
+		
 			add(buttons[pos.x][pos.y]);
 			buttons[pos.x][pos.y].setVisible(true);
 			
