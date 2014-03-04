@@ -19,7 +19,7 @@ public class Model {
 		
 		protected int width;
 		protected int height;
-		protected static int minesNo;
+		protected int minesNo;
 		protected int cellsLeft;
 		protected int markedNo;
 		protected boolean [][] mines;
@@ -35,7 +35,7 @@ public class Model {
 			
 			this.width = width;
 			this.height = height;
-			Model.minesNo = minesNo;
+			minesNo = minesNo;
 			
 			PlaceMines();
 		}
@@ -46,7 +46,7 @@ public class Model {
 			for(int i = 0; i < width; ++i)
 				for(int j = 0; j < height; ++j){
 					mines[i][j] = false;
-					board[i][j] = 0;
+					board[i][j] = UNKNOWN;
 				}
 			cellsLeft = width * height;
 			markedNo = 0;
