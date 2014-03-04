@@ -4,57 +4,49 @@ import java.util.Random;
 
 
 public class Model {
-	
-	public class SquareUI{
-		public static final int UNKNOWN = 0;
-		public static final int REVEALED = 1;
-		public static final int FLAGGED = 2;
-		public static final int QMARKED = 3;
-
-		public int uiStatus;
-	}
-	
-	public class SquareLogic{
-		public static final int MINE = 9;
-		public static final int MARKED = 10;
+  
+    /**ENUMLIKE**/
+  
+		public static final int UNKNOWN = 10;
+//		public static final int REVEALED = 11;
+		public static final int FLAGGED = 12;
+		public static final int QMARKED = 13;
+		public static final int EXPLODED = 14;
+		public static final int MARKED = 15;
+		public static final int PUSHED = 16;
 		
-		public int sqValue; 
-	}
-	
-	public abstract class Board{
+	  /**DATA**/
+		
 		protected int width;
 		protected int height;
-		protected int minesNo;
+		protected static int minesNo;
 		protected int cellsLeft;
 		protected int markedNo;
-//		protected boolean [][] minesPlace;
-		protected SquareLogic [][] logicBoard;
-		protected SquareUI [][] uiBoard;
+		protected boolean [][] mines;
+		protected int [][] board;
 		
 		/**CONSTRUCTOR**/
 		
-		public Board(int width, int height, int minesNo){
-//			minesPlace = new boolean[width][height];
-			logicBoard = new SquareLogic [width][height];
-			uiBoard = new SquareUI [width][height];
+		public Model(int width, int height, int minesNo){
+			mines = new boolean [width][height];
+			board = new int [width][height];
 			
-			BoardClear();
+			ModelClear();
 			
 			this.width = width;
 			this.height = height;
-			this.minesNo = minesNo;
+			Model.minesNo = minesNo;
 			
 			PlaceMines();
 		}
 		
 		/**ACTION METHODS**/
 		
-		private void BoardClear(){
+		private void ModelClear(){
 			for(int i = 0; i < width; ++i)
 				for(int j = 0; j < height; ++j){
-//					minesPlace[i][j] = false;
-					logicBoard[i][j].sqValue = 0;
-					uiBoard[i][j].uiStatus = SquareUI.UNKNOWN;
+					mines[i][j] = false;
+					board[i][j] = 0;
 				}
 			cellsLeft = width * height;
 			markedNo = 0;
@@ -64,45 +56,71 @@ public class Model {
 		private void PlaceMines(){
 			Random random = new Random();
 			for(int i = 0; i < minesNo; ++i)
-				logicBoard[random.nextInt(width-1)][random.nextInt(height-1)].sqValue = SquareLogic.MINE;
+				mines[random.nextInt(width-1)][random.nextInt(height-1)] = true;
 		}
 		
-		public abstract void Draw();
+		public int [][] getBoard(){return board;}
 		
-		public void Yolo(){};
+		//draw()
+		
+		public void Yolo(){System.out.println("Vesztettel!!");};
 		
 		public int MinesAround(int x, int y){
-		  
-		  return 0;
+		  int minesAround = 0;
+		  for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
+		    for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j )
+		      if( (mines[i][j] == true) && ( (i != x) && (j != y) ) ) ++minesAround;
+		  return minesAround;
 		}
 		
-		public void MineMark(int x, int y){
-		  if(uiBoard[x][y].uiStatus == SquareUI.FLAGGED && logicBoard[x][y].sqValue == SquareLogic.MINE){
-		    logicBoard[x][y].sqValue = SquareLogic.MARKED;
+		public void EmptyShowMore(int x, int y){  //hivni akkor, ha sqvalue == 0
+		  for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
+        for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j )
+          if( mines[i][j] != true && board[i][j] == UNKNOWN ){
+            LeftClick(i,j);                   //ebben mar van --cellsLeft; 
+            if(board[i][j] == 0)
+              EmptyShowMore(i,j);
+          }       
+    }
+		
+		public void MineMark(int x, int y){ //ha FLAGGED-re hvjuk MARKED lehet
+		  if(board[x][y] == FLAGGED && mines[x][y] == true){
+		    board[x][y] = MARKED;
 		    --minesNo;
 		    ++markedNo;
+		    --cellsLeft;
 		  } 
 		    
-		  if(uiBoard[x][y].uiStatus != SquareUI.FLAGGED && logicBoard[x][y].sqValue == SquareLogic.MARKED){
-		    logicBoard[x][y].sqValue = SquareLogic.MINE;
+		  if(board[x][y] != FLAGGED && board[x][y] == MARKED){ //ha MARKED-ot unflagelunk
+		    board[x][y] = FLAGGED;
 		    ++minesNo;
         --markedNo;
-		  } 
+        ++cellsLeft;
+		  }
+		  
 		}
 		
 		public void LeftClick(int x, int y){
-			switch(uiBoard[x][y].uiStatus){
-			case SquareUI.FLAGGED: ; break;
-			case SquareUI.REVEALED: ; break;
-			case SquareUI.QMARKED: {
-        --cellsLeft;
-        if(logicBoard[x][y].sqValue == SquareLogic.MINE) Yolo();
-        else logicBoard[x][y].sqValue = MinesAround(x,y);
+			switch(board[x][y]){
+			case FLAGGED: ; break;
+			case MARKED: ; break;
+			case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
+			case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
+			case QMARKED: {
+        if(mines[x][y] == true) {board[x][y] = EXPLODED; Yolo();}
+        else {
+          board[x][y] = MinesAround(x,y);
+          --cellsLeft;
+          if(board[x][y] == 0) EmptyShowMore(x, y);
+        }
       } break;
-			case SquareUI.UNKNOWN: {
-			  --cellsLeft;
-			  if(logicBoard[x][y].sqValue == SquareLogic.MINE) Yolo();
-			  else logicBoard[x][y].sqValue = MinesAround(x,y);
+			case UNKNOWN: {
+			  if(mines[x][y] == true) {board[x][y] = EXPLODED; Yolo();}
+			  else {
+          board[x][y] = MinesAround(x,y);
+          --cellsLeft;
+          if(board[x][y] == 0) EmptyShowMore(x, y);
+        }
 			  break;
 			} 
 			default: System.out.println("LeftClick Error"); break;
@@ -110,27 +128,64 @@ public class Model {
 		}
 		
 		public void RightClick(int x, int y){ 
-		  switch(uiBoard[x][y].uiStatus){
-		  case SquareUI.FLAGGED: {
-		    uiBoard[x][y].uiStatus = SquareUI.QMARKED; 
+		  switch(board[x][y]){
+		  case FLAGGED: {
+		    board[x][y] = QMARKED;
+		  //  MineMark(x, y);
+		    break; 
+		  }
+		  case MARKED: {
+        board[x][y] = QMARKED; 
+        MineMark(x, y); //ebben mar van --cellsLeft;
+        break; 
+      }
+		  case QMARKED: board[x][y] = UNKNOWN; break;
+		  case UNKNOWN: {
+		    board[x][y] = FLAGGED; 
 		    MineMark(x, y);
 		    break; 
 		  }
-		  case SquareUI.QMARKED: uiBoard[x][y].uiStatus = SquareUI.UNKNOWN; break;
-		  case SquareUI.UNKNOWN: {
-		    uiBoard[x][y].uiStatus = SquareUI.FLAGGED; 
-		    MineMark(x, y);
-		    break; 
-		  }
-		  case SquareUI.REVEALED: ; break;
+		  case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
+      case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
 		  default: System.out.println("RightClick Error"); break;
 		  }
 		}
 		
-		public void MiddleClick(){
-		  
+		public void MiddleClickPushed(int x, int y){
+		  for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
+        for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j )
+          switch(board[i][j]){
+          case FLAGGED: ; break;
+          case MARKED: ; break;
+          case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
+          case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
+          case QMARKED: board[x][y] += PUSHED; break;
+          case UNKNOWN: board[x][y] += PUSHED; break;
+          default: System.out.println("MiddleClickPushed Error"); break;
+          }
 		}
 		
+		public void MiddleClickReleased(int x, int y){  //same x and y as in MiddleClickPushed(x,y)!!
+		  int flaggedNMarked = 0;
+      for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
+        for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j ){
+          if( board[x][y] >= PUSHED ) board[x][y] -= PUSHED;
+          if( ( board[x][y] == MARKED || board[x][y] == FLAGGED ) && ( (i != x) && (j != y) ) ) ++flaggedNMarked;
+        }
+      if( MinesAround(x, y) == flaggedNMarked && board[x][y] <= 9 ){
+        for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
+          for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j )
+            switch(board[i][j]){
+            case FLAGGED: ; break;
+            case MARKED: ; break;
+            case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
+            case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
+            case QMARKED: LeftClick(i, j); break;
+            case UNKNOWN: LeftClick(i, j); break;
+            default: System.out.println("MiddleClickPushed Error"); break;
+            }
+      }
+		}
+				
 	}
 	
-}

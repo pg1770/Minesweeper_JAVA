@@ -15,11 +15,16 @@ public class Control {
 	
 	public void set_new_minefield(int x, int y) throws IOException
 	{
-		//gui.set_new_Size(x, y);
+		gui.set_new_Size(x, y);
 	}
 	
 	public void click_happend(Point p)
 	{
 		System.out.println(p.x +" " +p.y);
 	}
+	
+	private Model model;
+	//timer
+	//winflagek
+	//no of moves
 }
