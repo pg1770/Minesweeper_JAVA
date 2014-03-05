@@ -67,7 +67,7 @@ public class GUI extends JFrame {
 		setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		*/
-		set_new_Size(2,2);
+		set_new_Size(5,5);
 		//repaint();
 	}
 
@@ -90,11 +90,12 @@ public class GUI extends JFrame {
 		cell_num_x = x;
 		cell_num_y = y;
 
-		screen_size_x = (cell_num_x)*cell_size + fields_panel_size_offset_x*2 +400;
-		screen_size_y = (cell_num_y)*cell_size + fields_panel_size_offest_y*2 + 30 +400;
+		screen_size_x = (cell_num_x)*cell_size +30;//+ fields_panel_size_offset_x*2;
+		screen_size_y = (cell_num_y)*cell_size + 100;//+ fields_panel_size_offest_y*2;
 		remove(fields_panel);
-		fields_panel = new Fields_panel_c();
 		
+		fields_panel = new Fields_panel_c();
+		fields_panel.setLayout(null);
 		fields_panel.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -110,8 +111,8 @@ public class GUI extends JFrame {
 		
 		fields_panel.setBounds(fields_panel_size_offset_x, 
 				fields_panel_size_offest_y, 
-				(cell_num_x)*cell_size +400, 
-				(cell_num_y)*cell_size +400
+				(cell_num_x)*cell_size , 
+				(cell_num_y)*cell_size 
 				);
 		fields_panel.setBorder(BorderFactory.createLineBorder(Color.black));
 		setVisible(true);
@@ -150,7 +151,7 @@ public class GUI extends JFrame {
 		{
 			String s = pos.x + " " + pos.y;
 			
-			buttons[pos.x][pos.y] = new JButton(s);
+			buttons[pos.x][pos.y] = new JButton();
 			
 			buttons[pos.x][pos.y].setIcon(new ImageIcon("resources\\im2.jpg"));
 			
@@ -163,11 +164,29 @@ public class GUI extends JFrame {
 			btn.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent e) {
+								/*
 								Point p = btn.getLocation();
 								Point pos = new Point(p.x/cell_size, p.y/cell_size);
 								System.out.println("The frame was clicked." + pos.x + " " + pos.y);
+								*/
+								;
 							}
-												
+							
+							@Override
+							public void mousePressed(MouseEvent e) {
+								Point p = btn.getLocation();
+								Point pos = new Point(p.x/cell_size, p.y/cell_size);
+								System.out.println("The left mouse button was pressed." + pos.x + " " + pos.y);
+								
+							}
+							@Override			
+							public void mouseReleased(MouseEvent e) {
+								Point p = btn.getLocation();
+								Point pos = new Point(p.x/cell_size, p.y/cell_size);
+								
+								System.out.println("The left mouse button was released." + pos.x + " " + pos.y + " button " + e.getButton());
+								
+							}
 							});
 		
 			add(buttons[pos.x][pos.y]);
