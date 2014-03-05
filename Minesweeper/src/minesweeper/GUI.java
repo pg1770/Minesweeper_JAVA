@@ -73,7 +73,7 @@ public class GUI extends JFrame {
 
 	void click_happend(Point p) throws IOException
 	{
-		
+
 		//determine cell
 		Point cell_num = new Point();
 		cell_num.x = (int)(p.x/cell_size);
