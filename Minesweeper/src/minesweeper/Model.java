@@ -35,7 +35,7 @@ public class Model {
 			
 			this.width = width;
 			this.height = height;
-			minesNo = minesNo;
+			this.minesNo = minesNo;
 			
 			PlaceMines();
 		}
@@ -63,19 +63,19 @@ public class Model {
 		
 		//draw()
 		
-		public void Yolo(){System.out.println("Vesztettel!!");};
+		public void Yolo(){System.out.println("Vesztettel!!");}
 		
 		public int MinesAround(int x, int y){
 		  int minesAround = 0;
-		  for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
-		    for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j )
+		  for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
+		    for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
 		      if( (mines[i][j] == true) && ( (i != x) && (j != y) ) ) ++minesAround;
 		  return minesAround;
 		}
 		
 		public void EmptyShowMore(int x, int y){  //hivni akkor, ha sqvalue == 0
-		  for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
-        for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j )
+		  for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
+        for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
           if( mines[i][j] != true && board[i][j] == UNKNOWN ){
             LeftClick(i,j);                   //ebben mar van --cellsLeft; 
             if(board[i][j] == 0)
@@ -152,8 +152,8 @@ public class Model {
 		}
 		
 		public void MiddleClickPushed(int x, int y){
-		  for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
-        for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j )
+		  for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
+        for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
           switch(board[i][j]){
           case FLAGGED: ; break;
           case MARKED: ; break;
@@ -167,14 +167,14 @@ public class Model {
 		
 		public void MiddleClickReleased(int x, int y){  //same x and y as in MiddleClickPushed(x,y)!!
 		  int flaggedNMarked = 0;
-      for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
-        for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j ){
+      for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
+        for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j ){
           if( board[x][y] >= PUSHED ) board[x][y] -= PUSHED;
           if( ( board[x][y] == MARKED || board[x][y] == FLAGGED ) && ( (i != x) && (j != y) ) ) ++flaggedNMarked;
         }
       if( MinesAround(x, y) == flaggedNMarked && board[x][y] <= 9 ){
-        for(int i = (x == 0 ? 0 : x-1); i < (x == width-1 ? width-1 : x+1); ++i )
-          for(int j = (y == 0 ? 0 : y-1); j < (y == height-1 ? height-1 : y+1); ++j )
+        for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
+          for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
             switch(board[i][j]){
             case FLAGGED: ; break;
             case MARKED: ; break;

@@ -8,10 +8,10 @@ public class Game {
   
   public int status;
   
-  private Model model;
+  private Model model; //itt fos valami
   
   public Game(int width, int height, int minesNo){
-    model = new Model(width, height, minesNo);
+    Model model = new Model(width, height, minesNo);
   }
   
   public void GameStart(){
@@ -43,12 +43,30 @@ public class Game {
     JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000)+" seconds.");
   }
   
+  public void print(Model m){
+    for( int i = 0; i < m.width; ++i ){
+      for( int j = 0; j < m.height; ++j ){
+        if(m.board[i][j] < 9) System.out.print(m.board[i][j]);
+        else switch(m.board[i][j]){
+        case 10: System.out.print("."); break;
+        case 12: System.out.print("$"); break;
+        case 13: System.out.print("?"); break;
+        case 15: System.out.print("$"); break;
+        }
+      }
+      System.out.println();
+    }
+    for( int i = 0; i < m.height; ++i )      
+      System.out.print("-");
+    System.out.println();
+  }
+  
   public void Debug(Model m){
-    m.LeftClick(1,2);
-    m.RightClick(5, 6);
-    m.LeftClick(8, 8);
-    m.MiddleClickPushed(9, 9);
-    m.MiddleClickReleased(9, 9);
+    m.LeftClick(1,2); print(m);
+    m.RightClick(5, 6); print(m);
+    m.LeftClick(8, 8); print(m);
+    m.MiddleClickPushed(9, 9); print(m);
+    m.MiddleClickReleased(9, 9); print(m);
   }
 }
 
