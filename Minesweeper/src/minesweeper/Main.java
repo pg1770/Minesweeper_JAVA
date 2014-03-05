@@ -20,7 +20,9 @@ public class Main {
     //Point pos = new Point(20,10);
 //g.paint_image(im, pos);
 //c.set_new_minefield(5, 10);
-
+//ez látszik tomis??:D
+		// ti ennyit írtatok??????????
+		///dasff
 		c.set_new_minefield(5, 10);
 		Game x = new Game(10,10,20);
 		x.GameStart();
