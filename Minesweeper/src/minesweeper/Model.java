@@ -29,14 +29,14 @@ public class Model {
 		
 		public Model(int width, int height, int minesNo){
 			mines = new boolean [width][height];
-			board = new int [width][height];
+			board = new int [width][height];		
+			this.width = width;
+			this.height = height;
 			
 			ModelClear();
 			
-			this.width = width;
-			this.height = height;
 			this.minesNo = minesNo;
-			
+	
 			PlaceMines();
 		}
 		

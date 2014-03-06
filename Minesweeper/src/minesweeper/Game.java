@@ -11,7 +11,7 @@ public class Game {
   private Model model; //itt fos valami
   
   public Game(int width, int height, int minesNo){
-    Model model = new Model(width, height, minesNo);
+    model = new Model(width, height, minesNo);
   }
   
   public void GameStart(){
