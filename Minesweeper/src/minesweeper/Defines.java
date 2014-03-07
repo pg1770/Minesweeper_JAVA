@@ -1,6 +1,17 @@
 package minesweeper;
 
 public class Defines {
+
+  public static final int WON = 1;
+  public static final int LOST = 2;
+
+  public static final int UNKNOWN = 10;
+  public static final int FLAGGED = 12;
+  public static final int QMARKED = 13;
+  public static final int EXPLODED = 14;
+  public static final int MARKED = 15;
+  public static final int PUSHED = 16;
+  
 	public static final int field_empty = 0;
 	public static final int field_1 = 1;
 	public static final int field_2 = 2;

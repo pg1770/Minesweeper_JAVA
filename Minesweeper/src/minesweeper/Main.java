@@ -22,7 +22,7 @@ public class Main {
 //c.set_new_minefield(5, 10);
 		c.set_new_minefield(5, 10);
 //		c.set_new_minefield(5, 10);
-		Game x = new Game(10,10,20);
+		Control x = new Control(10,10,20);
 		x.GameStart();
 //		
 	}
