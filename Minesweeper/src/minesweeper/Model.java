@@ -63,7 +63,10 @@ public class Model {
 		
 		//draw()
 		
-		public void Yolo(){System.out.println("Vesztettel!!");}
+		public void OopsBomb(){
+		  System.out.println("Vesztettel!!");
+		  
+		  }
 		
 		public int MinesAround(int x, int y){
 		  int minesAround = 0;
@@ -72,11 +75,11 @@ public class Model {
 		      if( (mines[i][j] == true) && ( (i != x) && (j != y) ) ) ++minesAround;
 		  return minesAround;
 		}
-		
+		// fix bombakkal kene debuggolni
 		public void EmptyShowMore(int x, int y){  //hivni akkor, ha sqvalue == 0
 		  for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
-          if( mines[i][j] != true && board[i][j] == UNKNOWN ){
+          if( mines[i][j] != true && board[i][j] == UNKNOWN && (x == i || y == j)){
             LeftClick(i,j);                   //ebben mar van --cellsLeft; 
             if(board[i][j] == 0)
               EmptyShowMore(i,j);
@@ -107,7 +110,7 @@ public class Model {
 			case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
 			case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
 			case QMARKED: {
-        if(mines[x][y] == true) {board[x][y] = EXPLODED; Yolo();}
+        if(mines[x][y] == true) {board[x][y] = EXPLODED; OopsBomb();}
         else {
           board[x][y] = MinesAround(x,y);
           --cellsLeft;
@@ -115,7 +118,7 @@ public class Model {
         }
       } break;
 			case UNKNOWN: {
-			  if(mines[x][y] == true) {board[x][y] = EXPLODED; Yolo();}
+			  if(mines[x][y] == true) {board[x][y] = EXPLODED; OopsBomb();}
 			  else {
           board[x][y] = MinesAround(x,y);
           --cellsLeft;
@@ -159,8 +162,8 @@ public class Model {
           case MARKED: ; break;
           case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
           case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
-          case QMARKED: board[x][y] += PUSHED; break;
-          case UNKNOWN: board[x][y] += PUSHED; break;
+          case QMARKED: board[i][j] += PUSHED; break;
+          case UNKNOWN: board[i][j] += PUSHED; break;
           default: System.out.println("MiddleClickPushed Error"); break;
           }
 		}
@@ -169,8 +172,8 @@ public class Model {
 		  int flaggedNMarked = 0;
       for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j ){
-          if( board[x][y] >= PUSHED ) board[x][y] -= PUSHED;
-          if( ( board[x][y] == MARKED || board[x][y] == FLAGGED ) && ( (i != x) && (j != y) ) ) ++flaggedNMarked;
+          if( board[i][j] >= PUSHED ) board[i][j] -= PUSHED;
+          if( ( board[i][j] == MARKED || board[i][j] == FLAGGED ) && ( (i != x) && (j != y) ) ) ++flaggedNMarked;
         }
       if( MinesAround(x, y) == flaggedNMarked && board[x][y] <= 9 ){
         for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )

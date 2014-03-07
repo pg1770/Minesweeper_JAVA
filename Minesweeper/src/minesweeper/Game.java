@@ -57,11 +57,12 @@ public class Game {
       System.out.println();
     }
     for( int i = 0; i < m.height; ++i )      
-      System.out.print("-");
+      System.out.print(" ");
     System.out.println();
   }
   
   public void Debug(Model m){
+    print(m);
     m.LeftClick(1,2); print(m);
     m.RightClick(5, 6); print(m);
     m.LeftClick(8, 8); print(m);
