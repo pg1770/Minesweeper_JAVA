@@ -35,15 +35,17 @@ public class GUI extends JFrame {
 		sv_sc = new Server_screen(this);
 	}
 	
-	public void Start_client_screen()
+	public void Start_client_screen() throws IOException
 	{
-		st_sc.close();
-		
+		//st_sc.close();
+
 	}
 	
-	public void Start_game_screen()
+	public void Start_game_screen(int [][] fields) throws IOException
 	{
-		
+		if (gm_sc == null)
+			gm_sc = new Game_screen(this);
+		gm_sc.new_field_table(fields);
 	}
 	
 	public void screen(int screen_num) throws IOException

@@ -29,14 +29,15 @@ public class Control {
 		this.gui = gui;
 	}
 	
-	public void set_new_minefield(int x, int y) throws IOException
+	public void set_new_minefield(int [][] fields ) throws IOException
 	{
-		//gui.set_new_Size(x, y);
+		gui.Start_game_screen(fields);
 	}
 	
-	public void click_happend(Point p)
+	public void click_happend(Point p, int mouse_event_num)
 	{
-		System.out.println(p.x +" " +p.y);
+		
+		System.out.println(p.x +" " +p.y + mouse_event_num);
 	}
 	
  public void GameStart(){

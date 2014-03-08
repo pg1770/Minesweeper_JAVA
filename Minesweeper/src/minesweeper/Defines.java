@@ -26,4 +26,12 @@ public class Defines {
 	public static final int field_qst_marked = 11;
 	public static final int field_unknow = 12;
 	
+	public static final int mouse_left_Pressed = 0;
+	public static final int mouse_left_Released = 1;
+	public static final int mouse_middle_Pressed = 2;
+	public static final int mouse_middle_Released = 3;
+	public static final int mouse_right_Pressed = 4;
+	public static final int mouse_right_Released = 5;
+
+	
 }
