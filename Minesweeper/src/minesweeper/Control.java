@@ -10,7 +10,7 @@ public class Control {
   
   public int status = 0;
   
-  private Model model;
+  public Model model;
   
 	GUI gui;
 	
