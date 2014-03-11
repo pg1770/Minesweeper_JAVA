@@ -161,7 +161,7 @@ public class Game_screen extends JFrame{
 									}
 									
 									try {
-										click_happend(p, event);
+										click_happend(pos, event);
 									} catch (IOException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();
@@ -171,7 +171,7 @@ public class Game_screen extends JFrame{
 								@Override			
 								public void mouseReleased(MouseEvent e) {
 									Point p = btn.getLocation();
-									Point pos = new Point(p.x/cell_size, p.y/cell_size);
+									Point pos = new Point((p.x)/cell_size, (p.y)/cell_size);
 									int event = 0;
 									switch(e.getButton()){
 									case 1:
@@ -186,7 +186,7 @@ public class Game_screen extends JFrame{
 									}
 									
 									try {
-										click_happend(p, event);
+										click_happend(pos, event);
 									} catch (IOException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();
