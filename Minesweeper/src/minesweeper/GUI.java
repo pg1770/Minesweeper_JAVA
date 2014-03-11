@@ -1,5 +1,6 @@
 package minesweeper;
 
+import java.awt.Point;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -10,6 +11,7 @@ public class GUI extends JFrame {
 	Start_screen st_sc;
 	Server_screen sv_sc;
 	String player;
+	Control control;
 	
 	public void set_player_name(String s)
 	{
@@ -21,7 +23,7 @@ public class GUI extends JFrame {
 	
 	public GUI(Control c) throws IOException
 	{
-		
+		control=c;
 	}
 	
 	public void Start_start_screen()
@@ -52,6 +54,13 @@ public class GUI extends JFrame {
 	{
 		//gm_sc = new Game_screen(10, 20);
 		st_sc = new Start_screen(this);
+	}
+	
+	void click_happend(Point p, int mouse_event_num) throws IOException
+	{
+		control.click_happend(p, mouse_event_num);
+
+		;
 	}
 
 }
