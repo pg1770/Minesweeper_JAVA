@@ -98,7 +98,6 @@ public class Game_screen extends JFrame{
 			for(int i = 0; i < cell_num_x; i++)
 				for(int j = 0; j < cell_num_y; j++ )
 				{
-					//String path = "resources\\im.png";
 					set_field(new Point(i,j),fields_array[i][j]); 
 				}
 			
@@ -107,6 +106,19 @@ public class Game_screen extends JFrame{
 
 			repaint();
 			System.out.println("ez");
+		}
+		
+		public void modify_field_table(int [][] fields) throws IOException
+		{
+			for(int i = 0; i < cell_num_x; i++)
+				for(int j = 0; j < cell_num_y; j++ )
+				{
+					if(Integer.parseInt(fields_panel.buttons[i][j].getText()) != fields[i][j])
+					{
+						fields_panel.buttons[i][j].setText(""+fields[i][j]);
+					}
+				}
+			repaint();
 		}
 
 		void set_field(Point pos, int value) throws IOException

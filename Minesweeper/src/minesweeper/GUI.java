@@ -46,8 +46,15 @@ public class GUI extends JFrame {
 	public void Start_game_screen(int [][] fields) throws IOException
 	{
 		if (gm_sc == null)
+		{
 			gm_sc = new Game_screen(this);
-		gm_sc.new_field_table(fields);
+			gm_sc.new_field_table(fields);
+		}
+		else
+		{
+			gm_sc.modify_field_table(fields);
+			;
+		}
 	}
 	
 	public void screen(int screen_num) throws IOException
