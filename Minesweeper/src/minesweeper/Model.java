@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class Model {
     
-    
 		protected int width;
 		protected int height;
 		protected int minesNo;
@@ -13,7 +12,7 @@ public class Model {
 		protected int markedNo;
 		protected boolean [][] mines;
 		protected int [][] board;
-		public static int bombed = 0;
+		protected static int bombed = 0;
 		
 		/**CONSTRUCTOR**/
 		
@@ -29,6 +28,10 @@ public class Model {
 	
 			PlaceMines();
 		}
+		
+		/**ACCESS METHODS**/
+		
+    public int [][] getBoard(){return board;}
 		
 		/**ACTION METHODS**/
 		
@@ -49,16 +52,12 @@ public class Model {
 				mines[random.nextInt(width-1)][random.nextInt(height-1)] = true;
 		}
 		
-		public int [][] getBoard(){return board;}
-		
-		//draw()
-		
 		public void OopsBomb(){
 		  System.out.println("Vesztettel!!");
 		  bombed = 1;
 		  }
 		
-		public int MinesAround(int x, int y){
+		private int MinesAround(int x, int y){
 		  int minesAround = 0;
 		  for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
 		    for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
@@ -66,8 +65,8 @@ public class Model {
 		  return minesAround;
 		}
 		
-		// fix bombakkal kene debuggolni
-		public void EmptyShowMore(int x, int y){  //hivni akkor, ha sqvalue == 0
+		
+		private void EmptyShowMore(int x, int y){  //hivni akkor, ha sqvalue == 0
 		  for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
           if( (mines[i][j] != true) && (board[i][j] == Defines.UNKNOWN) && (x == i || y == j)){
@@ -77,7 +76,7 @@ public class Model {
           }       
     }
 		
-		public void MineMark(int x, int y){ //ha FLAGGED-re hvjuk MARKED lehet
+		private void MineMark(int x, int y){ //ha FLAGGED-re hivjuk, MARKED lehet
 		  if(board[x][y] == Defines.FLAGGED && mines[x][y] == true){
 		    board[x][y] = Defines.MARKED;
 		    --minesNo;
@@ -159,7 +158,7 @@ public class Model {
           }
 		}
 		
-		public void MiddleClickReleased(int x, int y){  //same x and y as in MiddleClickPushed(x,y)!!
+		public void MiddleClickReleased(int x, int y){  //same x and y as in last MiddleClickPushed(x,y)!!
 		  int flaggedNMarked = 0;
       for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j ){

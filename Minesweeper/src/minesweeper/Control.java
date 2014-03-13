@@ -22,38 +22,51 @@ public class Control {
 	
 	public Control(){}
 	
-	/**ACTION METHODS**/
+	/**ACCESS METHODS**/
 	
-	public void setGUI(GUI gui)
-	{
-		this.gui = gui;
-	}
+  public void setGUI(GUI gui)
+  {
+    this.gui = gui;
+  }
+  
+  public void set_new_minefield(int [][] fields ) throws IOException
+  {
+    gui.Start_game_screen(fields);
+  }
+  
+	/**ACTION METHODS
+	 * @throws IOException **/
 	
-	public void set_new_minefield(int [][] fields ) throws IOException
+  public void click_happend(Point p, int mouse_event_num) throws IOException
 	{
-		gui.Start_game_screen(fields);
-	}
-	
-	public void click_happend(Point p, int mouse_event_num)
-	{
+		switch(mouse_event_num){
+		case Defines.mouse_left_Pressed: model.LeftClick(p.x, p.y); set_new_minefield(model.getBoard()); break;
+		case Defines.mouse_left_Released: break;
+		case Defines.mouse_right_Pressed: model.RightClick(p.x, p.y); set_new_minefield(model.getBoard()); break;
+		case Defines.mouse_right_Released: break;
+		case Defines.mouse_middle_Pressed: model.MiddleClickPushed(p.x, p.y); set_new_minefield(model.getBoard()); break;
+		case Defines.mouse_middle_Released: model.MiddleClickReleased(p.x, p.y); set_new_minefield(model.getBoard()); break;
+		default: break;
+		}
 		
 		System.out.println(p.x +" " +p.y + mouse_event_num);
 	}
 	
- public void GameStart(){
+  public void GameStart() throws IOException{
     long timer = System.currentTimeMillis();
+    set_new_minefield(model.getBoard());
     
     while(status == 0){
-       //draw()
+      
        
        //mouse eventek
-      Debug(model);
+
+      //Debug(model);
       
-       if(model.cellsLeft <= 0){ //lehetne esetleg UNKNOWN-okat is szamolni
-         status = Defines.WON;
-       }
-       // ha lastcell(ek) mine-ok azt is kezelni
-     }
+       if(model.cellsLeft <= 0){ status = Defines.WON; } //lehetne esetleg UNKNOWN-okat is szamolni
+         
+       // ha lastcell(ek) mine-ok, azt is kezelni?
+    }
     
     long endTime = System.currentTimeMillis() - timer;
       
@@ -63,35 +76,36 @@ public class Control {
     JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000)+" seconds.");
   }
   
-  public void print(Model m){
-    for( int i = 0; i < m.width; ++i ){
-      for( int j = 0; j < m.height; ++j ){
-        if(m.board[i][j] < 9) System.out.print(m.board[i][j]);
-        else switch(m.board[i][j]){
-        case 10: System.out.print("."); break;
-        case 12: System.out.print("$"); break;
-        case 13: System.out.print("?"); break;
-        case 15: System.out.print("$"); break;
-        }
-      }
-      System.out.println();
-    }
-    for( int i = 0; i < m.height; ++i )      
-      System.out.print(" ");
-    System.out.println();
-  }
-  
-  public void Debug(Model m){
-    print(m);
-    m.LeftClick(1,2); print(m);
-    m.RightClick(5, 6); print(m);
-    m.LeftClick(8, 8); print(m);
-    m.MiddleClickPushed(9, 9); print(m);
-    m.MiddleClickReleased(9, 9); print(m);
-    if(m.bombed > 0) status = 2;
-  }
+//  public void print(Model m){
+//    for( int i = 0; i < m.width; ++i ){
+//      for( int j = 0; j < m.height; ++j ){
+//        if(m.board[i][j] < 9) System.out.print(m.board[i][j]);
+//        else switch(m.board[i][j]){
+//        case 10: System.out.print("."); break;
+//        case 12: System.out.print("$"); break;
+//        case 13: System.out.print("?"); break;
+//        case 15: System.out.print("$"); break;
+//        }
+//      }
+//      System.out.println();
+//    }
+//    for( int i = 0; i < m.height; ++i )      
+//      System.out.print(" ");
+//    System.out.println();
+//  }
+//  
+//  public void Debug(Model m){
+//    print(m);
+//    m.LeftClick(1,2); print(m);
+//    m.RightClick(5, 6); print(m);
+//    m.LeftClick(8, 8); print(m);
+//    m.MiddleClickPushed(9, 9); print(m);
+//    m.MiddleClickReleased(9, 9); print(m);
+//    if(m.bombed > 0) status = 2;
+//  }
 
 	//timer
 	//winflagek
 	//no of moves
+  
 }
