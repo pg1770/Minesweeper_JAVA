@@ -99,21 +99,13 @@ public class Model {
 			case Defines.MARKED: ; break;
 			case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
 			case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
-			case Defines.QMARKED: {
-        if(mines[x][y] == true) {board[x][y] = Defines.EXPLODED; OopsBomb();}
-        else {
-          board[x][y] = MinesAround(x,y);
-          --cellsLeft;
-          if(board[x][y] == 0) EmptyShowMore(x, y);
-        }
-      } break;
-			case Defines.UNKNOWN: {
+			case Defines.QMARKED:
+			case Defines.UNKNOWN: 
 			  if(mines[x][y] == true) {board[x][y] = Defines.EXPLODED; OopsBomb();}
 			  else {
           board[x][y] = MinesAround(x,y);
           --cellsLeft;
           if(board[x][y] == 0) EmptyShowMore(x, y);
-        }
 			  break;
 			} 
 			default: System.out.println("LeftClick Error"); break;
