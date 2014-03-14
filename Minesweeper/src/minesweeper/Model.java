@@ -140,7 +140,8 @@ public class Model {
 		  for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
           switch(board[i][j]){
-          case Defines.FLAGGED: ; break;
+          case Defines.EXPLODED:
+          case Defines.FLAGGED: 
           case Defines.MARKED: ; break;
           case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
           case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
