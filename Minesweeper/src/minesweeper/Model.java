@@ -69,7 +69,7 @@ public class Model {
 		private void EmptyShowMore(int x, int y){  //hivni akkor, ha sqvalue == 0
 		  for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
-          if( (mines[i][j] != true) && (board[i][j] == Defines.UNKNOWN) && (x == i || y == j)){
+          if( (mines[i][j] != true) && (board[i][j] == Defines.UNKNOWN) ){
             LeftClick(i,j);                   //ebben mar van --cellsLeft; 
             if(board[i][j] == 0)
               EmptyShowMore(i,j);
@@ -95,7 +95,8 @@ public class Model {
 		
 		public void LeftClick(int x, int y){
 			switch(board[x][y]){
-			case Defines.FLAGGED: ; break;
+			case Defines.EXPLODED:
+			case Defines.FLAGGED:
 			case Defines.MARKED: ; break;
 			case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
 			case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
@@ -105,9 +106,8 @@ public class Model {
 			  else {
           board[x][y] = MinesAround(x,y);
           --cellsLeft;
-          if(board[x][y] == 0) EmptyShowMore(x, y);
-			  break;
-			} 
+          if(board[x][y] == 0) EmptyShowMore(x, y);			 
+			} break; 
 			default: System.out.println("LeftClick Error"); break;
 			}
 		}
@@ -155,7 +155,8 @@ public class Model {
       for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j ){
           if( board[i][j] >= Defines.PUSHED ) board[i][j] -= Defines.PUSHED;
-          if( ( board[i][j] == Defines.MARKED || board[i][j] == Defines.FLAGGED ) && ( (i != x) && (j != y) ) ) ++flaggedNMarked;
+          if( ( board[i][j] == Defines.MARKED || board[i][j] == Defines.FLAGGED ) && ( (i != x) || (j != y) ) ) 
+            ++flaggedNMarked;
         }
       if( MinesAround(x, y) == flaggedNMarked && board[x][y] <= 9 ){
         for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
