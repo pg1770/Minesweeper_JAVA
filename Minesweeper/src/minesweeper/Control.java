@@ -49,7 +49,7 @@ public class Control {
 		default: break;
 		}
 		
-		System.out.println(p.x +" " +p.y + mouse_event_num);
+		System.out.println(p.x +" " +p.y + " "+mouse_event_num);
 	}
 	
   public void GameStart() throws IOException{

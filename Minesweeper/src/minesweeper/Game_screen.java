@@ -36,7 +36,7 @@ public class Game_screen extends JFrame{
 		int fields_panel_size_offset_x = 0;
 		int fields_panel_size_offest_y = 0;
 
-		int cell_size = 40;
+		int cell_size = 30;
 
 		GUI gui;	
 		
@@ -62,7 +62,48 @@ public class Game_screen extends JFrame{
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 		}
 
+		
+		String path_of_state(int state)
+		{
+			String path;
+			switch(state)
+			{
+			case 0:
+				path = "resources\\im_empty.png";
+				break;
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+				path = "resources\\im_"+state+".png";
+				break;
 
+			case 10:
+				path = "resources\\im_unknow.png";
+				break;
+			case 13:
+				path = "resources\\im_question.png";
+				break;
+			case 14:
+				path =  "resources\\im_exploited.png";
+				break;
+
+			case 12:
+			case 15:
+				path =  "resources\\im_flagged.png";
+				break;
+				
+			default:
+				path =  "resources\\im_default.png";
+				break;
+	
+			}
+			return path;
+		}
 			
 
 		
@@ -113,9 +154,11 @@ public class Game_screen extends JFrame{
 			for(int i = 0; i < cell_num_x; i++)
 				for(int j = 0; j < cell_num_y; j++ )
 				{
-					if(Integer.parseInt(fields_panel.buttons[i][j].getText()) != fields[i][j])
+					if(fields_panel.buttons[i][j].getState() != fields[i][j])
 					{
-						fields_panel.buttons[i][j].setText(""+fields[i][j]);
+						fields_panel.buttons[i][j].setState(fields[i][j]);
+						fields_panel.buttons[i][j].setIcon(new ImageIcon(path_of_state(fields[i][j])));
+						;
 					}
 				}
 			repaint();
@@ -126,25 +169,40 @@ public class Game_screen extends JFrame{
 			fields_panel.set_field(new Point(pos.x,pos.y),value);	
 		}
 		
-
+		class Button extends JButton{
+			
+			int state;
+			
+			public void setState(int st)
+			{
+				state = st;
+			}
+			
+			public int getState()
+			{
+				return state;
+			}
+			
+		}
 		
 		class Fields_panel_c extends JPanel{
 
 			//one_Field [][] fields;
-			JButton [][] buttons;
+			Button [][] buttons;
 			
 			private static final long serialVersionUID = 1L;
 
 			public Fields_panel_c()
 			{
-				buttons = new JButton[cell_num_x][cell_num_y];		
+				buttons = new Button[cell_num_x][cell_num_y];		
 			}
 			
 			public void set_field(Point pos, int value)
 			{
 				
-				buttons[pos.x][pos.y] = new JButton();
-				buttons[pos.x][pos.y].setText(""+value);
+				buttons[pos.x][pos.y] = new Button();
+				buttons[pos.x][pos.y].setState(value);
+				buttons[pos.x][pos.y].setIcon(new ImageIcon(path_of_state(value)));
 				//buttons[pos.x][pos.y].setIcon(new ImageIcon("resources\\im2.jpg"));
 				
 				buttons[pos.x][pos.y].setLocation(pos.x*cell_size, pos.y*cell_size);
@@ -152,7 +210,7 @@ public class Game_screen extends JFrame{
 				//buttons[pos.x][pos.y].setBackground(Color.orange);
 				buttons[pos.x][pos.y].setSize(cell_size, cell_size);
 				
-				final JButton btn = buttons[pos.x][pos.y];
+				final Button btn = buttons[pos.x][pos.y];
 				btn.addMouseListener(new MouseAdapter() {
 								
 								@Override
