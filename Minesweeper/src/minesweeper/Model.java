@@ -32,6 +32,7 @@ public class Model {
 		/**ACCESS METHODS**/
 		
     public int [][] getBoard(){return board;}
+    public int getBombed(){return bombed;}
 		
 		/**ACTION METHODS**/
 		
@@ -48,12 +49,21 @@ public class Model {
 		
 		private void PlaceMines(){
 			Random random = new Random();
-			for(int i = 0; i < minesNo; ++i)
-				mines[random.nextInt(width-1)][random.nextInt(height-1)] = true;
+			int w;
+			int h;
+			for(int i = 0; i < minesNo; ++i){
+			  w = random.nextInt(width-1);
+        h = random.nextInt(height-1);
+			  while(mines[w][h] != false){
+			    w = random.nextInt(width-1);
+			    h = random.nextInt(height-1);
+			  }
+				mines[w][h] = true;
+			}
 		}
 		
 		public void OopsBomb(){
-		  System.out.println("Vesztettel!!");
+		  System.out.println("Felpukkantal!!");
 		  bombed = 1;
 		  }
 		
@@ -84,8 +94,7 @@ public class Model {
 		    --cellsLeft;
 		  } 
 		    
-		  if(board[x][y] != Defines.FLAGGED && board[x][y] == Defines.MARKED){ //ha MARKED-ot unflagelunk
-		    board[x][y] = Defines.FLAGGED;
+		  else if(board[x][y] == Defines.QMARKED && mines[x][y] == true){ //ha MARKED-ot unflagelunk
 		    ++minesNo;
         --markedNo;
         ++cellsLeft;
