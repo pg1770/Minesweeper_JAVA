@@ -12,6 +12,8 @@ public class Control {
   public long startTime;
   public int clickNo=0;
   
+  private Network net = null;
+  
   public Model model;
   
 	GUI gui;
@@ -79,6 +81,37 @@ public class Control {
     
     if(status == 0) return false;
     else return true;
+  }
+  
+  void startServer(String name) {
+  	if (net != null)
+  		net.disconnect();
+      net = new Server(this);
+      net.connect("localhost", name);
+  }
+
+  void startClient(String name) {
+  	if (net != null)
+  		net.disconnect();
+  	net = new Client(this);
+      net.connect("localhost", name);
+  }
+/*
+  void sendClick(Point p) {
+      //gui.addPoint(p); //for drawing locally
+  	if (net == null) return;
+      net.send(p);
+  }
+
+  void clickReceived(Point p) {
+  	if (gui == null) return;
+      gui.addPoint(p);
+  }
+  */
+  
+  void clientReceived(clientsList clientList){
+  	clientList.printClientList();
+  	//net.send(clientList.copy());
   }
   
 }
