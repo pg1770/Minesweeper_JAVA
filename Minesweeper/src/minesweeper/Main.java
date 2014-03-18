@@ -15,7 +15,15 @@ public class Main {
 	  GUI k = new GUI(x);
     x.setGUI(k);
     x.GameStart();
-    		
+    
+    if ((args.length > 1) ){
+    	if(args[0].equals("s")){
+    		x.startServer(args[1]);
+    	}	else if(args[0].equals("c")){
+    		x.startClient(args[1]);	
+    	}
+    }
+    
 	}
 
 }
