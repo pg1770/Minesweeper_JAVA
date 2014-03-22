@@ -75,7 +75,7 @@ public class Control {
       JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000000000)+" seconds.");
     }
     else if (status == Defines.LOST) {
-      JOptionPane.showMessageDialog(null, "You died. Horribly. Noob.");
+      JOptionPane.showMessageDialog(null, "You died. Horribly.");
       JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000000000)+" seconds.");
     }
     

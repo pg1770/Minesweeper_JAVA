@@ -3,7 +3,7 @@ package minesweeper;
 import java.util.Random;
 
 
-public class Model {
+public class Model extends GameInfo{
     
 		protected int width;
 		protected int height;
@@ -11,7 +11,7 @@ public class Model {
 		protected int cellsLeft;
 		protected int markedNo;
 		protected boolean [][] mines;
-		protected int [][] board;
+	//	protected int [][] board;
 		protected static int bombed = 0;
 		
 		/**CONSTRUCTOR**/
