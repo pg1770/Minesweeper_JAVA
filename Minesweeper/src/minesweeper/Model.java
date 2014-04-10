@@ -4,8 +4,9 @@ import java.util.Random;
 
 
 public class Model extends GameInfo{
-    
-		protected int width;
+    private static final long serialVersionUID = 20140408;
+		
+    protected int width;
 		protected int height;
 		protected int minesNo;
 		protected int cellsLeft;

@@ -4,6 +4,9 @@ public class Defines {
 
   public static final int WON = 1;
   public static final int LOST = 2;
+  
+  public static final int PENYES = 1;
+  public static final int PENNO = 2;
 
   public static final int UNKNOWN = 10;
   public static final int FLAGGED = 12;

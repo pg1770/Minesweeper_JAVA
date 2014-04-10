@@ -14,7 +14,7 @@ public class Main {
 		Control x = new Control(10,10,20);
 	  GUI k = new GUI(x);
     x.setGUI(k);
-    x.GameStart();
+    x.GameStart(2);
     
     if ((args.length > 1) ){
     	if(args[0].equals("s")){
