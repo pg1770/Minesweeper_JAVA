@@ -1,11 +1,14 @@
 package minesweeper;
 
 import java.util.Random;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Model extends GameInfo{
     private static final long serialVersionUID = 20140408;
 		
+//    protected int userID;
+//    ArrayList<List<String>> 
     protected int width;
 		protected int height;
 		protected int minesNo;
@@ -183,6 +186,7 @@ public class Model extends GameInfo{
             }
       }
 		}
-				
-	}
+		
+		public void UpdateScore(List<Object> user){}
 	
+}

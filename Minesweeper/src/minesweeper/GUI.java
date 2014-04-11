@@ -65,7 +65,7 @@ public class GUI extends JFrame {
 	
 	void click_happend(Point p, int mouse_event_num) throws IOException
 	{
-		control.click_happend(p, mouse_event_num);
+//		control.click_happend(p, mouse_event_num);
 // clickeventte atkurni az egeszet
 		;
 	}

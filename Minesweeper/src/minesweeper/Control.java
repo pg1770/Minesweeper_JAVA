@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.io.IOException;
 
 
-public class Control {  
+public class Control extends TimeStamp{  
   
 //  public int status = 0;
   public long startTime;
@@ -56,8 +56,8 @@ public class Control {
 		}
 		++clickNo;
 		GameStart(2);
-		System.out.println( p.x + " " + p.y + " " +mouse_event_num + " cellsleft: " + model.cellsLeft 
-		    + " minesNo: " + model.minesNo + " markedNo: " + model.markedNo + " status: " + status );
+//		System.out.println( p.x + " " + p.y + " " +mouse_event_num + " cellsleft: " + model.cellsLeft 
+//		    + " minesNo: " + model.minesNo + " markedNo: " + model.markedNo + " status: " + status );
 	}
 	
   // server elinditja a jatekot a megfelelo tablamerettel
@@ -65,24 +65,25 @@ public class Control {
     long endTime;
     set_new_minefield(model.getBoard());
     
-    if(status == 0){     
-       if(model.cellsLeft <= 0){ status = Defines.WON; } 
-       if(model.getBombed() > 0){ status = Defines.LOST; }  
-    }
+//    if(status == 0){     
+//       if(model.cellsLeft <= 0){ status = Defines.WON; } 
+//       if(model.getBombed() > 0){ status = Defines.LOST; }  
+//    }
     
     endTime = System.nanoTime() - startTime;
       
-    if( status == Defines.WON ) {
-      JOptionPane.showMessageDialog(null, "You have won, Duke! taratta taratta taratt tararara");
-      JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000000000)+" seconds.");
-    }
-    else if (status == Defines.LOST) {
-      JOptionPane.showMessageDialog(null, "You died. Horribly.");
-      JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000000000)+" seconds.");
-    }
-    
-    if(status == 0) return false;
-    else return true;
+//    if( status == Defines.WON ) {
+//      JOptionPane.showMessageDialog(null, "You have won, Duke! taratta taratta taratt tararara");
+//      JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000000000)+" seconds.");
+//    }
+//    else if (status == Defines.LOST) {
+//      JOptionPane.showMessageDialog(null, "You died. Horribly.");
+//      JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000000000)+" seconds.");
+//    }
+//    
+//    if(status == 0) return false;
+//    else return true;
+    return false;
   }
   
   public void startServer(String name) {
