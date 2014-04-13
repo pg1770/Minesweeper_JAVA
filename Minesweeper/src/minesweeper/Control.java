@@ -4,14 +4,16 @@ import javax.swing.JOptionPane;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.util.Timer;
 
 
-public class Control extends TimeStamp{  
+public class Control{  
   
 //  public int status = 0;
   public long startTime;
   public long penaltyStartTime;
   public int clickNo=0;
+  public Timer timer = new Timer();
   
   private Network net = null;
   
@@ -23,7 +25,7 @@ public class Control extends TimeStamp{
 	
 	public Control(int width, int height, int minesNo){
     model = new Model(width, height, minesNo);
-    startTime = System.nanoTime();
+    //startTime = System.nanoTime();
   }
 	
 	public Control(){}
@@ -107,7 +109,7 @@ public class Control extends TimeStamp{
   
   
   
-  
+  // TODO: timeElapsed broadcast
   
   
   

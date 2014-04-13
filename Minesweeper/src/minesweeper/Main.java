@@ -15,6 +15,7 @@ public class Main {
 	  GUI k = new GUI(x);
     x.setGUI(k);
     x.GameStart(2);
+    x.timer.schedule(new TimeStamp(), 0, 1000 );
     
     if ((args.length > 1) ){
     	if(args[0].equals("s")){
