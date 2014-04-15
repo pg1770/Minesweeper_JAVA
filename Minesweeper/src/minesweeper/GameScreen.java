@@ -46,6 +46,7 @@ public class GameScreen extends JFrame{
 		FieldsPanelClass fields_panel;
 		BackgroundPanelClass background_panel;
 		Control control;
+		TimeCounter time;
 
 		BufferedImage [] field_images = new BufferedImage[13];
 		
@@ -55,70 +56,20 @@ public class GameScreen extends JFrame{
 			dispose();
 		}
 		
-		public GameScreen(GUI g) throws IOException
+		public GameScreen(GUI g, int [][] fields) throws IOException
 		{
 			super("Minesweeper");
 			gui = g;
 			fields_panel = new FieldsPanelClass();
-
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
-		}
-
-		
-		String pathOfState(int state)
-		{
-			String path;
-			switch(state)
-			{
-			case 0:
-				path = "resources\\im_empty.png";
-				break;
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-				path = "resources\\im_"+state+".png";
-				break;
-
-			case 10:
-				path = "resources\\im_unknow.png";
-				break;
-			case 13:
-				path = "resources\\im_question.png";
-				break;
-			case 14:
-				path =  "resources\\im_exploited.png";
-				break;
-
-			case 12:
-			case 15:
-				path =  "resources\\im_flagged.png";
-				break;
-				
-			default:
-				path =  "resources\\im_default.png";
-				break;
-	
-			}
-			return path;
-		}
+			time = new TimeCounter();
+			background_panel = new BackgroundPanelClass("resources\\background.png");	
 			
-
-		
-		void clickHappend(Point p, int mouse_event_num) throws IOException
-		{
-			gui.clickHappend(p, mouse_event_num);
-		}
-
-
-		public void newFieldTable(int [][] fields) throws IOException
-		{
+			//background_panel.setLayout(null);
+			//add(background_panel);
+			//setVisible(true);
+			
 			fields_array = fields;
-	
+			
 			cell_num_y = fields_array[0].length;
 			cell_num_x = fields_array.length;
 			
@@ -130,13 +81,9 @@ public class GameScreen extends JFrame{
 			fields_panel = new FieldsPanelClass();
 			fields_panel.setLayout(null);
 			
-			background_panel = new BackgroundPanelClass();
-			//background_panel.setLayout(null);
 			
-			
-			
-			
-			
+			background_panel.setLayout(null);
+
 			fields_panel.setBounds(fields_panel_size_offset_x + 220, 
 					fields_panel_size_offest_y + 140, 
 					(cell_num_x)*cell_size , 
@@ -147,8 +94,21 @@ public class GameScreen extends JFrame{
 			for(int i = 0; i < cell_num_x; i++)
 				for(int j = 0; j < cell_num_y; j++ )
 				{
-					setField(new Point(i,j),fields_array[i][j]); 
+					fields_panel.setField(new Point(i,j),fields_array[i][j]); 
 				}
+			
+			remove(time);
+			time = new TimeCounter(0);
+
+			time.setBounds(50, 
+					150, 
+					time.segsize.x*3, 
+					time.segsize.y 
+					);
+			
+			time.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY ));
+			
+			add(time);
 			
 			setSize(screen_size_x,screen_size_y);
 			add(fields_panel);
@@ -156,27 +116,28 @@ public class GameScreen extends JFrame{
 
 			repaint();
 			System.out.println("ez");
+			
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
 		}
-		
+
+			
+		void clickHappend(Point p, int mouse_event_num) throws IOException
+		{
+			gui.clickHappend(p, mouse_event_num);
+		}
+
 		public void modifyFieldTable(int [][] fields) throws IOException
 		{
 			for(int i = 0; i < cell_num_x; i++)
 				for(int j = 0; j < cell_num_y; j++ )
 				{
-					if(fields_panel.buttons[i][j].getState() != fields[i][j])
+					if(fields_panel.getButtonState(new Point(i,j)) != fields[i][j])
 					{
-						fields_panel.buttons[i][j].setState(fields[i][j]);
-						fields_panel.buttons[i][j].setIcon(new ImageIcon(pathOfState(fields[i][j])));
-						;
+						fields_panel.modifyField(new Point(i,j),fields[i][j]);
 					}
 				}
 			repaint();
-		}
-
-		void setField(Point pos, int value) throws IOException
-		{
-			fields_panel.setField(new Point(pos.x,pos.y),value);	
-		}
+		}
 		
 		class Button extends JButton{
 			
@@ -192,6 +153,47 @@ public class GameScreen extends JFrame{
 				return state;
 			}
 			
+			public String pathOfState(int state)
+			{
+				String path;
+				switch(state)
+				{
+				case 0:
+					path = "resources\\im_empty.png";
+					break;
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+					path = "resources\\im_"+state+".png";
+					break;
+
+				case 10:
+					path = "resources\\im_unknow.png";
+					break;
+				case 13:
+					path = "resources\\im_question.png";
+					break;
+				case 14:
+					path =  "resources\\im_exploited.png";
+					break;
+
+				case 12:
+				case 15:
+					path =  "resources\\im_flagged.png";
+					break;
+					
+				default:
+					path =  "resources\\im_default.png";
+					break;
+		
+				}
+				return path;
+			}
 		}
 		
 		class FieldsPanelClass extends JPanel{
@@ -205,12 +207,23 @@ public class GameScreen extends JFrame{
 				buttons = new Button[cell_num_x][cell_num_y];		
 			}
 			
+			public void modifyField(Point pos, int value)
+			{
+				buttons[pos.x][pos.y].setState(value);
+				buttons[pos.x][pos.y].setIcon(new ImageIcon(buttons[pos.x][pos.y].pathOfState(value)));
+			}
+			
+			public int getButtonState(Point pos)
+			{
+				return buttons[pos.x][pos.y].getState();
+			}
+					
 			public void setField(Point pos, int value)
 			{
 				
 				buttons[pos.x][pos.y] = new Button();
 				buttons[pos.x][pos.y].setState(value);
-				buttons[pos.x][pos.y].setIcon(new ImageIcon(pathOfState(value)));
+				buttons[pos.x][pos.y].setIcon(new ImageIcon(buttons[pos.x][pos.y].pathOfState(value)));
 	
 				buttons[pos.x][pos.y].setLocation(pos.x*cell_size, pos.y*cell_size);
 				buttons[pos.x][pos.y].setBorder(BorderFactory.createLineBorder(Color.orange));
@@ -278,18 +291,68 @@ public class GameScreen extends JFrame{
 				
 			}
 		}
+		
+		public void setTime(int sec) throws IOException
+		{
+			time.SetTime(sec);
+			repaint();
+		}
+		
+		class TimeCounter extends JPanel{
+			
+			public Point position;
+			
+			Image segment1, segment2, segment3;
 
+			Point segsize = new Point(38,54);
+			
+			public TimeCounter() throws IOException {
+				SetTime(0);
+			}
+			
+			public TimeCounter(int sec) throws IOException {
+			    
+				SetTime(sec);
+			}
+			
+			public void SetTime(int second) throws IOException
+			{
+				int seg1, seg2, seg3;
+				if(second > 999)
+					second = 999;
+				seg1 = second/100;
+				seg2 = (second%100)/10;
+				seg3 = (second%10);
+				
+				setSize(segsize.x*3,segsize.y);
+			    setLayout(null);
+				
+				segment1 = ImageIO.read(new File("resources\\segment_"+seg1+".png"));
+				segment2 = ImageIO.read(new File("resources\\segment_"+seg2+".png"));
+				segment3 = ImageIO.read(new File("resources\\segment_"+seg3+".png"));	
+			}
+			
+			@Override
+			public void paintComponent(Graphics g) {
+				g.drawImage(segment1, segsize.x*0, 0, null);
+				g.drawImage(segment2, segsize.x*1, 0, null);
+				g.drawImage(segment3, segsize.x*2, 0, null);
+			}
+			
+		}
+		
 		class BackgroundPanelClass extends JPanel{
 			
 			  private Image img;
 
 
-			  public BackgroundPanelClass() throws IOException {
-				img = ImageIO.read(new File("resources\\background.png"));
+			  public BackgroundPanelClass(String path) throws IOException {
+				img = ImageIO.read(new File(path));
 			    setSize(screen_size_x,screen_size_y);
 			    setLayout(null);
 			  }
-
+			  
+			  @Override
 			  public void paintComponent(Graphics g) {
 			    g.drawImage(img, 0, 0, null);
 			  }

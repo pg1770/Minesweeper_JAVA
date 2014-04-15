@@ -7,67 +7,89 @@ import javax.swing.JFrame;
 
 public class GUI extends JFrame {
 
-	Game_screen gm_sc;
-	Start_screen st_sc;
-	Server_screen sv_sc;
+	GameScreen gm_sc;
+	StartScreen st_sc;
 	String player;
+	GameEndScreen gm_e_sc;
 	Control control;
+	String myname;
 	
-	public void set_player_name(String s)
+	public void setPlayerName(String s)
 	{
 		if (s==null)
+		{
 			
-			
-		player = s;
+		}
+		myname = s;
+		control.setMyName(s);
+		
 	}
 	
 	public GUI(Control c) throws IOException
 	{
 		control=c;
+		 //StartStartScreen();
 	}
 	
-	public void Start_start_screen()
+	void StartStartScreen() throws IOException
 	{
-		st_sc = new Start_screen(this);
+		st_sc = new StartScreen(this);
 	}
 	
-	public void Start_server_screen()
+	public void StartEndScreen() throws IOException
 	{
-		st_sc.close();
-		sv_sc = new Server_screen(this);
+		gm_e_sc = new GameEndScreen(this);
 	}
 	
-	public void Start_client_screen() throws IOException
-	{
-		//st_sc.close();
-
-	}
-	
-	public void Start_game_screen(int [][] fields) throws IOException
+	public void StartGameScreen(int [][] fields) throws IOException
 	{
 		if (gm_sc == null)
 		{
-			gm_sc = new Game_screen(this);
-			gm_sc.new_field_table(fields);
+			gm_sc = new GameScreen(this,fields);
+			///gm_sc.newFieldTable(fields);
+			//gm_sc.setTime(0);
 		}
 		else
 		{
-			gm_sc.modify_field_table(fields);
+			gm_sc.modifyFieldTable(fields);
 			;
 		}
 	}
 	
-	public void screen(int screen_num) throws IOException
-	{
-		//gm_sc = new Game_screen(10, 20);
-		st_sc = new Start_screen(this);
-	}
 	
-	void click_happend(Point p, int mouse_event_num) throws IOException
+	void clickHappend(Point p, int mouse_event_num) throws IOException
 	{
-//		control.click_happend(p, mouse_event_num);
-// clickeventte atkurni az egeszet
+		ClickEvent click = new ClickEvent(p,mouse_event_num, myname);
+		//control.sendClick(click);
+		//temp csak a régi teszhez
+		
+		control.sendClick(click);
 		;
 	}
+	
 
+	
+	//TODO Start_screennél
+	public void printList(clientsList list)
+	{
+		gm_e_sc.listNames(list);
+	}
+	
+	public void chooseTableSize(int tableSize)
+	{
+		control.acceptGame(tableSize);
+	}
+
+	public void setNewTime(TimeStamp t) throws IOException
+	{
+		gm_sc.setTime(t.gameTimeSec);
+	}
+	
+	public void showScores(Scores scoreTable) throws IOException
+	{
+		StartEndScreen();
+		
+		
+		//
+	}
 }
