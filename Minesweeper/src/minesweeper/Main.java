@@ -19,9 +19,9 @@ public class Main {
     
     if ((args.length > 1) ){
     	if(args[0].equals("s")){
-    		x.startServer(args[1]);
+    		x.startServer();
     	}	else if(args[0].equals("c")){
-    		x.startClient(args[1]);	
+    		x.startClient();	
     	}
     }
     

@@ -1,10 +1,15 @@
 package minesweeper;
 
 import java.awt.Point;
+import java.io.Serializable;
 
-public class ClickEvent {
+public class ClickEvent implements Serializable{
 	
-	Point p;
+	/**
+   * 
+   */
+  private static final long serialVersionUID = 2313781298361655323L;
+  Point p;
 	int mouse_event_num;
 	String myname;
 	

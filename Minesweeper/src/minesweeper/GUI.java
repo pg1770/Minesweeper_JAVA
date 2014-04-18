@@ -82,7 +82,7 @@ public class GUI extends JFrame {
 
 	public void setNewTime(TimeStamp t) throws IOException
 	{
-		gm_sc.setTime(t.gameTimeSec);
+//		gm_sc.setTime(t.gameTimeSec);
 	}
 	
 	public void showScores(Scores scoreTable) throws IOException

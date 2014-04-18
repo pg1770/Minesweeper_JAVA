@@ -15,7 +15,11 @@ public class Control{
   public int clickNo=0;
   public Timer timer = new Timer();
   
-  private Network net = null;
+  //private Network net = null;
+  
+  private Server server = null;
+  
+  private Client client = null;
   
   public Model model;
   
@@ -39,7 +43,7 @@ public class Control{
   
   public void set_new_minefield(int [][] fields ) throws IOException
   {
-    gui.Start_game_screen(fields);
+//    gui.Start_game_screen(fields);
   }
   
 	/**ACTION METHODS
@@ -88,18 +92,18 @@ public class Control{
     return false;
   }
   
-  public void startServer(String name) {
-  	if (net != null)
-  		net.disconnect();
-      net = new Server(this);
-      net.connect("localhost", name);
+  public void startServer() {
+  	if (server != null)
+  		server.disconnect();
+      server = new Server(this);
+      server.connect();
   }
 
-  public void startClient(String name) {
-  	if (net != null)
-  		net.disconnect();
-  	net = new Client(this);
-      net.connect("localhost", name);
+  public void startClient() {
+  	if (client != null)
+  		client.disconnect();
+  	  client = new Client(this);
+      client.connect();
   }
   
   public void clientReceived(clientsList clientList){
@@ -116,23 +120,27 @@ public class Control{
   
   
   // kinyomjuk a guira a jelenlevok listajat
-  public void clientListPrint(clientsList list){
+  //public void clientListPrint(clientsList list){
 //    gui.print_list(list);
+  //}
+  
+  void playersListPrint(PlayersList players){
+      players.printPlayersList();
   }
   
   // kliens kuldi, "keszen allok a jatekra, ezt a tablat szeretnem(0:egyiksem)"
   public void acceptGame(int tableSize){
-//    client.send(tableSize);
+    client.send(tableSize);
   }
   
   // elso screenen kliens beallitja a nevet es elkuldi a servernek 
   public void setMyName(String s){
-//    client.send(s);
+    client.send(s);
   }
   
   //kliens kuld click eventet a servernek
   public void sendClick(ClickEvent click){
-//    client.send(click);
+    client.send(click);
   }
   
   //Server megkapja a klikket, meghivja a game/et
@@ -143,7 +151,7 @@ public class Control{
   
   // server kuld tablat klienseknek
   public void sendGameInfo(GameInfo g){
-//    server.send(g);
+    server.broadcast(g);
   }
   
   // tabla fogadasa kliensen
@@ -153,7 +161,7 @@ public class Control{
   
   // mp-enkent a server kuld idot az osszes kliensnek
   public void sendGameTime(TimeStamp t){
-//    server.send(t);
+    server.broadcast(t);
   }
   
   public void receiveGameTime(TimeStamp t){
@@ -162,12 +170,20 @@ public class Control{
   
   // jatek vegen broadcastoljuk a klienseknek a score tablazatot
   public void sendScores(Scores scoreTable){
-//    server.send(scoreTable);
+    server.broadcast(scoreTable);
   }
   
 //  kliensek kirjak a highscore tablazatot
   public void receiveScores(Scores scoreTable){
 //    gui.showScores(scoreTable);
+  }
+  
+  void clientError(String error){
+    System.err.println(error);
+  }
+  
+  void serverError(String error){
+    System.err.println(error);
   }
   
   
