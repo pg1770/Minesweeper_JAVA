@@ -60,6 +60,13 @@ public class GameScreen extends JFrame{
 		{
 			super("Minesweeper");
 			gui = g;
+			
+			
+			fields_array = fields;
+			
+			cell_num_y = fields_array[0].length;
+			cell_num_x = fields_array.length;
+			
 			fields_panel = new FieldsPanelClass();
 			time = new TimeCounter();
 			background_panel = new BackgroundPanelClass("resources\\background.png");	
@@ -67,25 +74,21 @@ public class GameScreen extends JFrame{
 			//background_panel.setLayout(null);
 			//add(background_panel);
 			//setVisible(true);
-			
-			fields_array = fields;
-			
-			cell_num_y = fields_array[0].length;
-			cell_num_x = fields_array.length;
+
 			
 
 			screen_size_x = (cell_num_x)*cell_size + 320;//+ fields_panel_size_offset_x*2;
 			screen_size_y = (cell_num_y)*cell_size + 240;//+ fields_panel_size_offest_y*2;
-			remove(fields_panel);
+			//remove(fields_panel);
 			
-			fields_panel = new FieldsPanelClass();
+			//fields_panel = new FieldsPanelClass();
 			fields_panel.setLayout(null);
 			
 			
 			background_panel.setLayout(null);
 
-			fields_panel.setBounds(fields_panel_size_offset_x + 220, 
-					fields_panel_size_offest_y + 140, 
+			fields_panel.setBounds(40, 
+					140, 
 					(cell_num_x)*cell_size , 
 					(cell_num_y)*cell_size 
 					);
@@ -100,8 +103,8 @@ public class GameScreen extends JFrame{
 			remove(time);
 			time = new TimeCounter(0);
 
-			time.setBounds(50, 
-					150, 
+			time.setBounds(220, 
+					50, 
 					time.segsize.x*3, 
 					time.segsize.y 
 					);
@@ -137,7 +140,14 @@ public class GameScreen extends JFrame{
 					}
 				}
 			repaint();
-		}
+		}
+		
+		public void setTime(int sec) throws IOException
+		{
+			time.SetTime(sec);
+			repaint();
+		}
+		
 		
 		class Button extends JButton{
 			
@@ -292,12 +302,7 @@ public class GameScreen extends JFrame{
 			}
 		}
 		
-		public void setTime(int sec) throws IOException
-		{
-			time.SetTime(sec);
-			repaint();
-		}
-		
+
 		class TimeCounter extends JPanel{
 			
 			public Point position;

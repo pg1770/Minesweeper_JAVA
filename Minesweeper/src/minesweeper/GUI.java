@@ -9,7 +9,6 @@ public class GUI extends JFrame {
 
 	GameScreen gm_sc;
 	StartScreen st_sc;
-	String player;
 	GameEndScreen gm_e_sc;
 	Control control;
 	String myname;
@@ -28,7 +27,7 @@ public class GUI extends JFrame {
 	public GUI(Control c) throws IOException
 	{
 		control=c;
-		 //StartStartScreen();
+		 StartStartScreen();
 	}
 	
 	void StartStartScreen() throws IOException
@@ -43,6 +42,10 @@ public class GUI extends JFrame {
 	
 	public void StartGameScreen(int [][] fields) throws IOException
 	{
+		if(st_sc != null)
+		{
+			st_sc.close();
+		}
 		if (gm_sc == null)
 		{
 			gm_sc = new GameScreen(this,fields);
@@ -72,7 +75,7 @@ public class GUI extends JFrame {
 	//TODO Start_screennél
 	public void printList(clientsList list)
 	{
-		gm_e_sc.listNames(list);
+		st_sc.listNames(list);
 	}
 	
 	public void chooseTableSize(int tableSize)
@@ -82,7 +85,7 @@ public class GUI extends JFrame {
 
 	public void setNewTime(TimeStamp t) throws IOException
 	{
-//		gm_sc.setTime(t.gameTimeSec);
+		gm_sc.setTime(t.getTimeElapsedSecond());
 	}
 	
 	public void showScores(Scores scoreTable) throws IOException

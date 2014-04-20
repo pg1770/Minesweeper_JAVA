@@ -13,11 +13,19 @@
      startTime = System.nanoTime();
    }
    
+   public void setTimeElapsedSecond(int sec){
+	   timeElapsed = sec*1000000;
+   }
+   
    public void setTimeElapsed(double time){
      timeElapsed = time;
      }
    
-   public double getTimeElapsed(){ //nanosec
+   public int getTimeElapsedSecond(){
+	   return (int)(timeElapsed/1000000);
+   }
+   
+   public double getTimeElapsed(){
      return timeElapsed;
    }
   

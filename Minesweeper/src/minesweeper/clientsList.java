@@ -21,6 +21,11 @@ public class clientsList implements Serializable{
     	addClient(client);
 	};
 	
+	public ArrayList<clients> getClientList()
+	{
+		return clientList;
+	}
+	
 	void printClientList(){
 		System.out.println("");
 		for(int i=0; i< clientList.size();i++)
