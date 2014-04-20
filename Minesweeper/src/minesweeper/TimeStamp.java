@@ -17,7 +17,7 @@
      timeElapsed = time;
      }
    
-   public double getTimeElapsed(){
+   public double getTimeElapsed(){ //nanosec
      return timeElapsed;
    }
   

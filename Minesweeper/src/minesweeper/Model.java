@@ -187,6 +187,8 @@ public class Model extends GameInfo{
       }
 		}
 		
-		public void UpdateScore(List<Object> user){}
+		public void UpdateScore(List<String> user, List<Integer> score){
+		  
+		}
 	
 }
