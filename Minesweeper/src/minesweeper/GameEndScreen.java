@@ -1,28 +1,31 @@
 package minesweeper;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-
-import minesweeper.GameScreen.Button;
 
 public class GameEndScreen extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2574832596366659625L;
+
 	GUI gui;
 	
 	Point screen_size = new Point(250,250);
-	
 	
 	Point names_position = new Point(40,140);
 	Point names_size = new Point(250,25);
@@ -32,86 +35,76 @@ public class GameEndScreen extends JFrame{
 	
 	BackgroundPanelClass background_panel;
 	
-	List<Integer> scores;
-	List<String> names;
-	
-	JLabel [] namesLabels;
-	JLabel [] scoresLabels;
-	
 	void close()
 	{
 		dispose();
 	}
 	
 
-	
-	
 	GameEndScreen(GUI g) throws IOException
 	{
 		super("High scores");
-		gui = g;
-			
-		
+		gui = g;	
 		setLayout(null);
-		background_panel = new BackgroundPanelClass("resources\\background.png");
+		background_panel = new BackgroundPanelClass(Defines.backGroundImagePath);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(screen_size.x,screen_size.y);
 		add(background_panel);
 		setVisible(true);
 		repaint();
-		
-		
 	}
 	
 	public void setHighScore(Scores scoreTable)
 	{
-		scores = scoreTable.getScores();
-		names = scoreTable.getNames();
-		
-		int line_num = names.size();
-		namesLabels = new JLabel[line_num];
-		scoresLabels = new JLabel[line_num];
-		
-		screen_size.x = scores_position.x + scores_size.x + 100;
-		screen_size.y = scores_position.y + scores_size.y*line_num + 100;
+		List<Integer> scores = scoreTable.getScores();
+		List<String> names = scoreTable.getNames();
 		
 		background_panel.setSize(screen_size.x,screen_size.y);
 		
 		setSize(screen_size.x,screen_size.y);
 		
-		for(int i=0; i<line_num; i++)
-		{
-			JLabel temp = new JLabel();
-			JLabel temp2 = new JLabel();
-			namesLabels[i] = temp;
-			temp.setLayout(null);
-			temp.setText(names.get(i));
-			temp.setForeground(Color.GREEN);
-			temp.setLocation(names_position.x, names_position.y + names_size.y*i);
-			temp.setSize(names_size.x,names_size.y);
-			background_panel.add(temp);
-			//temp.setVisible(true);
-			
-			temp2 = new JLabel();
-			scoresLabels[i] = temp2;
-			temp2.setLayout(null);
-			temp2.setText(scores.get(i).toString());
-			temp2.setForeground(Color.GREEN);
-			temp2.setLocation(scores_position.x, scores_position.y + scores_size.y*i);
-			temp2.setSize(scores_size.x,scores_size.y);
-			background_panel.add(temp2);
-			//temp.setVisible(true);
-			
-		}
-				
+		ListIterator<String> name_it = names.listIterator();
+		
+	    while(name_it.hasNext()) {
+	    	String name = (String) name_it.next();
+	        JLabel element = new JLabel();
+	        element.setLayout(null);
+	        element.setText(name);
+	        element.setForeground(Color.GREEN);
+	        element.setLocation(names_position.x, names_position.y + names_size.y*(name_it.nextIndex()-1));
+	        element.setSize(names_size.x,names_size.y);
+			background_panel.add(element);
+	       }
+
+	    ListIterator<Integer> score_it = scores.listIterator();
+	    
+	    while(score_it.hasNext()) {
+	    	Integer score = (Integer) score_it.next();
+	        JLabel element = new JLabel();
+	        element.setLayout(null);
+	        element.setText(score.toString());
+	        element.setForeground(Color.GREEN);
+	        element.setLocation(scores_position.x, scores_position.y + names_size.y*(score_it.nextIndex()-1));
+	        element.setSize(scores_size.x,scores_size.y);
+			background_panel.add(element);
+	       }
+	    
+	    screen_size.x = scores_position.x + scores_size.x;
+	    screen_size.y = scores.size()*scores_size.y + 250;
+	    background_panel.setSize(new Dimension(screen_size.x, screen_size.y));
+	    setSize(new Dimension(screen_size.x, screen_size.y));
+	    
 		repaint();
 	}
 	
 	
 	 class BackgroundPanelClass extends JPanel{
 		
-		  private Image img;
-
+		 /**
+		 * 
+		 */
+		private static final long serialVersionUID = 502241893203685506L;
+		private Image img;
 
 		  public BackgroundPanelClass(String path) throws IOException {
 			img = ImageIO.read(new File(path));
