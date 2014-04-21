@@ -13,12 +13,19 @@ public class Scores implements Serializable{
     
     public void addScoreToUser(int scoreToAdd, String toUser){
       int index = -1;
+      boolean find = false;
       for(String s: nameList){
         ++index;
         if( s.trim().equals(toUser.trim()) ){
           scoreList.set(index, scoreList.get(index) + scoreToAdd);
+          find = true;
         }
       }       
+      if(!find)
+      {
+    	  nameList.add(toUser);
+    	  scoreList.add(scoreToAdd);
+      }
     }
     
     public void addUser(String user){

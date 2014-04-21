@@ -184,72 +184,7 @@ public class StartScreen extends JFrame{
 		
 	}
 	
-	/*
-	public void setButton(String name, int id, int which_size)
-	{
-		buttons[which_size][id] = new Button();
-		Button temp = buttons[which_size][id];
-		
-		temp.whichSize = which_size;
-		temp.whichSize = which_size;
-		temp.choosed = false;
-		
-		///buttons[pos.x][pos.y].setIcon(new ImageIcon(buttons[pos.x][pos.y].pathOfState(value)));
 
-		temp.setLocation(buttons_position.x + which_size*buttons_size.x, buttons_position.y + id*buttons_size.y);
-		temp.setBorder(BorderFactory.createLineBorder(Color.gray ));
-
-		temp.setSize(buttons_size.x, buttons_size.y);
-		
-		temp.setBackground(Color.white);
-		temp.clientNumber = id;
-		
-		final Button btn = temp;
-		btn.addMouseListener(new MouseAdapter() {
-						
-						@Override
-						public void mousePressed (MouseEvent e) {
-							
-							btn.choosed = !btn.choosed;
-
-							clickHappend(btn.clientNumber, btn.whichSize);
-							
-				
-						}
-						});
-	
-		add(temp);
-		temp.setVisible(true);
-		
-	}
-	*/
-/*
-	void clickHappend (int id, int which_size)
-	{
-		int selected_size;
-		for(int i=0; i<3; i++)
-		{
-			if(buttons[which_size][id].choosed)
-			{
-				selected_size = which_size;
-				if(i!=which_size)
-				{
-					buttons[i][id].setBackground(Color.white);
-				}
-				else
-				{
-					buttons[i][id].setBackground(Color.lightGray);
-				}
-			}
-			else
-			{
-				buttons[i][id].setBackground(Color.white);
-			}
-		}
-		
-	}
-*/
-	
 	
 	StartScreen(GUI g) throws IOException
 	{

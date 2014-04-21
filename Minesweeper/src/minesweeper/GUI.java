@@ -20,7 +20,7 @@ public class GUI extends JFrame {
 			
 		}
 		myname = s;
-		control.setMyName(s);
+		//control.setMyName(s);
 		
 	}
 	
@@ -37,10 +37,16 @@ public class GUI extends JFrame {
 	
 	public void StartEndScreen() throws IOException
 	{
+		if(gm_sc != null)
+		{
+			gm_sc.close();
+		}
+		
 		gm_e_sc = new GameEndScreen(this);
+		
 	}
 	
-	public void StartGameScreen(int [][] fields) throws IOException
+	public void StartGameScreen(int [][] fields) throws IOException, InterruptedException
 	{
 		if(st_sc != null)
 		{
@@ -49,13 +55,14 @@ public class GUI extends JFrame {
 		if (gm_sc == null)
 		{
 			gm_sc = new GameScreen(this,fields);
+			System.out.println("StartGamescreen gm_sc == null");
 			///gm_sc.newFieldTable(fields);
 			//gm_sc.setTime(0);
 		}
 		else
 		{
 			gm_sc.modifyFieldTable(fields);
-			;
+			System.out.println("StartGamescreen gm_sc is not null");
 		}
 	}
 	
@@ -91,7 +98,7 @@ public class GUI extends JFrame {
 	public void showScores(Scores scoreTable) throws IOException
 	{
 		StartEndScreen();
-		
+		gm_e_sc.setHighScore(scoreTable);
 		
 		//
 	}

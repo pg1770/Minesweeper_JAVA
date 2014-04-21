@@ -56,7 +56,7 @@ public class GameScreen extends JFrame{
 			dispose();
 		}
 		
-		public GameScreen(GUI g, int [][] fields) throws IOException
+		public GameScreen(GUI g, int [][] fields) throws IOException, InterruptedException
 		{
 			super("Minesweeper");
 			gui = g;
@@ -71,25 +71,15 @@ public class GameScreen extends JFrame{
 			time = new TimeCounter();
 			background_panel = new BackgroundPanelClass("resources\\background.png");	
 			
-			//background_panel.setLayout(null);
-			//add(background_panel);
-			//setVisible(true);
-
-			
 
 			screen_size_x = (cell_num_x)*cell_size + 320;//+ fields_panel_size_offset_x*2;
 			screen_size_y = (cell_num_y)*cell_size + 240;//+ fields_panel_size_offest_y*2;
-			//remove(fields_panel);
-			
-			//fields_panel = new FieldsPanelClass();
+
 			fields_panel.setLayout(null);
-			
-			
-			background_panel.setLayout(null);
 
 			fields_panel.setBounds(40, 
 					140, 
-					(cell_num_x)*cell_size , 
+					(cell_num_x)*cell_size, 
 					(cell_num_y)*cell_size 
 					);
 			fields_panel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -100,7 +90,6 @@ public class GameScreen extends JFrame{
 					fields_panel.setField(new Point(i,j),fields_array[i][j]); 
 				}
 			
-			remove(time);
 			time = new TimeCounter(0);
 
 			time.setBounds(220, 
@@ -110,12 +99,12 @@ public class GameScreen extends JFrame{
 					);
 			
 			time.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY ));
-			
-			add(time);
+			add(background_panel);
+			background_panel.add(time);
 			
 			setSize(screen_size_x,screen_size_y);
-			add(fields_panel);
-			add(background_panel);
+			background_panel.add(fields_panel);
+			
 
 			repaint();
 			System.out.println("ez");
