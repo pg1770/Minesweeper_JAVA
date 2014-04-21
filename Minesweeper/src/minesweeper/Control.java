@@ -27,10 +27,10 @@ public class Control{
 	
 	/**CONSTRUCTORS**/
 	
-	public Control(int width, int height, int minesNo){
-    model = new Model(width, height, minesNo);
-    //startTime = System.nanoTime();
-  }
+//	public Control(int width, int height, int minesNo){
+//    model = new Model(width, height, minesNo);
+//    //startTime = System.nanoTime();
+//  }
 	
 	public Control(){}
 	
@@ -49,29 +49,21 @@ public class Control{
 	/**ACTION METHODS
 	 * @throws IOException **/
 	
-  public void Click_happend(Point p, int mouse_event_num ) throws IOException 
-	{
-		switch(mouse_event_num){
-		case Defines.mouse_left_Pressed: model.LeftClick(p.x, p.y); set_new_minefield(model.getBoard()); break;
-		case Defines.mouse_left_Released: break;
-		case Defines.mouse_right_Pressed: model.RightClick(p.x, p.y); set_new_minefield(model.getBoard()); break;
-		case Defines.mouse_right_Released: break;
-		case Defines.mouse_middle_Pressed: model.MiddleClickPushed(p.x, p.y); set_new_minefield(model.getBoard()); break;
-		case Defines.mouse_middle_Released: model.MiddleClickReleased(p.x, p.y); set_new_minefield(model.getBoard()); break;
-		default: break;
-		}
-		++clickNo;
-		GameStart(2);
-//		System.out.println( p.x + " " + p.y + " " +mouse_event_num + " cellsleft: " + model.cellsLeft 
-//		    + " minesNo: " + model.minesNo + " markedNo: " + model.markedNo + " status: " + status );
-	}
-	
   // server elinditja a jatekot a megfelelo tablamerettel
   public boolean GameStart(int tableSize) throws IOException{ 
 	  System.out.println("GameStarted in control");
 	  System.out.println(tableSize);
     long endTime;
     set_new_minefield(model.getBoard());
+    // itt kellene valahogy lennie a tabla letrehozasanak
+    // set new table
+    switch(tableSize){
+    case 1: model = new Model(10, 10, 20); break; //Model(width, height, minesNo);
+    case 2: model = new Model(20, 20, 80); break;
+    case 3: model = new Model(50, 30, 300); break;
+    default: JOptionPane.showMessageDialog(null, "Tablesize error!"); break;
+    }
+    
     
 //    if(status == 0){     
 //       if(model.cellsLeft <= 0){ status = Defines.WON; } 
@@ -91,6 +83,7 @@ public class Control{
 //    
 //    if(status == 0) return false;
 //    else return true;
+    
     return false;
   }
   
@@ -148,8 +141,17 @@ public class Control{
   
   //Server megkapja a klikket, meghivja a game/et
   //clickEvent ben point, mauseevent, myname
-  public void receiveClick(ClickEvent click){
-    //  Click_happend();
+  public void receiveClick(ClickEvent click) throws IOException { // TODO: USERt bedobni
+    switch(click.mouse_event_num){
+    case Defines.mouse_left_Pressed: model.LeftClick(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
+    case Defines.mouse_left_Released: break;
+    case Defines.mouse_right_Pressed: model.RightClick(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
+    case Defines.mouse_right_Released: break;
+    case Defines.mouse_middle_Pressed: model.MiddleClickPushed(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
+    case Defines.mouse_middle_Released: model.MiddleClickReleased(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
+    default: break;
+    }
+    ++clickNo;
   }
   
   // server kuld tablat klienseknek
