@@ -54,8 +54,6 @@ public class Control{
 	  System.out.println("GameStarted in control");
 	  System.out.println(tableSize);
     long endTime;
-    set_new_minefield(model.getBoard());
-    // itt kellene valahogy lennie a tabla letrehozasanak
     // set new table
     switch(tableSize){
     case 1: model = new Model(10, 10, 20); break; //Model(width, height, minesNo);
@@ -63,7 +61,7 @@ public class Control{
     case 3: model = new Model(50, 30, 300); break;
     default: JOptionPane.showMessageDialog(null, "Tablesize error!"); break;
     }
-    
+    set_new_minefield(model.getBoard());
     
 //    if(status == 0){     
 //       if(model.cellsLeft <= 0){ status = Defines.WON; } 
