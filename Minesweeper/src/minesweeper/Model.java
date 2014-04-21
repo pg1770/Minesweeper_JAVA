@@ -93,12 +93,16 @@ public class Model extends GameInfo{
 		private void MineMark(int x, int y){ //ha FLAGGED-re hivjuk, MARKED lehet
 		  if(board[x][y] == Defines.FLAGGED && mines[x][y] == true){
 		    board[x][y] = Defines.MARKED;
+//		    if(minesLeft < 5) addScoreToUser(USER, 5);  // USERt belevinni
+//		    else addScoreToUSer(USER, 1);
 		    --minesNo;
 		    ++markedNo;
 		    --cellsLeft;
 		  } 
 		    
 		  else if(board[x][y] == Defines.QMARKED && mines[x][y] == true){ //ha MARKED-ot unflagelunk
+//      if(minesLeft < 5) addScoreToUser(USER, -5);  // USERt belevinni
+//      else addScoreToUSer(USER, -1);		    
 		    ++minesNo;
         --markedNo;
         ++cellsLeft;
@@ -187,8 +191,8 @@ public class Model extends GameInfo{
       }
 		}
 		
-		public void UpdateScore(List<String> user, List<Integer> score){
-		  
-		}
+		// TODO: LeftClick es MiddleClickre Exploded legyen -sok pont es kellene idobuntetes, MiddleClickhiba
+		// ehhez is kell USER, ezt lehetne ugy, hogy bombed ad vissza usert is, broadcastnal
+		// az kellene, h adott user  clickeventjeit meg letiltjuk, meg kene neki egy messagebox
 	
 }
