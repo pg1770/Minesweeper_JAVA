@@ -20,7 +20,7 @@ public class GUI extends JFrame {
 			
 		}
 		myname = s;
-		//control.setMyName(s);
+		control.setMyName(s);
 		
 	}
 	
@@ -56,8 +56,6 @@ public class GUI extends JFrame {
 		{
 			gm_sc = new GameScreen(this,fields);
 			System.out.println("StartGamescreen gm_sc == null");
-			///gm_sc.newFieldTable(fields);
-			//gm_sc.setTime(0);
 		}
 		else
 		{
@@ -71,14 +69,11 @@ public class GUI extends JFrame {
 	{
 		ClickEvent click = new ClickEvent(p,mouse_event_num, myname);
 		control.sendClick(click);
-		;
 	}
 	
-	void clickHappendOnStartScreen(int whichSizeOrServerClient) throws IOException
+	void clickHappendOnStartScreen(int whichSize) throws IOException
 	{
-		//TODO
-		//control.sendClick(click);
-		;
+		control.acceptGame(whichSize);
 	}
 	
 	//TODO Start_screennél
