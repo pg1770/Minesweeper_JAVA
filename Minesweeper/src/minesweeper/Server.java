@@ -175,6 +175,8 @@ public class Server extends Control{
 
 	void checkToGameStart() throws IOException{
 			if(players.sameTableSize()){
+				System.out.println("GameStarted in server");
+				 System.out.println(players.getTableSize());
 				ctrl.GameStart(players.getTableSize());
 			}
 	}
