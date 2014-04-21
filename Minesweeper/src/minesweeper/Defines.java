@@ -24,12 +24,12 @@ public class Defines {
 	public static final int field_6 = 6;
 	public static final int field_7 = 7;
 	public static final int field_8 = 8;
-	public static final int field_flagged = 12;
-	//public static final int field_mine = 10;
-	public static final int field_qst_marked = 13;
-	public static final int field_unknow = 10;
-	public static final int field_exploited = 14;
-	public static final int field_marked = 15;
+	public static final int field_flagged = FLAGGED;
+	public static final int field_qst_marked = QMARKED;
+	public static final int field_unknow = UNKNOWN;
+	public static final int field_exploited = EXPLODED;
+	public static final int field_marked = MARKED;
+	public static final int field_pushed = PUSHED;
 	
 	public static final int mouse_left_Pressed = 0;
 	public static final int mouse_left_Released = 1;
@@ -38,5 +38,9 @@ public class Defines {
 	public static final int mouse_right_Pressed = 4;
 	public static final int mouse_right_Released = 5;
 
+	
+	//Path
+	
+	public static final String backGroundImagePath = "resources\\background.png";
 	
 }

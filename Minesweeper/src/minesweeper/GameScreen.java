@@ -27,14 +27,11 @@ public class GameScreen extends JFrame{
 		private static final long serialVersionUID = 542909349322114411L;
 		
 		int [][] fields_array;
-		
-		
+			
 		
 		int screen_size_x;
 		int screen_size_y;
 
-		int fields_panel_size_offset_x = 0;
-		int fields_panel_size_offest_y = 0;
 
 		int cell_size = 30;
 
@@ -115,7 +112,7 @@ public class GameScreen extends JFrame{
 			
 		void clickHappend(Point p, int mouse_event_num) throws IOException
 		{
-			gui.clickHappend(p, mouse_event_num);
+			gui.clickHappendOnGameScreen(p, mouse_event_num);
 		}
 
 		public void modifyFieldTable(int [][] fields) throws IOException
@@ -171,19 +168,23 @@ public class GameScreen extends JFrame{
 					path = "resources\\im_"+state+".png";
 					break;
 
-				case 10:
+				case Defines.field_unknow:
 					path = "resources\\im_unknow.png";
 					break;
-				case 13:
+				case Defines.field_qst_marked:
 					path = "resources\\im_question.png";
 					break;
-				case 14:
+				case Defines.field_exploited:
 					path =  "resources\\im_exploited.png";
 					break;
 
-				case 12:
-				case 15:
+				case Defines.field_flagged:
+				case Defines.field_marked:
 					path =  "resources\\im_flagged.png";
+					break;
+				
+				case Defines.field_pushed:
+					path =  "resources\\im_pushed.png";
 					break;
 					
 				default:

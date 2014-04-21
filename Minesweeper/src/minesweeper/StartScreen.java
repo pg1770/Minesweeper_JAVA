@@ -34,9 +34,7 @@ public class StartScreen extends JFrame{
 	JButton server_btn;
 	JButton client_btn;
 	
-	Button [] buttons;
-	String [] names; 
-	
+	Button [] buttons;	
 	ArrayList<clients> clientsList;
 	
 	JTextField name_field;
@@ -58,13 +56,6 @@ public class StartScreen extends JFrame{
 	
 	final Point name_field_base_position = new Point(250,50);
 	final Point name_field_size = new Point(150,40);
-	
-	int sr_btn_size_x = 80;
-	int sr_btn_size_y = 40;
-	int cl_btn_size_x = 80;
-	int cl_btn_size_y = 40;
-	int nmf_size_x = 150;
-	int nmf_size_y = 40;
 	
 	
 	void close()
@@ -143,13 +134,13 @@ public class StartScreen extends JFrame{
 						
 						@Override
 						public void mousePressed (MouseEvent e) {
-							
 							btn.choosed = !btn.choosed;
-
-							clickHappend(btn.whichSize);
-							
-				
-						}
+							try {
+								clickHappend(btn.whichSize);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}								}
 						});
 	
 		add(temp);
@@ -157,7 +148,7 @@ public class StartScreen extends JFrame{
 	}
 	
 	
-	void clickHappend (int which_size)
+	void clickHappend (int which_size) throws IOException
 	{
 		int selected_size;
 		for(int i=0; i<3; i++)
@@ -173,11 +164,13 @@ public class StartScreen extends JFrame{
 				else
 				{
 					buttons[i].setBackground(Color.lightGray);
+					gui.chooseTableSize(which_size);
 				}
 			}
 			else
 			{
 				buttons[i].setBackground(Color.white);
+				gui.chooseTableSize(0);
 			}
 		}
 		
@@ -232,7 +225,7 @@ public class StartScreen extends JFrame{
 					buttons[i].setVisible(true);
 				setSize(screen_size_cliens.x, screen_size_cliens.y);
 				repaint();
-		               
+		        gui.setPlayerName(s);
 		    }
 		});
 		
@@ -263,8 +256,12 @@ public class StartScreen extends JFrame{
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							System.out.println("server_btn clicked");
-							//gui.Start_server_screen();
-							//TODO start szerver dolgok
+							try {
+								gui.clickHappendOnStartScreen(101);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							
 						}
 		});
@@ -274,6 +271,12 @@ public class StartScreen extends JFrame{
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							System.out.println("client_btn clicked");
+							try {
+								gui.clickHappendOnStartScreen(100);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							server_btn.setVisible(false);
 							client_btn.setVisible(false);
 							name_field.setVisible(true);

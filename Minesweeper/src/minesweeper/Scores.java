@@ -10,6 +10,7 @@ public class Scores implements Serializable{
 //    List<Object> scoreList = new ArrayList<Object>();
     private List<Integer> scoreList = new ArrayList<Integer>();
     private List<String> nameList = new ArrayList<String>(); 
+    private String winnerName;
     
     public void addScoreToUser(int scoreToAdd, String toUser){
       int index = -1;
@@ -39,5 +40,15 @@ public class Scores implements Serializable{
     
     public List<String> getNames(){
       return nameList;
+    }
+    
+    public void setWinnerName(String name)
+    {
+    	winnerName = name;
+    }
+    
+    public String getWinnerName()
+    {
+    	return winnerName;
     }
 }

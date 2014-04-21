@@ -67,17 +67,19 @@ public class GUI extends JFrame {
 	}
 	
 	
-	void clickHappend(Point p, int mouse_event_num) throws IOException
+	void clickHappendOnGameScreen(Point p, int mouse_event_num) throws IOException
 	{
 		ClickEvent click = new ClickEvent(p,mouse_event_num, myname);
-		//control.sendClick(click);
-		//temp csak a régi teszhez
-		
 		control.sendClick(click);
 		;
 	}
 	
-
+	void clickHappendOnStartScreen(int whichSizeOrServerClient) throws IOException
+	{
+		//TODO
+		//control.sendClick(click);
+		;
+	}
 	
 	//TODO Start_screennél
 	public void printList(clientsList list)
@@ -99,7 +101,5 @@ public class GUI extends JFrame {
 	{
 		StartEndScreen();
 		gm_e_sc.setHighScore(scoreTable);
-		
-		//
 	}
 }
