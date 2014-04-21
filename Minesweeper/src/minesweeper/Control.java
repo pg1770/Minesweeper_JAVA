@@ -68,6 +68,8 @@ public class Control{
 	
   // server elinditja a jatekot a megfelelo tablamerettel
   public boolean GameStart(int tableSize) throws IOException{ 
+	  System.out.println("GameStarted in control");
+	  System.out.println(tableSize);
     long endTime;
     set_new_minefield(model.getBoard());
     
