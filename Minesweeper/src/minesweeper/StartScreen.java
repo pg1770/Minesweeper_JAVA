@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.Collection;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -23,6 +24,7 @@ import javax.swing.JTextField;
 import minesweeper.clientsList;
 import minesweeper.clients;
 import minesweeper.GameScreen.Button;
+import java.util.Collections;
 
 import javax.swing.JButton;
 
@@ -35,7 +37,7 @@ public class StartScreen extends JFrame{
 	JButton client_btn;
 	
 	Button [] buttons;	
-	ArrayList<clients> clientsList;
+	Collection<Player> clientsList;
 	
 	JTextField name_field;
 	
@@ -63,9 +65,9 @@ public class StartScreen extends JFrame{
 		dispose();
 	}
 	
-	public void listNames(clientsList list)
+	public void listNames(PlayersList list)
 	{
-		int array_size = list.getClientList().size();
+		int array_size = list.getCollection().size();
 		if(clientsList != null)
 		{
 			for(int i = 0; i < clientsList.size() ;i++)
@@ -73,16 +75,18 @@ public class StartScreen extends JFrame{
 				background_panel.remove(labels[i]);
 			}
 		}
-		clientsList = list.getClientList();
+		clientsList = list.getCollection();
 		
 		//names = new String[array_size];
 		//TODO szebben, listtel, ne tömbbel
 		labels= new JLabel[array_size];
 		
-		for(int i = 0; i < array_size;i++)
+		//for(int i = 0; i < array_size;i++)
+		//{
+		int i = 0;
+		for(Player actualPlayer : clientsList)
 		{
-			clients client = clientsList.get(i);
-			String temp_name = client.getclientName();
+			String temp_name = actualPlayer.getPlayerName();
 			labels[i] = new JLabel();
 			labels[i].setLayout(null);
 			labels[i].setText(temp_name);
@@ -92,6 +96,7 @@ public class StartScreen extends JFrame{
 			labels[i].setSize(labels_size.x, labels_size.y);
 			background_panel.add(labels[i]);
 			//labels[i].setVisible(true);
+			i++;
 		}
 		
 		repaint();

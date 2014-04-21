@@ -77,7 +77,7 @@ public class GUI extends JFrame {
 	}
 	
 	//TODO Start_screennél
-	public void printList(clientsList list)
+	public void printList(PlayersList list)
 	{
 		st_sc.listNames(list);
 	}

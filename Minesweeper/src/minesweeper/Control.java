@@ -126,6 +126,7 @@ public class Control{
   
   void playersListPrint(PlayersList players){
       players.printPlayersList();
+      gui.printList(players);
   }
   
   // kliens kuldi, "keszen allok a jatekra, ezt a tablat szeretnem(0:egyiksem)"
