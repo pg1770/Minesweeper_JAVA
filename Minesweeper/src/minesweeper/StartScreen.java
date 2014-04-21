@@ -164,7 +164,7 @@ public class StartScreen extends JFrame{
 				else
 				{
 					buttons[i].setBackground(Color.lightGray);
-					gui.chooseTableSize(which_size);
+					gui.chooseTableSize(which_size +1);
 				}
 			}
 			else
