@@ -92,6 +92,15 @@ public class GUI extends JFrame {
 		gm_sc.setTime(t.getTimeElapsedSecond());
 	}
 	
+	public void server_click()
+	{
+		control.startServer();
+	}
+	
+	public void client_click()
+	{
+		control.startClient();
+	}
 	public void showScores(Scores scoreTable) throws IOException
 	{
 		StartEndScreen();

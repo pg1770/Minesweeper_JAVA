@@ -256,12 +256,9 @@ public class StartScreen extends JFrame{
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							System.out.println("server_btn clicked");
-							try {
-								gui.clickHappendOnStartScreen(101);
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+
+								gui.server_click();
+
 							
 						}
 		});
@@ -271,12 +268,9 @@ public class StartScreen extends JFrame{
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							System.out.println("client_btn clicked");
-							try {
-								gui.clickHappendOnStartScreen(100);
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+
+								gui.client_click();
+
 							server_btn.setVisible(false);
 							client_btn.setVisible(false);
 							name_field.setVisible(true);
