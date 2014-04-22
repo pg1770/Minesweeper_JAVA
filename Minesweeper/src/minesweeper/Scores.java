@@ -8,8 +8,8 @@ public class Scores implements Serializable{
     private static final long serialVersionUID = 20140411;
     
 //    List<Object> scoreList = new ArrayList<Object>();
-    private List<Integer> scoreList = new ArrayList<Integer>();
-    private List<String> nameList = new ArrayList<String>(); 
+    protected List<Integer> scoreList = new ArrayList<Integer>();
+    protected List<String> nameList = new ArrayList<String>(); 
     private String winnerName;
     
     public void addScoreToUser(int scoreToAdd, String toUser){
