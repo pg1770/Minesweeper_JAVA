@@ -41,15 +41,15 @@ public class Control{
     this.gui = gui;
   }
   
-  public void set_new_minefield(int [][] fields ) throws IOException
-  {
-	  
-	  System.out.println("set_new_minefield");
-	  int [][] temp = fields;
-
-		gui.SetGameScreen(temp);
-
-  }
+//  public void set_new_minefield(int [][] fields ) throws IOException
+//  {
+//	  
+//	  System.out.println("set_new_minefield");
+//	  int [][] temp = fields;
+//
+//		gui.SetGameScreen(temp);
+//
+//  }
   
 	/**ACTION METHODS
 	 * @throws IOException **/
@@ -135,15 +135,16 @@ public class Control{
   //Server megkapja a klikket, meghivja a game/et
   //clickEvent ben point, mauseevent, myname
   public void receiveClick(ClickEvent click) throws IOException { // TODO: USERt bedobni
+    GameInfo gameInfoTemp = new GameInfo();
     if ( (System.nanoTime() - model.penaltyStart) / 1000000000 > 4 ) model.penaltyUser = null; // remelem ez igy ok
     if ( click.myname != model.penaltyUser){
       switch(click.mouse_event_num){
-      case Defines.mouse_left_Pressed: model.LeftClick(click.p.x, click.p.y, click.myname); set_new_minefield(model.getBoard()); break;
+      case Defines.mouse_left_Pressed: model.LeftClick(click.p.x, click.p.y, click.myname); gameInfoTemp.board =  model.getBoard(); sendGameInfo(gameInfoTemp); break;
       case Defines.mouse_left_Released: break;
-      case Defines.mouse_right_Pressed: model.RightClick(click.p.x, click.p.y, click.myname); set_new_minefield(model.getBoard()); break;
+      case Defines.mouse_right_Pressed: model.RightClick(click.p.x, click.p.y, click.myname); gameInfoTemp.board =  model.getBoard(); sendGameInfo(gameInfoTemp); break;
       case Defines.mouse_right_Released: break;
-      case Defines.mouse_middle_Pressed: model.MiddleClickPushed(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
-      case Defines.mouse_middle_Released: model.MiddleClickReleased(click.p.x, click.p.y, click.myname); set_new_minefield(model.getBoard()); break;
+      case Defines.mouse_middle_Pressed: model.MiddleClickPushed(click.p.x, click.p.y); gameInfoTemp.board =  model.getBoard(); sendGameInfo(gameInfoTemp); break;
+      case Defines.mouse_middle_Released: model.MiddleClickReleased(click.p.x, click.p.y, click.myname); gameInfoTemp.board =  model.getBoard(); sendGameInfo(gameInfoTemp); break;
       default: break;
       }
       ++clickNo; 
