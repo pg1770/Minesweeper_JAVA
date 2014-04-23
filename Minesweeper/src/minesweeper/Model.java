@@ -7,16 +7,16 @@ import java.util.List;
 public class Model extends GameInfo{
     private static final long serialVersionUID = 20140408;
 		
-//    protected int userID;
-//    ArrayList<List<String>> 
     protected int width;
 		protected int height;
 		protected int minesNo;
 		protected int cellsLeft;
 		protected int markedNo;
 		protected boolean [][] mines;
-	//	protected int [][] board;
-		protected static int bombed = 0;
+//		protected static int bombed = 0;
+		protected String penaltyUser;
+		protected long penaltyStart;
+		
 		
 		/**CONSTRUCTOR**/
 		
@@ -36,7 +36,7 @@ public class Model extends GameInfo{
 		/**ACCESS METHODS**/
 		
     public int [][] getBoard(){return board;}
-    public int getBombed(){return bombed;}
+//    public int getBombed(){return bombed;}
 		
 		/**ACTION METHODS**/
 		
@@ -66,9 +66,14 @@ public class Model extends GameInfo{
 			}
 		}
 		
-		public void OopsBomb(){
+		public void OopsBomb(String user){
 		  System.out.println("Felpukkantal!!");
-		  bombed = 1;
+//		  bombed = 1;
+		  if(minesNo < 5) addScoreToUser(-10, user);  
+      else addScoreToUser(-2, user);
+		  penaltyUser = user;
+		  penaltyStart = System.nanoTime();
+		  // Control ClickReceived-ben folyt
 		  }
 		
 		private int MinesAround(int x, int y){
@@ -80,29 +85,29 @@ public class Model extends GameInfo{
 		}
 		
 		
-		private void EmptyShowMore(int x, int y){  //hivni akkor, ha sqvalue == 0
+		private void EmptyShowMore(int x, int y, String user){  //hivni akkor, ha sqvalue == 0
 		  for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j )
           if( (mines[i][j] != true) && (board[i][j] == Defines.UNKNOWN) ){
-            LeftClick(i,j);                   //ebben mar van --cellsLeft; 
+            LeftClick(i,j, user);                   //ebben mar van --cellsLeft; 
             if(board[i][j] == 0)
-              EmptyShowMore(i,j);
+              EmptyShowMore(i,j, user);
           }       
     }
 		
-		private void MineMark(int x, int y){ //ha FLAGGED-re hivjuk, MARKED lehet
+		private void MineMark(int x, int y, String user){ //ha FLAGGED-re hivjuk, MARKED lehet
 		  if(board[x][y] == Defines.FLAGGED && mines[x][y] == true){
 		    board[x][y] = Defines.MARKED;
-//		    if(minesLeft < 5) addScoreToUser(USER, 5);  // USERt belevinni
-//		    else addScoreToUSer(USER, 1);
+		    if(minesNo < 5) addScoreToUser(5, user); 
+		    else addScoreToUser(1, user);
 		    --minesNo;
 		    ++markedNo;
 		    --cellsLeft;
 		  } 
 		    
 		  else if(board[x][y] == Defines.QMARKED && mines[x][y] == true){ //ha MARKED-ot unflagelunk
-//      if(minesLeft < 5) addScoreToUser(USER, -5);  // USERt belevinni
-//      else addScoreToUSer(USER, -1);		    
+      if(minesNo < 5) addScoreToUser(-5, user);  
+      else addScoreToUser(-1, user);		    
 		    ++minesNo;
         --markedNo;
         ++cellsLeft;
@@ -110,7 +115,7 @@ public class Model extends GameInfo{
 		  
 		}
 		
-		public void LeftClick(int x, int y){
+		public void LeftClick(int x, int y, String user){
 			switch(board[x][y]){
 			case Defines.EXPLODED:
 			case Defines.FLAGGED:
@@ -119,17 +124,17 @@ public class Model extends GameInfo{
 			case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
 			case Defines.QMARKED:
 			case Defines.UNKNOWN: 
-			  if(mines[x][y] == true) {board[x][y] = Defines.EXPLODED; OopsBomb();}
+			  if(mines[x][y] == true) {board[x][y] = Defines.EXPLODED; OopsBomb(user);}
 			  else {
           board[x][y] = MinesAround(x,y);
           --cellsLeft;
-          if(board[x][y] == 0) EmptyShowMore(x, y);			 
+          if(board[x][y] == 0) EmptyShowMore(x, y, user);			 
 			} break; 
 			default: System.out.println("LeftClick Error"); break;
 			}
 		}
 		
-		public void RightClick(int x, int y){ 
+		public void RightClick(int x, int y, String user){ 
 		  switch(board[x][y]){
 		  case Defines.FLAGGED: {
 		    board[x][y] = Defines.QMARKED;
@@ -138,13 +143,13 @@ public class Model extends GameInfo{
 		  }
 		  case Defines.MARKED: {
         board[x][y] = Defines.QMARKED; 
-        MineMark(x, y); //ebben mar van --cellsLeft;
+        MineMark(x, y, user); //ebben mar van --cellsLeft;
         break; 
       }
 		  case Defines.QMARKED: board[x][y] = Defines.UNKNOWN; break;
 		  case Defines.UNKNOWN: {
 		    board[x][y] = Defines.FLAGGED; 
-		    MineMark(x, y);
+		    MineMark(x, y, user);
 		    break; 
 		  }
 		  case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
@@ -168,7 +173,7 @@ public class Model extends GameInfo{
           }
 		}
 		
-		public void MiddleClickReleased(int x, int y){  //same x and y as in last MiddleClickPushed(x,y)!!
+		public void MiddleClickReleased(int x, int y, String user){  //same x and y as in last MiddleClickPushed(x,y)!!
 		  int flaggedNMarked = 0;
       for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j ){
@@ -184,8 +189,8 @@ public class Model extends GameInfo{
             case Defines.MARKED: ; break;
             case 0: ; break; case 1: ; break; case 2: ; break; case 3: ; break; case 4: ; break; case 5: ; break;
             case 6: ; break; case 7: ; break; case 8: ; break; case 9: ; break;
-            case Defines.QMARKED: LeftClick(i, j); break;
-            case Defines.UNKNOWN: LeftClick(i, j); break;
+            case Defines.QMARKED: LeftClick(i, j, user); break;
+            case Defines.UNKNOWN: LeftClick(i, j, user); break;
             default: System.out.println("MiddleClickPushed Error"); break;
             }
       }

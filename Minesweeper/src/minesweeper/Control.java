@@ -109,19 +109,6 @@ public class Control{
   	//net.send(clientList.copy());
   }
   
-  
-  
-  // TODO: timeElapsed broadcast
-  
-  
-  
-  
-  
-  // kinyomjuk a guira a jelenlevok listajat
-  //public void clientListPrint(clientsList list){
-//    gui.print_list(list);
-  //}
-  
   void playersListPrint(PlayersList players){
       players.printPlayersList();
       gui.printList(players);
@@ -145,16 +132,19 @@ public class Control{
   //Server megkapja a klikket, meghivja a game/et
   //clickEvent ben point, mauseevent, myname
   public void receiveClick(ClickEvent click) throws IOException { // TODO: USERt bedobni
-    switch(click.mouse_event_num){
-    case Defines.mouse_left_Pressed: model.LeftClick(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
-    case Defines.mouse_left_Released: break;
-    case Defines.mouse_right_Pressed: model.RightClick(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
-    case Defines.mouse_right_Released: break;
-    case Defines.mouse_middle_Pressed: model.MiddleClickPushed(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
-    case Defines.mouse_middle_Released: model.MiddleClickReleased(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
-    default: break;
+    if ( (System.nanoTime() - model.penaltyStart) / 1000000000 > 4 ) model.penaltyUser = null; // remelem ez igy ok
+    if ( click.myname != model.penaltyUser){
+      switch(click.mouse_event_num){
+      case Defines.mouse_left_Pressed: model.LeftClick(click.p.x, click.p.y, click.myname); set_new_minefield(model.getBoard()); break;
+      case Defines.mouse_left_Released: break;
+      case Defines.mouse_right_Pressed: model.RightClick(click.p.x, click.p.y, click.myname); set_new_minefield(model.getBoard()); break;
+      case Defines.mouse_right_Released: break;
+      case Defines.mouse_middle_Pressed: model.MiddleClickPushed(click.p.x, click.p.y); set_new_minefield(model.getBoard()); break;
+      case Defines.mouse_middle_Released: model.MiddleClickReleased(click.p.x, click.p.y, click.myname); set_new_minefield(model.getBoard()); break;
+      default: break;
+      }
+      ++clickNo; 
     }
-    ++clickNo;
   }
   
   // server kuld tablat klienseknek
