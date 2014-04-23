@@ -38,7 +38,17 @@
     timeElapsed = startTime - System.nanoTime();
     // TODO: Display on GUI
 //  SendGameTime();
-    System.out.println("TimeElapsed: " + timeElapsed/1000000000);
+    
+    System.out.println("TimeElapsed: " +  Math.round(-timeElapsed/1000000000) );
+//    System.out.println("StartTime: " +  Math.round(startTime/1000000000) );
+
+    //    Control y = new Control();
+//    TimeStamp tStamp = new TimeStamp();
+//    tStamp.startTime = Math.round(startTime/1000000000);
+//    tStamp.timeElapsed = Math.round(-timeElapsed/1000000000);
+//    Control.timeToShow = Math.round(-timeElapsed/1000000000);
+//    y.sendGameTime(tStamp);
+    
    }
    
  }
