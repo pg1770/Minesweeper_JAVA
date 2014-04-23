@@ -42,6 +42,14 @@ public class Scores implements Serializable{
       return nameList;
     }
     
+    public void setScores(List<Integer> s){
+      scoreList = s;
+    }
+    
+    public void setNames(List<String> n){
+      nameList = n;
+    }
+    
     public void setWinnerName(String name)
     {
     	winnerName = name;

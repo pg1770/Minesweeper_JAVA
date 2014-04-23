@@ -39,10 +39,10 @@ public class GUI extends JFrame {
 	{
 		if(gm_sc != null)
 		{
-			gm_sc.close();
+//			gm_sc.close();
 		}
 		
-		gm_e_sc = new GameEndScreen(this);
+		if(gm_e_sc == null) gm_e_sc = new GameEndScreen(this);
 		
 	}
 	

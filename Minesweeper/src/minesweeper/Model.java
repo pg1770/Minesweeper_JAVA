@@ -16,8 +16,8 @@ public class Model extends GameInfo{
 //		protected static int bombed = 0;
 		protected String penaltyUser;
 		protected long penaltyStart;
-		
-		
+//		public Scores s;
+//		public GameInfo g;
 		/**CONSTRUCTOR**/
 		
 		public Model(int width, int height, int minesNo){

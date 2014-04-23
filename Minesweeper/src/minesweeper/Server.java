@@ -172,12 +172,14 @@ public class Server extends Control{
 				disconnect();
 		}
 	}
-
+	
+	int counter = 0;
+	
 	void checkToGameStart() throws IOException{
 			if(players.sameTableSize()){
 				System.out.println("GameStarted in server");
 				 System.out.println(players.getTableSize());
-				ctrl.GameStart(players.getTableSize());
+				if(counter == 0) { ctrl.GameStart(players.getTableSize()); ++counter; }
 			}
 	}
 	

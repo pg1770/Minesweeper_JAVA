@@ -132,9 +132,17 @@ public class Control{
     client.send(click);
   }
   
+//  boolean NameSearch(String user){
+//    boolean x = false;
+//    for(String s: model.nameList) if(s == user) x = true;
+//    return x;
+//  }
+  
+  
   //Server megkapja a klikket, meghivja a game/et
   //clickEvent ben point, mauseevent, myname
   public void receiveClick(ClickEvent click) throws IOException { // TODO: USERt bedobni
+//    if(NameSearch(click.myname) == false) model.addUser(click.myname);
     GameInfo gameInfoTemp = new GameInfo();
     if ( (System.nanoTime() - model.penaltyStart) / 1000000000 > 4 ) model.penaltyUser = null; // remelem ez igy ok
     if ( click.myname != model.penaltyUser){
@@ -149,6 +157,12 @@ public class Control{
       }
       ++clickNo; 
     }
+    // copy constr benan, igy konnyu debuggolni
+    Scores scoreTemp = new Scores();
+    scoreTemp.setNames(model.getNames()); 
+    scoreTemp.setScores(model.getScores());
+    if(model.cellsLeft <= 0){ sendScores(scoreTemp); }
+//    sendGameInfo(gameInfoTemp);
   }
   
   // server kuld tablat klienseknek
@@ -163,8 +177,7 @@ public class Control{
   }
   
   // mp-enkent a server kuld idot az osszes kliensnek
-  public void sendGameTime(TimeStamp t){
-	  
+  public void sendGameTime(TimeStamp t){  
     server.broadcast(t);
   }
   
