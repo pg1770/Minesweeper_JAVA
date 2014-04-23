@@ -21,6 +21,10 @@
      timeElapsed = time;
      }
    
+   public void setStartTime(double time){
+     startTime = time;
+     }
+   
    public int getTimeElapsedSecond(){
 	   return (int)(timeElapsed/1000000);
    }
@@ -33,7 +37,8 @@
    public void run() {
     timeElapsed = startTime - System.nanoTime();
     // TODO: Display on GUI
-//    SendGameTime();
+//  SendGameTime();
+    System.out.println("TimeElapsed: " + timeElapsed/1000000000);
    }
    
  }
