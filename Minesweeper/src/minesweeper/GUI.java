@@ -46,20 +46,31 @@ public class GUI extends JFrame {
 		
 	}
 	
-	public void StartGameScreen(int [][] fields) throws IOException, InterruptedException
+	public void SetGameScreen(int [][] fields) 
 	{
 		if(st_sc != null)
 		{
-			st_sc.close();
+			;
+			//st_sc.close();
 		}
 		if (gm_sc == null)
 		{
-			gm_sc = new GameScreen(this,fields);
+			try {
+				gm_sc = new GameScreen(this,fields);
+			} catch (IOException | InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println("StartGamescreen gm_sc == null");
 		}
 		else
 		{
-			gm_sc.modifyFieldTable(fields);
+			try {
+				gm_sc.modifyFieldTable(fields);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println("StartGamescreen gm_sc is not null");
 		}
 	}

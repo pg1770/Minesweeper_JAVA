@@ -43,7 +43,12 @@ public class Control{
   
   public void set_new_minefield(int [][] fields ) throws IOException
   {
-//    gui.Start_game_screen(fields);
+	  
+	  System.out.println("set_new_minefield");
+	  int [][] temp = fields;
+
+		gui.SetGameScreen(temp);
+
   }
   
 	/**ACTION METHODS
@@ -158,17 +163,19 @@ public class Control{
   }
   
   // tabla fogadasa kliensen
-  public void receiveGameInfo(GameInfo g){
-    //set_new_minefield(g.board);
+  public void receiveGameInfo(GameInfo g) throws IOException, InterruptedException{
+	  System.out.println("receiveGameInfo");
+	  gui.SetGameScreen(g.board);
   }
   
   // mp-enkent a server kuld idot az osszes kliensnek
   public void sendGameTime(TimeStamp t){
+	  
     server.broadcast(t);
   }
   
-  public void receiveGameTime(TimeStamp t){
-//    gui.setNewTime(t);
+  public void receiveGameTime(TimeStamp t) throws IOException{
+    gui.setNewTime(t);
   }
   
   // jatek vegen broadcastoljuk a klienseknek a score tablazatot
@@ -178,7 +185,12 @@ public class Control{
   
 //  kliensek kirjak a highscore tablazatot
   public void receiveScores(Scores scoreTable){
-//    gui.showScores(scoreTable);
+    try {
+		gui.showScores(scoreTable);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }
   
   void clientError(String error){
