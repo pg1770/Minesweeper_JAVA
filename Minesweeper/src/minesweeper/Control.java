@@ -66,7 +66,10 @@ public class Control{
     case 3: model = new Model(50, 30, 300); break;
     default: JOptionPane.showMessageDialog(null, "Tablesize error!"); break;
     }
-    set_new_minefield(model.getBoard());
+    GameInfo gameInfoTemp = new GameInfo();
+    gameInfoTemp.board =  model.getBoard();
+    sendGameInfo(gameInfoTemp);
+    //set_new_minefield(model.getBoard());
     
 //    if(status == 0){     
 //       if(model.cellsLeft <= 0){ status = Defines.WON; } 
