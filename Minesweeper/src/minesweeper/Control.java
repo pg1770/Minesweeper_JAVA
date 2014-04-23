@@ -162,6 +162,7 @@ public class Control{
     scoreTemp.setNames(model.getNames()); 
     scoreTemp.setScores(model.getScores());
     if(model.cellsLeft <= 0){ sendScores(scoreTemp); }
+    System.out.println("cellsleft: " + model.cellsLeft);
 //    sendGameInfo(gameInfoTemp);
   }
   

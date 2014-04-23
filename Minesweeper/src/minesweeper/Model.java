@@ -73,6 +73,7 @@ public class Model extends GameInfo{
       else addScoreToUser(-2, user);
 		  penaltyUser = user;
 		  penaltyStart = System.nanoTime();
+		  --cellsLeft;
 		  // Control ClickReceived-ben folyt
 		  }
 		
