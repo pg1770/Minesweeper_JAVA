@@ -33,7 +33,7 @@
    public void run() {
     timeElapsed = startTime - System.nanoTime();
     // TODO: Display on GUI
-    
+//    SendGameTime();
    }
    
  }
