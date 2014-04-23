@@ -17,7 +17,7 @@ public class GUI extends JFrame {
 	{
 		if (s==null)
 		{
-			
+			return;
 		}
 		myname = s;
 		control.setMyName(s);
@@ -100,6 +100,8 @@ public class GUI extends JFrame {
 
 	public void setNewTime(TimeStamp t) throws IOException
 	{
+		if (gm_sc == null)
+			return;
 		gm_sc.setTime(t.getTimeElapsedSecond());
 	}
 	
