@@ -2,9 +2,9 @@ package minesweeper;
 
 import javax.swing.JOptionPane;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Control{  
@@ -14,6 +14,7 @@ public class Control{
   public long penaltyStartTime;
   public int clickNo=0;
   public Timer timer = new Timer();
+  public static long timeToShow;
   
   //private Network net = null;
   
@@ -27,11 +28,6 @@ public class Control{
 	
 	/**CONSTRUCTORS**/
 	
-//	public Control(int width, int height, int minesNo){
-//    model = new Model(width, height, minesNo);
-//    //startTime = System.nanoTime();
-//  }
-	
 	public Control(){}
 	
 	/**ACCESS METHODS**/
@@ -41,25 +37,12 @@ public class Control{
     this.gui = gui;
   }
   
-//  public void set_new_minefield(int [][] fields ) throws IOException
-//  {
-//	  
-//	  System.out.println("set_new_minefield");
-//	  int [][] temp = fields;
-//
-//		gui.SetGameScreen(temp);
-//
-//  }
-  
 	/**ACTION METHODS
 	 * @throws IOException **/
 	
   // server elinditja a jatekot a megfelelo tablamerettel
-  public boolean GameStart(int tableSize) throws IOException{ 
-	  System.out.println("GameStarted in control");
-	  System.out.println(tableSize);
-    long endTime;
-    // set new table
+  public boolean GameStart(int tableSize) throws IOException{
+	  System.out.println("GameStarted in control, tablesize: " + tableSize);
     switch(tableSize){
     case 1: model = new Model(10, 10, 20); break; //Model(width, height, minesNo);
     case 2: model = new Model(20, 20, 80); break;
@@ -69,14 +52,13 @@ public class Control{
     GameInfo gameInfoTemp = new GameInfo();
     gameInfoTemp.board =  model.getBoard();
     sendGameInfo(gameInfoTemp);
-    //set_new_minefield(model.getBoard());
     
 //    if(status == 0){     
 //       if(model.cellsLeft <= 0){ status = Defines.WON; } 
 //       if(model.getBombed() > 0){ status = Defines.LOST; }  
 //    }
     
-    endTime = System.nanoTime() - startTime;
+//    endTime = System.nanoTime() - startTime;
       
 //    if( status == Defines.WON ) {
 //      JOptionPane.showMessageDialog(null, "You have won, Duke! taratta taratta taratt tararara");
@@ -88,7 +70,17 @@ public class Control{
 //    }
 //    
 //    if(status == 0) return false;
-//    else return true;
+//    else return true; 
+    final long startT = System.nanoTime();
+    
+    new Timer().schedule(new TimerTask() {
+      public void run()  {            
+        TimeStamp tempTS = new TimeStamp();
+        tempTS.setStartTime(startT);
+        tempTS.setTimeElapsed(Math.round(- (startT - System.nanoTime()) /1000000000));
+        sendGameTime(tempTS);
+      }
+      }, 1, 1000);
     
     return false;
   }
@@ -138,10 +130,9 @@ public class Control{
 //    return x;
 //  }
   
-  
   //Server megkapja a klikket, meghivja a game/et
   //clickEvent ben point, mauseevent, myname
-  public void receiveClick(ClickEvent click) throws IOException { // TODO: USERt bedobni
+  public void receiveClick(ClickEvent click) throws IOException { 
 //    if(NameSearch(click.myname) == false) model.addUser(click.myname);
     GameInfo gameInfoTemp = new GameInfo();
     if ( (System.nanoTime() - model.penaltyStart) / 1000000000 > 4 ) model.penaltyUser = null; // remelem ez igy ok
@@ -183,6 +174,7 @@ public class Control{
   }
   
   public void receiveGameTime(TimeStamp t) throws IOException{
+    System.out.println("ReceivedTimeElapsed: " +  t.timeElapsed);
     gui.setNewTime(t);
   }
   

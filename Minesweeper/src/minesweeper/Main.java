@@ -5,8 +5,6 @@ import java.io.IOException;
 import minesweeper.Control;
 import minesweeper.GUI;
 
-import java.io.*;
-
 public class Main {
 
 	public static void main(String[] args) throws IOException {
@@ -14,10 +12,7 @@ public class Main {
 		Control x = new Control();
 	  GUI k = new GUI(x);
     x.setGUI(k);
-//    x.GameStart(2);
-    x.timer.schedule(new TimeStamp(), 0, 1000 );
-    
-    
+ 
 	}
 
 }

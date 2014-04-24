@@ -1,8 +1,6 @@
 package minesweeper;
 
 import java.util.Random;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Model extends GameInfo{
     private static final long serialVersionUID = 20140408;
