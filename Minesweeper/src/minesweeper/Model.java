@@ -11,11 +11,9 @@ public class Model extends GameInfo{
 		protected int cellsLeft;
 		protected int markedNo;
 		protected boolean [][] mines;
-//		protected static int bombed = 0;
 		protected String penaltyUser;
 		protected long penaltyStart;
-//		public Scores s;
-//		public GameInfo g;
+
 		/**CONSTRUCTOR**/
 		
 		public Model(int width, int height, int minesNo){
@@ -34,7 +32,6 @@ public class Model extends GameInfo{
 		/**ACCESS METHODS**/
 		
     public int [][] getBoard(){return board;}
-//    public int getBombed(){return bombed;}
 		
 		/**ACTION METHODS**/
 		
@@ -65,8 +62,7 @@ public class Model extends GameInfo{
 		}
 		
 		public void OopsBomb(String user){
-		  System.out.println("Felpukkantal!!");
-//		  bombed = 1;
+		  System.out.println("Felpukkantal" + user + ".");
 		  if(minesNo < 5) addScoreToUser(-10, user);  
       else addScoreToUser(-2, user);
 		  penaltyUser = user;
@@ -195,8 +191,8 @@ public class Model extends GameInfo{
       }
 		}
 		
-		// TODO: LeftClick es MiddleClickre Exploded legyen -sok pont es kellene idobuntetes, MiddleClickhiba
+		// TODO: idobuntetes, MiddleClickhiba
 		// ehhez is kell USER, ezt lehetne ugy, hogy bombed ad vissza usert is, broadcastnal
 		// az kellene, h adott user  clickeventjeit meg letiltjuk, meg kene neki egy messagebox
-	
+		// kozepso mar mine felfedjen
 }

@@ -9,14 +9,9 @@ import java.util.TimerTask;
 
 public class Control{  
   
-//  public int status = 0;
-  public long startTime;
-  public long penaltyStartTime;
+  private final int penaltySec = 4;
   public int clickNo=0;
   public Timer timer = new Timer();
-  public static long timeToShow;
-  
-  //private Network net = null;
   
   private Server server = null;
   
@@ -52,13 +47,6 @@ public class Control{
     GameInfo gameInfoTemp = new GameInfo();
     gameInfoTemp.board =  model.getBoard();
     sendGameInfo(gameInfoTemp);
-    
-//    if(status == 0){     
-//       if(model.cellsLeft <= 0){ status = Defines.WON; } 
-//       if(model.getBombed() > 0){ status = Defines.LOST; }  
-//    }
-    
-//    endTime = System.nanoTime() - startTime;
       
 //    if( status == Defines.WON ) {
 //      JOptionPane.showMessageDialog(null, "You have won, Duke! taratta taratta taratt tararara");
@@ -71,6 +59,7 @@ public class Control{
 //    
 //    if(status == 0) return false;
 //    else return true; 
+  
     final long startT = System.nanoTime();
     
     new Timer().schedule(new TimerTask() {
@@ -124,19 +113,12 @@ public class Control{
     client.send(click);
   }
   
-//  boolean NameSearch(String user){
-//    boolean x = false;
-//    for(String s: model.nameList) if(s == user) x = true;
-//    return x;
-//  }
-  
-  //Server megkapja a klikket, meghivja a game/et
-  //clickEvent ben point, mauseevent, myname
+  //Server megkapja a klikket, meghivja a game-et
+  //clickEventben point, mouseevent, myname
   public void receiveClick(ClickEvent click) throws IOException { 
-//    if(NameSearch(click.myname) == false) model.addUser(click.myname);
     GameInfo gameInfoTemp = new GameInfo();
-    if ( (System.nanoTime() - model.penaltyStart) / 1000000000 > 4 ) model.penaltyUser = null; // remelem ez igy ok
-    if ( click.myname != model.penaltyUser){
+    if ( ( (System.nanoTime() - model.penaltyStart) / 1000000000 ) > penaltySec ) model.penaltyUser = null;
+    if ( !click.myname.equals(model.penaltyUser) ){
       switch(click.mouse_event_num){
       case Defines.mouse_left_Pressed: model.LeftClick(click.p.x, click.p.y, click.myname); gameInfoTemp.board =  model.getBoard(); sendGameInfo(gameInfoTemp); break;
       case Defines.mouse_left_Released: break;
@@ -148,13 +130,12 @@ public class Control{
       }
       ++clickNo; 
     }
-    // copy constr benan, igy konnyu debuggolni
+    // lehetne irni copy constr-t
     Scores scoreTemp = new Scores();
     scoreTemp.setNames(model.getNames()); 
     scoreTemp.setScores(model.getScores());
     if(model.cellsLeft <= 0){ sendScores(scoreTemp); }
     System.out.println("cellsleft: " + model.cellsLeft);
-//    sendGameInfo(gameInfoTemp);
   }
   
   // server kuld tablat klienseknek
@@ -174,7 +155,7 @@ public class Control{
   }
   
   public void receiveGameTime(TimeStamp t) throws IOException{
-    System.out.println("ReceivedTimeElapsed: " +  t.timeElapsed);
+//    System.out.println("ReceivedTimeElapsed: " +  t.timeElapsed);
     gui.setNewTime(t);
   }
   
@@ -186,11 +167,11 @@ public class Control{
 //  kliensek kirjak a highscore tablazatot
   public void receiveScores(Scores scoreTable){
     try {
-		gui.showScores(scoreTable);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
+      gui.showScores(scoreTable);
+    } catch (IOException e) {
+    // TODO Auto-generated catch block
 		e.printStackTrace();
-	}
+    }
   }
   
   void clientError(String error){
