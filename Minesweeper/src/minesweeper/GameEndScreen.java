@@ -2,6 +2,7 @@ package minesweeper;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -59,11 +60,37 @@ public class GameEndScreen extends JFrame{
 		List<Integer> scores = scoreTable.getScores();
 		List<String> names = scoreTable.getNames();
 		
+		int maxScore = 0;
+		String maxScoreName = "temp";
+		int maxScorePos = -1;
+		int tempPos = -1;
+		
 		background_panel.setSize(screen_size.x,screen_size.y);
 		
 		setSize(screen_size.x,screen_size.y);
 		
+	    ListIterator<Integer> score_it = scores.listIterator();
+	    
+	    while(score_it.hasNext()) {
+	    	tempPos++;
+	    	Integer score = (Integer) score_it.next();
+	        JLabel element = new JLabel();
+	        element.setLayout(null);
+	        element.setText(score.toString());
+	        element.setForeground(Color.GREEN);
+	        element.setLocation(scores_position.x, scores_position.y + names_size.y*(score_it.nextIndex()-1));
+	        element.setSize(scores_size.x,scores_size.y);
+	        if(score > maxScore)
+	        {
+	        	maxScore = score;
+	        	maxScorePos = tempPos;
+	        }
+			background_panel.add(element);
+	    }
+		
 		ListIterator<String> name_it = names.listIterator();
+		
+		tempPos = -1;
 		
 	    while(name_it.hasNext()) {
 	    	String name = (String) name_it.next();
@@ -74,25 +101,38 @@ public class GameEndScreen extends JFrame{
 	        element.setLocation(names_position.x, names_position.y + names_size.y*(name_it.nextIndex()-1));
 	        element.setSize(names_size.x,names_size.y);
 			background_panel.add(element);
-	       }
+			if(tempPos == maxScorePos)
+			{
+				maxScoreName = name;
+			}
+	    }
 
-	    ListIterator<Integer> score_it = scores.listIterator();
+	    String winString;
+	    if(maxScoreName == gui.myname)
+	    {
+	    	winString = "You won!";
+	    }
+	    else
+	    {
+	    	winString = "You failed!";
+	    }
 	    
-	    while(score_it.hasNext()) {
-	    	Integer score = (Integer) score_it.next();
-	        JLabel element = new JLabel();
-	        element.setLayout(null);
-	        element.setText(score.toString());
-	        element.setForeground(Color.GREEN);
-	        element.setLocation(scores_position.x, scores_position.y + names_size.y*(score_it.nextIndex()-1));
-	        element.setSize(scores_size.x,scores_size.y);
-			background_panel.add(element);
-	       }
+	    JLabel win = new JLabel();
+	    win.setLayout(null);
+	    win.setText(winString);
+	    win.setForeground(Color.GREEN);
+	    win.setLocation(250, 50);
+	    win.setSize(names_size.x*2,names_size.y*2);
+	    win.setFont(new Font("Courier", Font.BOLD,26));
+		background_panel.add(win);
 	    
 	    screen_size.x = scores_position.x + scores_size.x;
 	    screen_size.y = scores.size()*scores_size.y + 250;
 	    background_panel.setSize(new Dimension(screen_size.x, screen_size.y));
 	    setSize(new Dimension(screen_size.x, screen_size.y));
+	    
+	    
+	    
 	    
 		repaint();
 	}

@@ -51,7 +51,7 @@ public class GUI extends JFrame {
 		if(st_sc != null)
 		{
 			;
-			//st_sc.close();
+			st_sc.dispose();
 		}
 		if (gm_sc == null)
 		{
