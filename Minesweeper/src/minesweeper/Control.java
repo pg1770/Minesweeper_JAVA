@@ -10,14 +10,13 @@ import java.util.TimerTask;
 public class Control{  
   
   private final int penaltySec = 4;
-  public int clickNo=0;
-  public Timer timer = new Timer();
+  private int clickNo=0;
   
   private Server server = null;
   
   private Client client = null;
   
-  public Model model;
+  private Model model;
   
 	GUI gui;
 	
@@ -130,12 +129,12 @@ public class Control{
       }
       ++clickNo; 
     }
-    // lehetne irni copy constr-t
+    
     Scores scoreTemp = new Scores();
     scoreTemp.setNames(model.getNames()); 
     scoreTemp.setScores(model.getScores());
     if(model.cellsLeft <= 0){ sendScores(scoreTemp); }
-    System.out.println("cellsleft: " + model.cellsLeft);
+//    System.out.println("cellsleft: " + model.cellsLeft);
   }
   
   // server kuld tablat klienseknek
