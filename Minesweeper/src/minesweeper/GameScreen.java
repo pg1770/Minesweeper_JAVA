@@ -31,9 +31,12 @@ public class GameScreen extends JFrame{
 		
 		int screen_size_x;
 		int screen_size_y;
+		
+		int cell_size_1 = 30;
+		int cell_size_2 = 20;
+		int cell_size_3 = 15;
 
-
-		int cell_size = 30;
+		int cell_size;
 
 		GUI gui;	
 		
@@ -64,12 +67,25 @@ public class GameScreen extends JFrame{
 			cell_num_y = fields_array[0].length;
 			cell_num_x = fields_array.length;
 			
+			if(cell_num_y < 15 && cell_num_x < 15)
+			{
+				cell_size = cell_size_1;
+			}
+			else if (cell_num_y < 25 && cell_num_x < 25)
+			{
+				cell_size = cell_size_2;
+			}
+			else
+			{
+				cell_size = cell_size_3;
+			}
+			
 			fields_panel = new FieldsPanelClass();
 			time = new TimeCounter();
 			background_panel = new BackgroundPanelClass("resources\\background.png");	
 			
 
-			screen_size_x = (cell_num_x)*cell_size + 320;//+ fields_panel_size_offset_x*2;
+			screen_size_x = (cell_num_x)*cell_size + 120;//+ fields_panel_size_offset_x*2;
 			screen_size_y = (cell_num_y)*cell_size + 240;//+ fields_panel_size_offest_y*2;
 
 			fields_panel.setLayout(null);
@@ -183,7 +199,23 @@ public class GameScreen extends JFrame{
 					path =  "resources\\im_flagged.png";
 					break;
 				
-				case Defines.field_pushed:
+				case 16:
+				case 17:
+				case 18:
+				case 19:
+				case 20:
+				case 21:
+				case 22:
+				case 23:
+				case 24:
+				case 25:
+				case 26:
+				case 27:
+				case 28:
+				case 29:
+				case 30:
+				case 31:
+			
 					path =  "resources\\im_pushed.png";
 					break;
 					
@@ -210,7 +242,22 @@ public class GameScreen extends JFrame{
 			public void modifyField(Point pos, int value)
 			{
 				buttons[pos.x][pos.y].setState(value);
-				buttons[pos.x][pos.y].setIcon(new ImageIcon(buttons[pos.x][pos.y].pathOfState(value)));
+				
+				/*
+				JButton button = new JButton(new ImageIcon(((new ImageIcon(
+			            "path-to-image").getImage()
+			            .getScaledInstance(64, 64,
+			            		java.awt.Image.SCALE_SMOOTH)
+			            		)))
+					);
+				*/
+				buttons[pos.x][pos.y].setIcon(new ImageIcon(((new ImageIcon(
+						buttons[pos.x][pos.y].pathOfState(value)).getImage()
+						.getScaledInstance(cell_size, cell_size,
+								java.awt.Image.SCALE_SMOOTH)
+								)))
+						);
+				//buttons[pos.x][pos.y].setIcon(new ImageIcon(buttons[pos.x][pos.y].pathOfState(value)));
 			}
 			
 			public int getButtonState(Point pos)
