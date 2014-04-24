@@ -9,7 +9,7 @@ import java.util.TimerTask;
 
 public class Control{  
   
-  private final int penaltySec = 4;
+  private final int penaltySec = 2; // tesztelesi celokra lohettek ide 0-t
   private int clickNo=0;
   
   private Server server = null;
@@ -116,7 +116,7 @@ public class Control{
   //clickEventben point, mouseevent, myname
   public void receiveClick(ClickEvent click) throws IOException { 
     GameInfo gameInfoTemp = new GameInfo();
-    if ( ( (System.nanoTime() - model.penaltyStart) / 1000000000 ) > penaltySec ) model.penaltyUser = null;
+    if ( ( (System.nanoTime() - model.penaltyStart) / 1000000000 ) >= penaltySec ) model.penaltyUser = null;
     if ( !click.myname.equals(model.penaltyUser) ){
       switch(click.mouse_event_num){
       case Defines.mouse_left_Pressed: model.LeftClick(click.p.x, click.p.y, click.myname); gameInfoTemp.board =  model.getBoard(); sendGameInfo(gameInfoTemp); break;
