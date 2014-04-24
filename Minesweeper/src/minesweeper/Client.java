@@ -24,7 +24,7 @@ public class Client extends Control{
 			 try {
 				 while(((fromServerObject = in.readObject()) != null ) && clientSocket.isConnected()){
 					 
-					 if(fromServerObject instanceof Scores){
+					 if(fromServerObject.getClass() == Scores.class){
 						 Scores scoreTable = (Scores) fromServerObject;
 						 ctrl.receiveScores(scoreTable);
 					 }
