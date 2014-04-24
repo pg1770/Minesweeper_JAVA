@@ -225,7 +225,6 @@ public class StartScreen extends JFrame{
 				String s = name_field.getText();
 				myname.setText(s);
 				name_field.setVisible(false);
-				gui.setPlayerName(s);
 				for(int i=0; i < buttons.length;i++)
 					buttons[i].setVisible(true);
 				setSize(screen_size_cliens.x, screen_size_cliens.y);
