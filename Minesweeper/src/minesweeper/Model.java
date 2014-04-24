@@ -61,7 +61,7 @@ public class Model extends GameInfo{
 			}
 		}
 		
-		public void OopsBomb(String user){
+		private void OopsBomb(String user){
 		  System.out.println("Felpukkantal" + user + ".");
 		  if(minesNo < 5) addScoreToUser(-10, user);  
       else addScoreToUser(-2, user);
@@ -173,7 +173,7 @@ public class Model extends GameInfo{
       for(int i = (x == 0 ? 0 : x-1); i <= (x == width-1 ? width-1 : x+1); ++i )
         for(int j = (y == 0 ? 0 : y-1); j <= (y == height-1 ? height-1 : y+1); ++j ){
           if( board[i][j] >= Defines.PUSHED ) board[i][j] -= Defines.PUSHED;
-          if( ( board[i][j] == Defines.MARKED || board[i][j] == Defines.FLAGGED ) && ( (i != x) || (j != y) ) ) 
+          if( ( board[i][j] == Defines.MARKED || board[i][j] == Defines.FLAGGED || board[i][j] == Defines.EXPLODED ) && ( (i != x) || (j != y) ) ) 
             ++flaggedNMarked;
         }
       if( MinesAround(x, y) == flaggedNMarked && board[x][y] <= 9 ){
@@ -191,8 +191,4 @@ public class Model extends GameInfo{
       }
 		}
 		
-		// TODO: idobuntetes, MiddleClickhiba
-		// ehhez is kell USER, ezt lehetne ugy, hogy bombed ad vissza usert is, broadcastnal
-		// az kellene, h adott user  clickeventjeit meg letiltjuk, meg kene neki egy messagebox
-		// kozepso mar mine felfedjen
 }
