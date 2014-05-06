@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.io.*;
 
-public class Server extends Control{ 
+public class Server extends Control implements Runnable{ 
 
 	private	ServerSocket						serverSocket = null;
 	private static Collection<ReceiverThread>	receiverList = null;
@@ -159,6 +159,11 @@ public class Server extends Control{
 		}	catch(IOException e){
 				ctrl.serverError("Could not listen on port: " + NetworkDefines.port);
 		}	
+		Thread t = new Thread(this);
+		t.start();
+	}
+	
+	public void run(){
 		try {
 			while(true){
 				Socket s = serverSocket.accept();
@@ -170,9 +175,8 @@ public class Server extends Control{
 		}	catch(IOException e){
 				ctrl.serverError("Accept failed!");
 				disconnect();
-		}
+		}	
 	}
-	
 	int counter = 0;
 	
 	void checkToGameStart() throws IOException{
