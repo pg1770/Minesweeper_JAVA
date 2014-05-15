@@ -58,11 +58,6 @@ public class GUI {
 		control.startClient();
 	}
 	
-	//A kezdõképernyõn táblaméret kiválasztás történt
-	void clickHappenedOnStartScreen(int whichSize) throws IOException
-	{
-		control.acceptGame(whichSize);
-	}
 	
 	//Kiválasztott mezõméret elküldése
 	public void chooseTableSize(int tableSize)
@@ -70,9 +65,12 @@ public class GUI {
 		control.acceptGame(tableSize);
 	}
 	
+	
 	//Csatlakozott játékozok megjelenítése a kliens kezdõképernyõn
 	public void printList(PlayersList list)
 	{
+		if(st_sc == null)
+			 JOptionPane.showMessageDialog(null, "Start screen doesn't exist");
 		st_sc.listNames(list);
 	}
 	

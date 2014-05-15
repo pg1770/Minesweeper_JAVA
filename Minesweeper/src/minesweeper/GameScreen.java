@@ -13,8 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
-import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
@@ -22,43 +20,46 @@ public class GameScreen extends JFrame{
 
 		private static final long serialVersionUID = 542909349322114411L;
 		
+		// A mezõk értékait tartalmazó tömb
 		int [][] fields_array;
-			
+		
+		// Különbözõ méretekhez tartozó értékek
 		Point ScreenSize = new Point();
 		Point CellNum = new Point();
 				
-		int cell_size_1 = 30;
-		int cell_size_2 = 20;
-		int cell_size_3 = 15;
+		final int cell_size_1 = 30;
+		final int cell_size_2 = 20;
+		final int cell_size_3 = 15;
 
 		int cell_size;
 
 		GUI gui;	
 		
+		// Példányosítandó osztályok
 		FieldsPanelClass fields_panel;
 		BackgroundPanelClass background_panel;
 		Control control;
 		TimeCounter time;
-
-		BufferedImage [] field_images = new BufferedImage[13];
 		
-		
+		// Az ablak bezárása
 		public void close()
 		{
 			dispose();
 		}
 		
+		// Komstruktor
 		public GameScreen(GUI g, int [][] fields)
 		{
 			super("Minesweeper");
 			gui = g;
-			
-			
+					
 			fields_array = fields;
 			
+			// Cellamátrix méretei
 			CellNum.y = fields_array[0].length;
 			CellNum.x = fields_array.length;
 			
+			// A szükséges mezõméret megállapítása
 			if(CellNum.y < 15 && CellNum.x < 15)
 			{
 				cell_size = cell_size_1;
@@ -72,7 +73,10 @@ public class GameScreen extends JFrame{
 				cell_size = cell_size_3;
 			}
 			
+			// A mezõket tartalmazó panel példányosítása
 			fields_panel = new FieldsPanelClass();
+			
+			// A számláló panel példányosítása
 			try {
 				time = new TimeCounter(0);
 			} catch (IOException e) {
@@ -86,19 +90,20 @@ public class GameScreen extends JFrame{
 				e.printStackTrace();
 			}	
 			
+			// A képernyõ méretének beállítása
+			ScreenSize.x = (CellNum.x)*cell_size + 120;
+			ScreenSize.y = (CellNum.y)*cell_size + 240;
 
-			ScreenSize.x = (CellNum.x)*cell_size + 120;//+ fields_panel_size_offset_x*2;
-			ScreenSize.y = (CellNum.y)*cell_size + 240;//+ fields_panel_size_offest_y*2;
-
+			// Mezõ panel beállítása
 			fields_panel.setLayout(null);
-
 			fields_panel.setBounds(40, 
 					140, 
 					(CellNum.x)*cell_size, 
 					(CellNum.y)*cell_size 
 					);
 			fields_panel.setBorder(BorderFactory.createLineBorder(Color.black));
-			setVisible(true);
+			
+			// A panel feltöltése a mezõkkel
 			for(int i = 0; i < CellNum.x; i++)
 				for(int j = 0; j < CellNum.y; j++ )
 				{
@@ -117,19 +122,19 @@ public class GameScreen extends JFrame{
 			
 			setSize(ScreenSize.x,ScreenSize.y);
 			background_panel.add(fields_panel);
-			
-
+			setVisible(true);
 			repaint();
 			setResizable(false);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 		}
 
-			
+		// Kattintás eseményrõl értesítjük a GUI-t
 		void clickHappened(Point p, int mouse_event_num) throws IOException
 		{
 			gui.clickHappenedOnGameScreen(p, mouse_event_num);
 		}
 
+		// A mezõtáblánk újrarajzolása
 		public void modifyFieldTable(int [][] fields) throws IOException
 		{
 			for(int i = 0; i < CellNum.x; i++)
@@ -143,16 +148,17 @@ public class GameScreen extends JFrame{
 			repaint();
 		}
 		
+		// Új idõérték érkezett
 		public void setTime(int sec) throws IOException
 		{
 			time.SetTime(sec);
 			repaint();
 		}
-		
 		
-		class Button extends JButton{
+		// A JButton osztály kiterjesztése		class Button extends JButton{
 			
 			private static final long serialVersionUID = 1L;
+			// Szükséges tárolnun a mezõ jelenlegi állapotát, azaz hogy milyen számot/aknát takar
 			int state;
 			
 			public void setState(int st)
@@ -165,6 +171,8 @@ public class GameScreen extends JFrame{
 				return state;
 			}
 			
+			// A mezõ állapotától függõen különbüzõ képeket kell betöltenünk. Ezen képek elérési õtját
+			// adjuk vissza ebben a metódusban
 			public String pathOfState(int state)
 			{
 				String path;
@@ -228,8 +236,10 @@ public class GameScreen extends JFrame{
 			}
 		}
 		
+		// A mezõket tartalmazó panel
 		class FieldsPanelClass extends JPanel{
 
+			// A mezõket, jelen esetben gombokat tartalmazõ mátrixunk
 			Button [][] buttons;
 			
 			private static final long serialVersionUID = 1L;
@@ -239,32 +249,26 @@ public class GameScreen extends JFrame{
 				buttons = new Button[CellNum.x][CellNum.y];		
 			}
 			
+			// Egy mezõ módosítása, a megfelelõ kép beállítása
 			public void modifyField(Point pos, int value)
 			{
 				buttons[pos.x][pos.y].setState(value);
 				
-				/*
-				JButton button = new JButton(new ImageIcon(((new ImageIcon(
-			            "path-to-image").getImage()
-			            .getScaledInstance(64, 64,
-			            		java.awt.Image.SCALE_SMOOTH)
-			            		)))
-					);
-				*/
 				buttons[pos.x][pos.y].setIcon(new ImageIcon(((new ImageIcon(
 						buttons[pos.x][pos.y].pathOfState(value)).getImage()
 						.getScaledInstance(cell_size, cell_size,
 								java.awt.Image.SCALE_SMOOTH)
 								)))
 						);
-				//buttons[pos.x][pos.y].setIcon(new ImageIcon(buttons[pos.x][pos.y].pathOfState(value)));
 			}
 			
+			// Egy mezõ állapotának visszaadása
 			public int getButtonState(Point pos)
 			{
 				return buttons[pos.x][pos.y].getState();
 			}
 					
+			// Még nem lézetnek a mezõink, itt péládnyosítjuk õket
 			public void setField(Point pos, int value)
 			{
 				
@@ -277,6 +281,7 @@ public class GameScreen extends JFrame{
 
 				buttons[pos.x][pos.y].setSize(cell_size, cell_size);
 				
+				// Minden mezõt feliratkoztatunk az egér klikkelésre
 				final Button btn = buttons[pos.x][pos.y];
 				btn.addMouseListener(new MouseAdapter() {
 								
@@ -337,7 +342,7 @@ public class GameScreen extends JFrame{
 			}
 		}
 		
-
+		// Az idõszámlálót magábanfoglaló panel
 		class TimeCounter extends JPanel{
 			
 			private static final long serialVersionUID = 1L;
@@ -384,6 +389,7 @@ public class GameScreen extends JFrame{
 			
 		}
 		
+		// a Háttérkép panelja
 		class BackgroundPanelClass extends JPanel{
 			
 			private static final long serialVersionUID = 1L;

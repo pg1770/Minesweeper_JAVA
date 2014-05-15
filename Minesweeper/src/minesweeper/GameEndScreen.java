@@ -131,7 +131,6 @@ public class GameEndScreen extends JFrame{
 	    screen_size.y = scores.size()*scores_size.y + 250;
 	    background_panel.setSize(new Dimension(screen_size.x, screen_size.y));
 	    setSize(new Dimension(screen_size.x, screen_size.y));
-	    
 		repaint();
 	}
 	
