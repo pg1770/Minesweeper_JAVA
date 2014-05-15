@@ -1,6 +1,5 @@
 package minesweeper;
 
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -11,16 +10,13 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+
 
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.security.acl.Owner;
-
 import javax.imageio.ImageIO;
-
-import javax.swing.JFrame;
 
 public class GameScreen extends JFrame{
 
@@ -52,7 +48,7 @@ public class GameScreen extends JFrame{
 			dispose();
 		}
 		
-		public GameScreen(GUI g, int [][] fields) throws IOException, InterruptedException
+		public GameScreen(GUI g, int [][] fields)
 		{
 			super("Minesweeper");
 			gui = g;
@@ -77,8 +73,18 @@ public class GameScreen extends JFrame{
 			}
 			
 			fields_panel = new FieldsPanelClass();
-			time = new TimeCounter();
-			background_panel = new BackgroundPanelClass("resources\\background.png");	
+			try {
+				time = new TimeCounter(0);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "ERROR during create new TimeCounter");
+				e.printStackTrace();
+			}
+			try {
+				background_panel = new BackgroundPanelClass("resources\\background.png");
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "ERROR during create new BackgroundPanelClass");
+				e.printStackTrace();
+			}	
 			
 
 			ScreenSize.x = (CellNum.x)*cell_size + 120;//+ fields_panel_size_offset_x*2;
@@ -99,8 +105,6 @@ public class GameScreen extends JFrame{
 					fields_panel.setField(new Point(i,j),fields_array[i][j]); 
 				}
 			
-			time = new TimeCounter(0);
-
 			time.setBounds(220, 
 					50, 
 					time.segsize.x*3, 
@@ -121,9 +125,9 @@ public class GameScreen extends JFrame{
 		}
 
 			
-		void clickHappend(Point p, int mouse_event_num) throws IOException
+		void clickHappened(Point p, int mouse_event_num) throws IOException
 		{
-			gui.clickHappendOnGameScreen(p, mouse_event_num);
+			gui.clickHappenedOnGameScreen(p, mouse_event_num);
 		}
 
 		public void modifyFieldTable(int [][] fields) throws IOException
@@ -148,6 +152,7 @@ public class GameScreen extends JFrame{
 		
 		class Button extends JButton{
 			
+			private static final long serialVersionUID = 1L;
 			int state;
 			
 			public void setState(int st)
@@ -293,12 +298,11 @@ public class GameScreen extends JFrame{
 									}
 									
 									try {
-										clickHappend(pos, event);
+										clickHappened(pos, event);
 									} catch (IOException e1) {
-										// TODO Auto-generated catch block
+										JOptionPane.showMessageDialog(null, "ERROR during clickHappened call");
 										e1.printStackTrace();
 									}						
-									//System.out.println("The left mouse button was pressed." + pos.x + " " + pos.y);
 								}
 								@Override			
 								public void mouseReleased(MouseEvent e) {
@@ -318,12 +322,11 @@ public class GameScreen extends JFrame{
 									}
 									
 									try {
-										clickHappend(pos, event);
+										clickHappened(pos, event);
 									} catch (IOException e1) {
-										// TODO Auto-generated catch block
+										JOptionPane.showMessageDialog(null, "ERROR during clickHappened call");
 										e1.printStackTrace();
 									}	
-									//System.out.println("The left mouse button was released." + pos.x + " " + pos.y + " button " + e.getButton());
 									
 								}
 								});
@@ -337,6 +340,8 @@ public class GameScreen extends JFrame{
 
 		class TimeCounter extends JPanel{
 			
+			private static final long serialVersionUID = 1L;
+
 			public Point position;
 			
 			Image segment1, segment2, segment3;
@@ -364,6 +369,7 @@ public class GameScreen extends JFrame{
 				setSize(segsize.x*3,segsize.y);
 			    setLayout(null);
 				
+
 				segment1 = ImageIO.read(new File("resources\\segment_"+seg1+".png"));
 				segment2 = ImageIO.read(new File("resources\\segment_"+seg2+".png"));
 				segment3 = ImageIO.read(new File("resources\\segment_"+seg3+".png"));	
@@ -380,7 +386,8 @@ public class GameScreen extends JFrame{
 		
 		class BackgroundPanelClass extends JPanel{
 			
-			  private Image img;
+			private static final long serialVersionUID = 1L;
+			private Image img;
 
 
 			  public BackgroundPanelClass(String path) throws IOException {

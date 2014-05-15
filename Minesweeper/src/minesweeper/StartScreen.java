@@ -34,12 +34,12 @@ public class StartScreen extends JFrame{
 	
 	JTextField name_field;
 	
-	final int screen_size_x = 800;
-	final int screen_size_y = 600;
+	final Point backgroundSize = new Point(800,600);
 	
 	JLabel labels[];
 	JLabel myname = new JLabel();
-	JList logList = new JList();
+	
+	JLabel setYourName;
 	
 	JLabel logLabels[];
 	final int logLabelsNum = 5;
@@ -67,7 +67,7 @@ public class StartScreen extends JFrame{
 		int array_size = list.getCollection().size() + 1;
 		if(clientsList != null)
 		{
-			for(int i = 1; i < clientsList.size() ;i++)
+			for(int i = 0; i < labels.length; i++)
 			{
 				background_panel.remove(labels[i]);
 			}
@@ -89,9 +89,26 @@ public class StartScreen extends JFrame{
 		for(Player actualPlayer : clientsList)
 		{
 			String temp_name = actualPlayer.getPlayerName();
+			String temp_table_size = " ";;
+			switch(actualPlayer.getTableSize())
+			{
+			case 0:
+				temp_table_size = " ";
+				break;
+			case 1:
+				temp_table_size = " : small";
+				break;
+			case 2:
+				temp_table_size = " : medium";
+				break;
+			case 3:
+				temp_table_size = " : large";
+				break;
+			}
+			
 			labels[i] = new JLabel();
 			labels[i].setLayout(null);
-			labels[i].setText(temp_name);
+			labels[i].setText(temp_name + temp_table_size);
 			labels[i].setLocation(labels_base_position.x, labels_base_position.y + labels_size.y*(i+1));
 			labels[i].setForeground(Color.GREEN);
 			labels[i].setBackground(Color.CYAN);
@@ -118,7 +135,6 @@ public class StartScreen extends JFrame{
 		temp.setSize(buttons_size.x, buttons_size.y);
 		
 		temp.setBackground(Color.white);
-		//temp.clientNumber = id;
 		
 		switch(which_size)
 		{
@@ -211,8 +227,9 @@ public class StartScreen extends JFrame{
 		server_btn = new JButton();
 		client_btn = new JButton();		
 		name_field = new JTextField();
+		setYourName = new JLabel();
 		
-		
+		setYourName.setLayout(null);
 		server_btn.setLayout(null);
 		client_btn.setLayout(null);
 		myname.setLayout(null);
@@ -234,6 +251,8 @@ public class StartScreen extends JFrame{
 		
 		server_btn.setText("Server");
 		client_btn.setText("Client");
+		setYourName.setText("Please set your name!");
+
 		
 		background_panel = new BackgroundPanelClass("resources\\background.png");
 		background_panel.setBackground(Color.BLACK);
@@ -241,6 +260,7 @@ public class StartScreen extends JFrame{
 		name_field.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 		    public void actionPerformed(java.awt.event.ActionEvent e) {
+				setYourName.setVisible(false);
 				String s = name_field.getText();
 				myname.setText("Welcome "+ s + " !");
 				name_field.setVisible(false);
@@ -255,6 +275,8 @@ public class StartScreen extends JFrame{
 		myname.setForeground(Color.GREEN);
 		Font font1 = new Font("SansSerif", Font.BOLD, 20);
 		myname.setFont(font1);
+		setYourName.setForeground(Color.GREEN);
+		setYourName.setBackground(Color.CYAN);
 		
 		setLayout(null);
 		
@@ -264,15 +286,19 @@ public class StartScreen extends JFrame{
 		server_btn.setSize(buttons_size.x,buttons_size.y);
 		client_btn.setSize(buttons_size.x,buttons_size.y);
 		myname.setSize(labels_size.x + 150, labels_size.y);
+		setYourName.setSize(labels_size.x + 50, labels_size.y);
 		name_field.setSize(name_field_size.x,name_field_size.y);
 		
 		client_btn.setLocation(buttons_base_position.x,	buttons_base_position.y - buttons_size.y);
 		server_btn.setLocation(buttons_base_position.x + buttons_size.x, buttons_base_position.y - buttons_size.y);
 		name_field.setLocation(name_field_base_position.x, name_field_base_position.y);
+		setYourName.setLocation(name_field_base_position.x, name_field_base_position.y  - labels_size.y);
 		myname.setLocation(name_field_base_position.x, name_field_base_position.y);
+		
 		
 		name_field.setVisible(false);
 		myname.setVisible(false);
+		setYourName.setVisible(false);
 		
 		final JButton btn_sv = server_btn;
 		btn_sv.addMouseListener(new MouseAdapter() {
@@ -287,7 +313,7 @@ public class StartScreen extends JFrame{
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							gui.client_click();
-
+							setYourName.setVisible(true);
 							server_btn.setVisible(false);
 							client_btn.setVisible(false);
 							for(int i = 0; i < logLabelsNum; i++)
@@ -304,6 +330,7 @@ public class StartScreen extends JFrame{
 		background_panel.add(client_btn);	
 		background_panel.add(name_field);
 		background_panel.add(myname);
+		background_panel.add(setYourName);
 		add(background_panel);
 		setVisible(true);
 		repaint();
@@ -326,7 +353,7 @@ public class StartScreen extends JFrame{
 
 		  public BackgroundPanelClass(String path) throws IOException {
 			img = ImageIO.read(new File(path));
-		    setSize(screen_size_x,screen_size_y);
+		    setSize(backgroundSize.x,backgroundSize.y);
 		    setLayout(null);
 		  }
 
