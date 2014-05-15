@@ -151,6 +151,7 @@ public class Server extends Control implements Runnable{
 	}
 	
 	void connect(){
+		ctrl.printServerMessage("Server started!");
 		receiverList = new ArrayList<ReceiverThread>();
 		players = new PlayersList();
 		disconnect();
@@ -177,13 +178,19 @@ public class Server extends Control implements Runnable{
 				disconnect();
 		}	
 	}
-	int counter = 0;
+
+	boolean gameStarted = false;
 	
 	void checkToGameStart() throws IOException{
 			if(players.sameTableSize()){
-				System.out.println("GameStarted in server");
-				 System.out.println(players.getTableSize());
-				if(counter == 0) { ctrl.GameStart(players.getTableSize()); ++counter; }
+				if(gameStarted == false) { 
+					ctrl.GameStart(players.getTableSize()); 
+					gameStarted=true; 
+					if(players.getTableSize()==1)	ctrl.printServerMessage("GameStarted in server with small table");
+					if(players.getTableSize()==2)	ctrl.printServerMessage("GameStarted in server with medium table");
+					if(players.getTableSize()==3)	ctrl.printServerMessage("GameStarted in server with large table");
+				
+				}
 			}
 	}
 	
