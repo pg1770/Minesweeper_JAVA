@@ -1,6 +1,7 @@
 package minesweeper;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -63,10 +64,10 @@ public class StartScreen extends JFrame{
 	
 	public void listNames(PlayersList list)
 	{
-		int array_size = list.getCollection().size();
+		int array_size = list.getCollection().size() + 1;
 		if(clientsList != null)
 		{
-			for(int i = 0; i < clientsList.size() ;i++)
+			for(int i = 1; i < clientsList.size() ;i++)
 			{
 				background_panel.remove(labels[i]);
 			}
@@ -75,14 +76,23 @@ public class StartScreen extends JFrame{
 		
 		labels= new JLabel[array_size];
 		
-		int i = 0;
+		labels[0] = new JLabel();
+		labels[0].setLayout(null);
+		labels[0].setText("Connected players: ");
+		labels[0].setLocation(labels_base_position.x, labels_base_position.y + labels_size.y);
+		labels[0].setForeground(Color.GREEN);
+		labels[0].setBackground(Color.CYAN);
+		labels[0].setSize(labels_size.x + 100, labels_size.y);
+		background_panel.add(labels[0]);
+		
+		int i = 1;
 		for(Player actualPlayer : clientsList)
 		{
 			String temp_name = actualPlayer.getPlayerName();
 			labels[i] = new JLabel();
 			labels[i].setLayout(null);
 			labels[i].setText(temp_name);
-			labels[i].setLocation(labels_base_position.x, labels_base_position.y + labels_size.y*i);
+			labels[i].setLocation(labels_base_position.x, labels_base_position.y + labels_size.y*(i+1));
 			labels[i].setForeground(Color.GREEN);
 			labels[i].setBackground(Color.CYAN);
 			labels[i].setSize(labels_size.x, labels_size.y);
@@ -141,7 +151,6 @@ public class StartScreen extends JFrame{
 		temp.setVisible(false);
 	}
 	
-	//TODO
 	void printLog(String log)
 	{
 		
@@ -225,8 +234,6 @@ public class StartScreen extends JFrame{
 		
 		server_btn.setText("Server");
 		client_btn.setText("Client");
-		myname.setText("Your name:");
-		
 		
 		background_panel = new BackgroundPanelClass("resources\\background.png");
 		background_panel.setBackground(Color.BLACK);
@@ -235,7 +242,7 @@ public class StartScreen extends JFrame{
 			@Override
 		    public void actionPerformed(java.awt.event.ActionEvent e) {
 				String s = name_field.getText();
-				myname.setText(s);
+				myname.setText("Welcome "+ s + " !");
 				name_field.setVisible(false);
 				for(int i=0; i < buttons.length;i++)
 					buttons[i].setVisible(true);
@@ -246,20 +253,23 @@ public class StartScreen extends JFrame{
 		});
 		
 		myname.setForeground(Color.GREEN);
+		Font font1 = new Font("SansSerif", Font.BOLD, 20);
+		myname.setFont(font1);
 		
 		setLayout(null);
+		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(screen_size_start.x,screen_size_start.y);
 		
 		server_btn.setSize(buttons_size.x,buttons_size.y);
 		client_btn.setSize(buttons_size.x,buttons_size.y);
-		myname.setSize(labels_size.x, labels_size.y + 50);
+		myname.setSize(labels_size.x + 150, labels_size.y);
 		name_field.setSize(name_field_size.x,name_field_size.y);
 		
 		client_btn.setLocation(buttons_base_position.x,	buttons_base_position.y - buttons_size.y);
 		server_btn.setLocation(buttons_base_position.x + buttons_size.x, buttons_base_position.y - buttons_size.y);
 		name_field.setLocation(name_field_base_position.x, name_field_base_position.y);
-		myname.setLocation(name_field_base_position.x, name_field_base_position.y - 50);
+		myname.setLocation(name_field_base_position.x, name_field_base_position.y);
 		
 		name_field.setVisible(false);
 		myname.setVisible(false);
@@ -268,10 +278,6 @@ public class StartScreen extends JFrame{
 		btn_sv.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-								//scrollPan.setSize(100, 200);
-								//scrollPan.setVisible(true);
-								//add(scrollPan);
-								//repaint();
 								gui.server_click();
 						}
 		});
