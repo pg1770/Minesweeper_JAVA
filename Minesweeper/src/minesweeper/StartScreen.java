@@ -8,25 +8,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Vector;
 import java.util.Collection;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-
-import minesweeper.clientsList;
-import minesweeper.clients;
-import minesweeper.GameScreen.Button;
-import java.util.Collections;
-
-import javax.swing.JButton;
 
 public class StartScreen extends JFrame{
 
@@ -35,7 +27,7 @@ public class StartScreen extends JFrame{
 	
 	JButton server_btn;
 	JButton client_btn;
-	
+	JScrollPane scrollPan;
 	Button [] buttons;	
 	Collection<Player> clientsList;
 	
@@ -46,8 +38,12 @@ public class StartScreen extends JFrame{
 	
 	JLabel labels[];
 	JLabel myname = new JLabel();
+	JList logList = new JList();
 	
-	final Point screen_size_start = new Point(500,300);
+	JLabel logLabels[];
+	final int logLabelsNum = 5;
+	
+	final Point screen_size_start = new Point(500,400);
 	final Point screen_size_cliens = new Point(500,600);
 	
 	final Point buttons_base_position = new Point(250,150);
@@ -77,12 +73,8 @@ public class StartScreen extends JFrame{
 		}
 		clientsList = list.getCollection();
 		
-		//names = new String[array_size];
-		//TODO szebben, listtel, ne tömbbel
 		labels= new JLabel[array_size];
 		
-		//for(int i = 0; i < array_size;i++)
-		//{
 		int i = 0;
 		for(Player actualPlayer : clientsList)
 		{
@@ -95,7 +87,6 @@ public class StartScreen extends JFrame{
 			labels[i].setBackground(Color.CYAN);
 			labels[i].setSize(labels_size.x, labels_size.y);
 			background_panel.add(labels[i]);
-			//labels[i].setVisible(true);
 			i++;
 		}
 		
@@ -111,8 +102,6 @@ public class StartScreen extends JFrame{
 		temp.whichSize = which_size;
 		temp.choosed = false;
 		
-		///buttons[pos.x][pos.y].setIcon(new ImageIcon(buttons[pos.x][pos.y].pathOfState(value)));
-
 		temp.setLocation(buttons_base_position.x, buttons_base_position.y + buttons_size.y*which_size);
 		temp.setBorder(BorderFactory.createLineBorder(Color.gray ));
 
@@ -152,15 +141,24 @@ public class StartScreen extends JFrame{
 		temp.setVisible(false);
 	}
 	
+	//TODO
+	void printLog(String log)
+	{
+		
+		for(int i = logLabelsNum -2 ; i >= 0 ; i--)
+		{
+			logLabels[i+1].setText(logLabels[i].getText()); 
+		}
+		logLabels[0].setText(log);
+		repaint();
+	}
 	
 	void clickHappend (int which_size) throws IOException
 	{
-		int selected_size;
 		for(int i=0; i<3; i++)
 		{
 			if(buttons[which_size].choosed)
 			{
-				selected_size = which_size;
 				if(i!=which_size)
 				{
 					buttons[i].setBackground(Color.white);
@@ -194,14 +192,15 @@ public class StartScreen extends JFrame{
 		buttons = new Button[3];
 		//gombok tulajdonságainak beállítása, hozzáadás
 		
-		for(int i=0; i<3; i++)
+		for(int i = 0; i < 3; i++)
 		{
-				setButton(i);
+			setButton(i);
 		}
 		
+		logLabels = new JLabel[logLabelsNum];
+		scrollPan = new JScrollPane();
 		server_btn = new JButton();
-		client_btn = new JButton();
-		
+		client_btn = new JButton();		
 		name_field = new JTextField();
 		
 		
@@ -209,6 +208,19 @@ public class StartScreen extends JFrame{
 		client_btn.setLayout(null);
 		myname.setLayout(null);
 		name_field.setLayout(null);
+		
+		for(int i = 0; i < logLabelsNum; i++)
+		{
+			logLabels[i] = new JLabel();
+			logLabels[i].setLayout(null);
+			logLabels[i].setText(" ");
+			logLabels[i].setVisible(true);
+			logLabels[i].setLocation(50, buttons_base_position.y + buttons_size.y + 20*(logLabelsNum - i - 1));
+			logLabels[i].setForeground(Color.GREEN);
+			logLabels[i].setBackground(Color.CYAN);
+			logLabels[i].setSize(labels_size.x*10, labels_size.y);
+			add(logLabels[i]);
+		}
 		
 		
 		server_btn.setText("Server");
@@ -244,12 +256,9 @@ public class StartScreen extends JFrame{
 		myname.setSize(labels_size.x, labels_size.y + 50);
 		name_field.setSize(name_field_size.x,name_field_size.y);
 		
-		client_btn.setLocation(buttons_base_position.x,
-				buttons_base_position.y - buttons_size.y);
-		server_btn.setLocation(buttons_base_position.x + buttons_size.x,
-				buttons_base_position.y - buttons_size.y);
-		name_field.setLocation(name_field_base_position.x,
-				name_field_base_position.y);
+		client_btn.setLocation(buttons_base_position.x,	buttons_base_position.y - buttons_size.y);
+		server_btn.setLocation(buttons_base_position.x + buttons_size.x, buttons_base_position.y - buttons_size.y);
+		name_field.setLocation(name_field_base_position.x, name_field_base_position.y);
 		myname.setLocation(name_field_base_position.x, name_field_base_position.y - 50);
 		
 		name_field.setVisible(false);
@@ -259,11 +268,11 @@ public class StartScreen extends JFrame{
 		btn_sv.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							System.out.println("server_btn clicked");
-
+								//scrollPan.setSize(100, 200);
+								//scrollPan.setVisible(true);
+								//add(scrollPan);
+								//repaint();
 								gui.server_click();
-
-							
 						}
 		});
 		
@@ -271,12 +280,14 @@ public class StartScreen extends JFrame{
 		btn_cl.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							System.out.println("client_btn clicked");
-
-								gui.client_click();
+							gui.client_click();
 
 							server_btn.setVisible(false);
 							client_btn.setVisible(false);
+							for(int i = 0; i < logLabelsNum; i++)
+							{
+								logLabels[i].setVisible(false);
+							}
 							name_field.setVisible(true);
 							myname.setVisible(true);
 							
@@ -291,7 +302,7 @@ public class StartScreen extends JFrame{
 		setVisible(true);
 		repaint();
 		
-		
+		setResizable(false);
 	}
 	
 	 class Button extends JButton{

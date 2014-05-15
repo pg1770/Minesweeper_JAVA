@@ -174,12 +174,16 @@ public class Control{
   }
   
   void clientError(String error){
-    System.err.println(error);
+	 JOptionPane.showMessageDialog(null, error);
   }
   
   void serverError(String error){
-    System.err.println(error);
+	 JOptionPane.showMessageDialog(null, error);
   }
   
+  void printServerMessage(String msg)
+  {
+	  gui.printServerLog(msg);
+  }
   
 }

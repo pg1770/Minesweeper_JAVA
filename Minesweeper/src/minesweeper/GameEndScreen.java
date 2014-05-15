@@ -93,6 +93,7 @@ public class GameEndScreen extends JFrame{
 		tempPos = -1;
 		
 	    while(name_it.hasNext()) {
+	    	tempPos++;
 	    	String name = (String) name_it.next();
 	        JLabel element = new JLabel();
 	        element.setLayout(null);
@@ -108,7 +109,7 @@ public class GameEndScreen extends JFrame{
 	    }
 
 	    String winString;
-	    if(maxScoreName == gui.myname)
+	    if( maxScoreName.compareTo(gui.myname) == 0)
 	    {
 	    	winString = "You won!";
 	    }
@@ -130,9 +131,6 @@ public class GameEndScreen extends JFrame{
 	    screen_size.y = scores.size()*scores_size.y + 250;
 	    background_panel.setSize(new Dimension(screen_size.x, screen_size.y));
 	    setSize(new Dimension(screen_size.x, screen_size.y));
-	    
-	    
-	    
 	    
 		repaint();
 	}

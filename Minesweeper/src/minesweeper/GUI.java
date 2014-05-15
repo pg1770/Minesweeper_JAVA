@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class GUI extends JFrame {
 
@@ -24,10 +25,19 @@ public class GUI extends JFrame {
 		
 	}
 	
+	
+	//TODO csak teszt
+	
+	public GUI(Scores scoreTable) throws IOException
+	{
+		myname = "TEST";
+		showScores(scoreTable);
+	}
+	
 	public GUI(Control c) throws IOException
 	{
 		control=c;
-		 StartStartScreen();
+		StartStartScreen();
 	}
 	
 	void StartStartScreen() throws IOException
@@ -116,7 +126,16 @@ public class GUI extends JFrame {
 	}
 	public void showScores(Scores scoreTable) throws IOException
 	{
+		
 		StartEndScreen();
 		gm_e_sc.setHighScore(scoreTable);
+	}
+	
+	public void printServerLog(String log)
+	{
+		if(st_sc == null)
+			 JOptionPane.showMessageDialog(null, "Start screen doesn't exist");
+		
+		st_sc.printLog(log);
 	}
 }

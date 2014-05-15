@@ -28,10 +28,9 @@ public class GameScreen extends JFrame{
 		
 		int [][] fields_array;
 			
-		
-		int screen_size_x;
-		int screen_size_y;
-		
+		Point ScreenSize = new Point();
+		Point CellNum = new Point();
+				
 		int cell_size_1 = 30;
 		int cell_size_2 = 20;
 		int cell_size_3 = 15;
@@ -40,9 +39,6 @@ public class GameScreen extends JFrame{
 
 		GUI gui;	
 		
-		int cell_num_x;
-		int cell_num_y;
-
 		FieldsPanelClass fields_panel;
 		BackgroundPanelClass background_panel;
 		Control control;
@@ -64,14 +60,14 @@ public class GameScreen extends JFrame{
 			
 			fields_array = fields;
 			
-			cell_num_y = fields_array[0].length;
-			cell_num_x = fields_array.length;
+			CellNum.y = fields_array[0].length;
+			CellNum.x = fields_array.length;
 			
-			if(cell_num_y < 15 && cell_num_x < 15)
+			if(CellNum.y < 15 && CellNum.x < 15)
 			{
 				cell_size = cell_size_1;
 			}
-			else if (cell_num_y < 25 && cell_num_x < 25)
+			else if (CellNum.y < 25 && CellNum.x < 25)
 			{
 				cell_size = cell_size_2;
 			}
@@ -85,20 +81,20 @@ public class GameScreen extends JFrame{
 			background_panel = new BackgroundPanelClass("resources\\background.png");	
 			
 
-			screen_size_x = (cell_num_x)*cell_size + 120;//+ fields_panel_size_offset_x*2;
-			screen_size_y = (cell_num_y)*cell_size + 240;//+ fields_panel_size_offest_y*2;
+			ScreenSize.x = (CellNum.x)*cell_size + 120;//+ fields_panel_size_offset_x*2;
+			ScreenSize.y = (CellNum.y)*cell_size + 240;//+ fields_panel_size_offest_y*2;
 
 			fields_panel.setLayout(null);
 
 			fields_panel.setBounds(40, 
 					140, 
-					(cell_num_x)*cell_size, 
-					(cell_num_y)*cell_size 
+					(CellNum.x)*cell_size, 
+					(CellNum.y)*cell_size 
 					);
 			fields_panel.setBorder(BorderFactory.createLineBorder(Color.black));
 			setVisible(true);
-			for(int i = 0; i < cell_num_x; i++)
-				for(int j = 0; j < cell_num_y; j++ )
+			for(int i = 0; i < CellNum.x; i++)
+				for(int j = 0; j < CellNum.y; j++ )
 				{
 					fields_panel.setField(new Point(i,j),fields_array[i][j]); 
 				}
@@ -115,13 +111,12 @@ public class GameScreen extends JFrame{
 			add(background_panel);
 			background_panel.add(time);
 			
-			setSize(screen_size_x,screen_size_y);
+			setSize(ScreenSize.x,ScreenSize.y);
 			background_panel.add(fields_panel);
 			
 
 			repaint();
-			System.out.println("ez");
-			
+			setResizable(false);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 		}
 
@@ -133,8 +128,8 @@ public class GameScreen extends JFrame{
 
 		public void modifyFieldTable(int [][] fields) throws IOException
 		{
-			for(int i = 0; i < cell_num_x; i++)
-				for(int j = 0; j < cell_num_y; j++ )
+			for(int i = 0; i < CellNum.x; i++)
+				for(int j = 0; j < CellNum.y; j++ )
 				{
 					if(fields_panel.getButtonState(new Point(i,j)) != fields[i][j])
 					{
@@ -236,7 +231,7 @@ public class GameScreen extends JFrame{
 
 			public FieldsPanelClass()
 			{
-				buttons = new Button[cell_num_x][cell_num_y];		
+				buttons = new Button[CellNum.x][CellNum.y];		
 			}
 			
 			public void modifyField(Point pos, int value)
@@ -390,7 +385,7 @@ public class GameScreen extends JFrame{
 
 			  public BackgroundPanelClass(String path) throws IOException {
 				img = ImageIO.read(new File(path));
-			    setSize(screen_size_x,screen_size_y);
+			    setSize(ScreenSize.x,ScreenSize.y);
 			    setLayout(null);
 			  }
 			  
