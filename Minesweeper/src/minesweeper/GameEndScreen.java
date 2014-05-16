@@ -33,12 +33,6 @@ public class GameEndScreen extends JFrame{
 	
 	BackgroundPanelClass background_panel;
 	
-	void close()
-	{
-		dispose();
-	}
-	
-
 	GameEndScreen(GUI g) throws IOException
 	{
 		super("High scores");
@@ -134,14 +128,11 @@ public class GameEndScreen extends JFrame{
 	
 	 class BackgroundPanelClass extends JPanel{
 		
-		 /**
-		 * 
-		 */
 		private static final long serialVersionUID = 502241893203685506L;
 		private Image img;
 
 		  public BackgroundPanelClass(String path) throws IOException {
-			img = ImageIO.read(new File(path));
+			img = ImageIO.read(getClass().getResourceAsStream("/resources/background.png"));
 		    setSize(screen_size.x,screen_size.y);
 		    setLayout(null);
 		  }

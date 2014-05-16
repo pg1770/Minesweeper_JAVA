@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 
 import javax.imageio.ImageIO;
@@ -364,7 +365,9 @@ public class StartScreen extends JFrame{
 
 
 		  public BackgroundPanelClass(String path) throws IOException {
-			img = ImageIO.read(new File(path));
+			  
+			img = ImageIO.read(getClass().getResourceAsStream("/resources/background.png"));
+
 		    setSize(backgroundSize.x,backgroundSize.y);
 		    setLayout(null);
 		  }

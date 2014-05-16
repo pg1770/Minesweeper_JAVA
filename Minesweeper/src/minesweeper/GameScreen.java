@@ -368,10 +368,10 @@ public class GameScreen extends JFrame{
 				setSize(segsize.x*3,segsize.y);
 			    setLayout(null);
 				
+			    segment1 = ImageIO.read(getClass().getResourceAsStream("/resources/segment_"+seg1+".png"));
+			    segment2 = ImageIO.read(getClass().getResourceAsStream("/resources/segment_"+seg2+".png"));
+			    segment3 = ImageIO.read(getClass().getResourceAsStream("/resources/segment_"+seg3+".png"));
 
-				segment1 = ImageIO.read(new File("resources\\segment_"+seg1+".png"));
-				segment2 = ImageIO.read(new File("resources\\segment_"+seg2+".png"));
-				segment3 = ImageIO.read(new File("resources\\segment_"+seg3+".png"));	
 			}
 			
 			@Override
@@ -391,7 +391,7 @@ public class GameScreen extends JFrame{
 
 
 			  public BackgroundPanelClass(String path) throws IOException {
-				img = ImageIO.read(new File(path));
+				img = ImageIO.read(getClass().getResourceAsStream("/resources/background.png"));
 			    setSize(ScreenSize.x,ScreenSize.y);
 			    setLayout(null);
 			  }
