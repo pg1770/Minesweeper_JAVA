@@ -153,7 +153,8 @@ public class Control{
   }
   
   void serverError(String error){
-	 JOptionPane.showMessageDialog(null, error);
+	 //JOptionPane.showMessageDialog(null, error);
+	 gui.printServerLog(error);
   }
   
   void printServerMessage(String msg)
