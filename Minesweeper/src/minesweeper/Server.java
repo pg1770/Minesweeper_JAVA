@@ -42,7 +42,7 @@ public class Server extends Control implements Runnable{
 			try{
 				while(((fromClientObject = in.readObject()) != null ) && connection.isConnected()){
 
-					if(fromClientObject instanceof String){
+					if(fromClientObject.getClass() == String.class){
 						synchronized(players){
 							String playerName = (String) fromClientObject;
 							players.addPlayer(ID, playerName, 0);
@@ -50,7 +50,7 @@ public class Server extends Control implements Runnable{
 						}
 					}
 					
-					if(fromClientObject instanceof Integer){
+					if(fromClientObject.getClass() == Integer.class){
 						synchronized(players){
 							int	tableSize = (int) fromClientObject;
 							players.changeTableSize(ID, tableSize);
@@ -58,7 +58,7 @@ public class Server extends Control implements Runnable{
 						}
 					}
 				
-					if(fromClientObject instanceof ClickEvent){
+					if(fromClientObject.getClass() == ClickEvent.class){
 						ClickEvent click = (ClickEvent) fromClientObject;
 						ctrl.receiveClick(click);
 					}
@@ -94,9 +94,9 @@ public class Server extends Control implements Runnable{
 		void send(PlayersList players){
 			if(out == null)	return;
 			try {
+				out.reset();
 	            out.writeObject(players);
 	            out.flush();
-	            out.reset();
 	        } catch (Exception e) {
 	            ctrl.serverError("PlayersList Send error!");
 	        }
@@ -105,9 +105,9 @@ public class Server extends Control implements Runnable{
 		void send(GameInfo gameInfo){
 			if(out == null)	return;
 			try {
-	            out.writeObject(gameInfo);
+				out.reset();
+				out.writeObject(gameInfo);
 	            out.flush();
-	            out.reset();
 	        } catch (Exception e) {
 	            ctrl.serverError("GameInfo Send error!");
 	        }
@@ -116,9 +116,9 @@ public class Server extends Control implements Runnable{
 		void send(TimeStamp timeStamp){
 			if(out == null)	return;
 			try {
-	            out.writeObject(timeStamp);
-	            out.flush();
 	            out.reset();
+				out.writeObject(timeStamp);
+	            out.flush();
 	        } catch (Exception e) {
 	            ctrl.serverError("TimeStamp Send error!");
 	        }
@@ -127,9 +127,9 @@ public class Server extends Control implements Runnable{
 		void send(Scores scoreTable){
 			if(out == null)	return;
 			try {
-	            out.writeObject(scoreTable);
-	            out.flush();
 	            out.reset();
+				out.writeObject(scoreTable);
+	            out.flush();
 	        } catch (Exception e) {
 	            ctrl.serverError("Scores Send error!");
 	        }
@@ -182,8 +182,9 @@ public class Server extends Control implements Runnable{
 	boolean gameStarted = false;
 	
 	void checkToGameStart() throws IOException{
+		if(gameStarted == false) { 
 			if(players.sameTableSize()){
-				if(gameStarted == false) { 
+
 					ctrl.GameStart(players.getTableSize()); 
 					gameStarted=true; 
 					if(players.getTableSize()==1)	ctrl.printServerMessage("GameStarted in server with small table");
