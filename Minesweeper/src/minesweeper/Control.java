@@ -9,8 +9,7 @@ import java.util.TimerTask;
 
 public class Control{  
   
-  private final int penaltySec = 2; // tesztelesi celokra lohettek ide 0-t
-  private int clickNo=0;
+  private final int penaltySec = 2;
   
   private Server server = null;
   
@@ -36,7 +35,6 @@ public class Control{
 	
   // server elinditja a jatekot a megfelelo tablamerettel
   public boolean GameStart(int tableSize) throws IOException{
-	  System.out.println("GameStarted in control, tablesize: " + tableSize);
     switch(tableSize){
     case 1: model = new Model(10, 10, 20); break; //Model(width, height, minesNo);
     case 2: model = new Model(20, 20, 80); break;
@@ -46,18 +44,6 @@ public class Control{
     GameInfo gameInfoTemp = new GameInfo();
     gameInfoTemp.board =  model.getBoard();
     sendGameInfo(gameInfoTemp);
-      
-//    if( status == Defines.WON ) {
-//      JOptionPane.showMessageDialog(null, "You have won, Duke! taratta taratta taratt tararara");
-//      JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000000000)+" seconds.");
-//    }
-//    else if (status == Defines.LOST) {
-//      JOptionPane.showMessageDialog(null, "You died. Horribly.");
-//      JOptionPane.showMessageDialog(null, "Full game length: "+(endTime/1000000000)+" seconds.");
-//    }
-//    
-//    if(status == 0) return false;
-//    else return true; 
   
     final long startT = System.nanoTime();
     
@@ -87,16 +73,10 @@ public class Control{
       client.connect();
   }
   
-  public void clientReceived(clientsList clientList){
-  	clientList.printClientList();
-  	//net.send(clientList.copy());
-  }
-  
   void playersListPrint(PlayersList players){
-      players.printPlayersList();
       gui.printList(players);
   }
-  
+
   // kliens kuldi, "keszen allok a jatekra, ezt a tablat szeretnem(0:egyiksem)"
   public void acceptGame(int tableSize){
     client.send(tableSize);
@@ -127,14 +107,12 @@ public class Control{
       case Defines.mouse_middle_Released: model.MiddleClickReleased(click.p.x, click.p.y, click.myname); gameInfoTemp.board =  model.getBoard(); sendGameInfo(gameInfoTemp); break;
       default: break;
       }
-      ++clickNo; 
     }
     
     Scores scoreTemp = new Scores();
     scoreTemp.setNames(model.getNames()); 
     scoreTemp.setScores(model.getScores());
     if(model.cellsLeft <= 0){ sendScores(scoreTemp); }
-//    System.out.println("cellsleft: " + model.cellsLeft);
   }
   
   // server kuld tablat klienseknek
@@ -144,7 +122,6 @@ public class Control{
   
   // tabla fogadasa kliensen
   public void receiveGameInfo(GameInfo g) throws IOException, InterruptedException{
-	  System.out.println("receiveGameInfo");
 	  gui.SetGameScreen(g.board);
   }
   
@@ -154,7 +131,6 @@ public class Control{
   }
   
   public void receiveGameTime(TimeStamp t) throws IOException{
-//    System.out.println("ReceivedTimeElapsed: " +  t.timeElapsed);
     gui.setNewTime(t);
   }
   
@@ -168,7 +144,6 @@ public class Control{
     try {
       gui.showScores(scoreTable);
     } catch (IOException e) {
-    // TODO Auto-generated catch block
 		e.printStackTrace();
     }
   }
