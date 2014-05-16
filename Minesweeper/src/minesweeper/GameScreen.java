@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.io.*;
+
 import javax.imageio.ImageIO;
 
 public class GameScreen extends JFrame{
@@ -248,13 +249,18 @@ public class GameScreen extends JFrame{
 			{
 				buttons[pos.x][pos.y].setState(value);
 				
-				buttons[pos.x][pos.y].setIcon(
-						new ImageIcon(
-								(
-						(new ImageIcon(	buttons[pos.x][pos.y].pathOfState(value)).getImage()
-						.getScaledInstance(cell_size, cell_size,java.awt.Image.SCALE_SMOOTH)
-								)))
-						);
+				Image img = null;
+				try {
+					img = ImageIO.read(getClass().getResourceAsStream(buttons[pos.x][pos.y].pathOfState(value)));
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "ERROR during ImageIO read call");
+					e.printStackTrace();
+				}
+				img = img.getScaledInstance(cell_size, cell_size,java.awt.Image.SCALE_SMOOTH);
+				ImageIcon icon = new ImageIcon(img, "");
+				
+				buttons[pos.x][pos.y].setIcon(icon);
+
 			}
 			
 			// Egy mezõ állapotának visszaadása
@@ -269,7 +275,16 @@ public class GameScreen extends JFrame{
 				
 				buttons[pos.x][pos.y] = new Button();
 				buttons[pos.x][pos.y].setState(value);
-				buttons[pos.x][pos.y].setIcon(new ImageIcon(buttons[pos.x][pos.y].pathOfState(value)));
+				Image img = null;
+				try {
+					img = ImageIO.read(getClass().getResourceAsStream(buttons[pos.x][pos.y].pathOfState(value)));
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "ERROR during ImageIO read call");
+					e.printStackTrace();
+				}
+				img = img.getScaledInstance(cell_size, cell_size,java.awt.Image.SCALE_SMOOTH);
+				ImageIcon icon = new ImageIcon(img, "");
+				buttons[pos.x][pos.y].setIcon(icon);
 	
 				buttons[pos.x][pos.y].setLocation(pos.x*cell_size, pos.y*cell_size);
 				buttons[pos.x][pos.y].setBorder(BorderFactory.createLineBorder(Color.orange));
