@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 
 public class StartScreen extends JFrame{
 
+	private static final long serialVersionUID = 1L;
 	GUI gui;
 	BackgroundPanelClass background_panel;
 	
@@ -56,11 +57,11 @@ public class StartScreen extends JFrame{
 	final Point name_field_size = new Point(150,40);
 	
 	
-	void close()
-	{
-		dispose();
-	}
+	//
+	// Kliend esetén érvényes metódusok
+	//
 	
+	// Csatlakozott játékosok listázása
 	public void listNames(PlayersList list)
 	{
 		int array_size = list.getCollection().size() + 1;
@@ -120,7 +121,8 @@ public class StartScreen extends JFrame{
 		
 	}
 	
-	public void setButton(int which_size)
+	// Táblaméret választó gombok hozzáadása
+	void setButton(int which_size)
 	{
 		buttons[which_size]= new Button();
 		Button temp = buttons[which_size];
@@ -157,26 +159,16 @@ public class StartScreen extends JFrame{
 							try {
 								clickHappend(btn.whichSize);
 							} catch (IOException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
-							}								}
+							}								
+							}
 						});
 	
 		add(temp);
 		temp.setVisible(false);
 	}
 	
-	void printLog(String log)
-	{
-		
-		for(int i = logLabelsNum -2 ; i >= 0 ; i--)
-		{
-			logLabels[i+1].setText(logLabels[i].getText()); 
-		}
-		logLabels[0].setText(log);
-		repaint();
-	}
-	
+	// Táblaméret kiválasztása megtörtént
 	void clickHappend (int which_size) throws IOException
 	{
 		for(int i=0; i<3; i++)
@@ -204,8 +196,22 @@ public class StartScreen extends JFrame{
 		
 	}
 	
-
+	//
+	// Ha szerver képenyõ esetén a logkiírásért felelõs metódus
+	//
 	
+	void printLog(String log)
+	{
+		
+		for(int i = logLabelsNum -2 ; i >= 0 ; i--)
+		{
+			logLabels[i+1].setText(logLabels[i].getText()); 
+		}
+		logLabels[0].setText(log);
+		repaint();
+	}
+	
+	// Konstruktor
 	StartScreen(GUI g) throws IOException
 	{
 		super("Start minesweeper");
@@ -221,6 +227,7 @@ public class StartScreen extends JFrame{
 			setButton(i);
 		}
 		
+		// Képernyõ különbözõ elemeinek példányosítása
 		logLabels = new JLabel[logLabelsNum];
 		scrollPan = new JScrollPane();
 		server_btn = new JButton();
@@ -234,6 +241,7 @@ public class StartScreen extends JFrame{
 		myname.setLayout(null);
 		name_field.setLayout(null);
 		
+		// Logokat tartalmazó labelek létrahozása
 		for(int i = 0; i < logLabelsNum; i++)
 		{
 			logLabels[i] = new JLabel();
@@ -251,16 +259,18 @@ public class StartScreen extends JFrame{
 		server_btn.setText("Server");
 		client_btn.setText("Client");
 		setYourName.setText("Please set your name!");
-
 		
 		background_panel = new BackgroundPanelClass("resources\\background.png");
 		background_panel.setBackground(Color.BLACK);
 		
+		// A név megadásáért felelõs textfield feliratkoztatása a text változásának eseményére
 		name_field.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 		    public void actionPerformed(java.awt.event.ActionEvent e) {
-				setYourName.setVisible(false);
 				String s = name_field.getText();
+				if (s.equals(""))
+					return;
+				setYourName.setVisible(false);
 				myname.setText("Welcome "+ s + " !");
 				name_field.setVisible(false);
 				for(int i=0; i < buttons.length;i++)
@@ -299,6 +309,7 @@ public class StartScreen extends JFrame{
 		myname.setVisible(false);
 		setYourName.setVisible(false);
 		
+		// Gombok feliratkoztatása a gombonyás eseményre
 		final JButton btn_sv = server_btn;
 		btn_sv.addMouseListener(new MouseAdapter() {
 						@Override
@@ -339,15 +350,17 @@ public class StartScreen extends JFrame{
 	
 	 class Button extends JButton{
 		 
-		 public int whichSize;
-		 public boolean choosed;
+		private static final long serialVersionUID = 1L;
+		public int whichSize;
+		public boolean choosed;
 		 
 	 }
 	
 	
 	 class BackgroundPanelClass extends JPanel{
 		
-		  private Image img;
+		private static final long serialVersionUID = 1L;
+		private Image img;
 
 
 		  public BackgroundPanelClass(String path) throws IOException {
