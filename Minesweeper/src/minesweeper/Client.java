@@ -29,17 +29,17 @@ public class Client extends Control{
 						 ctrl.receiveScores(scoreTable);
 					 }
 					 
-					 if(fromServerObject instanceof TimeStamp){
+					 if(fromServerObject.getClass() == TimeStamp.class){
 						 TimeStamp timeStamp = (TimeStamp) fromServerObject;
 						 ctrl.receiveGameTime(timeStamp);
 					 }
 					 
-					 if(fromServerObject instanceof GameInfo){
+					 if(fromServerObject.getClass() == GameInfo.class){
 						 GameInfo gameInfo = (GameInfo) fromServerObject;
 						 ctrl.receiveGameInfo(gameInfo);
 					 }
 					 
-					 if(fromServerObject instanceof PlayersList){
+					 if(fromServerObject.getClass() == PlayersList.class){
 						 PlayersList players = (PlayersList) fromServerObject;
 						 ctrl.playersListPrint(players);
 					 }
@@ -78,9 +78,9 @@ public class Client extends Control{
 	 void send(String str){
 		 if (out == null) return;
 	     try {
-	        out.writeObject(str);
+		        out.reset();
+	    	 out.writeObject(str);
 	        out.flush();
-	        out.reset();
 	     }	catch (IOException e) {
 	    	 ctrl.clientError("Send error!");
 	     }
@@ -89,9 +89,9 @@ public class Client extends Control{
 	 void send(int tableSize){
 		 if (out == null) return;
 	     try {
-	        out.writeObject(tableSize);
+		        out.reset();
+	    	 out.writeObject(tableSize);
 	        out.flush();
-	        out.reset();
 	     }	catch (IOException e) {
 	    	 ctrl.clientError("Send error!");
 	     }
@@ -100,9 +100,9 @@ public class Client extends Control{
 	 void send(ClickEvent	clickEvent){
 		 if (out == null) return;
 	     try {
-	        out.writeObject(clickEvent);
+		        out.reset();
+	    	 out.writeObject(clickEvent);
 	        out.flush();
-	        out.reset();
 	     }	catch (IOException e) {
 	    	 ctrl.clientError("Send error!");
 	     }
