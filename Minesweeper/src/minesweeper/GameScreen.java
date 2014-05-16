@@ -40,14 +40,8 @@ public class GameScreen extends JFrame{
 		BackgroundPanelClass background_panel;
 		Control control;
 		TimeCounter time;
-		
-		// Az ablak bezárása
-		public void close()
-		{
-			dispose();
-		}
-		
-		// Komstruktor
+	
+		// Konstruktor
 		public GameScreen(GUI g, int [][] fields)
 		{
 			super("Minesweeper");

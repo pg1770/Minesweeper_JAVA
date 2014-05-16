@@ -88,7 +88,7 @@ public class GUI {
 	//
 	
 	//Eredményképernyõ indítása
-	public void StartEndScreen()
+	void StartEndScreen()
 	{
 		if(gm_sc != null)
 		{

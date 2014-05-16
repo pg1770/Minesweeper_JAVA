@@ -19,9 +19,6 @@ import javax.swing.JPanel;
 
 public class GameEndScreen extends JFrame{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2574832596366659625L;
 
 	GUI gui;
