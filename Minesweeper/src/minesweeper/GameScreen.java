@@ -173,7 +173,7 @@ public class GameScreen extends JFrame{
 				switch(state)
 				{
 				case 0:
-					path = "resources\\im_empty.png";
+					path = "/resources/im_empty.png";
 					break;
 				case 1:
 				case 2:
@@ -183,22 +183,22 @@ public class GameScreen extends JFrame{
 				case 6:
 				case 7:
 				case 8:
-					path = "resources\\im_"+state+".png";
+					path = "/resources/im_"+state+".png";
 					break;
 
 				case Defines.field_unknow:
-					path = "resources\\im_unknow.png";
+					path = "/resources/im_unknow.png";
 					break;
 				case Defines.field_qst_marked:
-					path = "resources\\im_question.png";
+					path = "/resources/im_question.png";
 					break;
 				case Defines.field_exploited:
-					path =  "resources\\im_exploited.png";
+					path =  "/resources/im_exploited.png";
 					break;
 
 				case Defines.field_flagged:
 				case Defines.field_marked:
-					path =  "resources\\im_flagged.png";
+					path =  "/resources/im_flagged.png";
 					break;
 				
 				case 16:
@@ -218,11 +218,11 @@ public class GameScreen extends JFrame{
 				case 30:
 				case 31:
 			
-					path =  "resources\\im_pushed.png";
+					path =  "/resources/im_pushed.png";
 					break;
 					
 				default:
-					path =  "resources\\im_default.png";
+					path =  "/resources/im_default.png";
 					break;
 		
 				}
@@ -248,10 +248,11 @@ public class GameScreen extends JFrame{
 			{
 				buttons[pos.x][pos.y].setState(value);
 				
-				buttons[pos.x][pos.y].setIcon(new ImageIcon(((new ImageIcon(
-						buttons[pos.x][pos.y].pathOfState(value)).getImage()
-						.getScaledInstance(cell_size, cell_size,
-								java.awt.Image.SCALE_SMOOTH)
+				buttons[pos.x][pos.y].setIcon(
+						new ImageIcon(
+								(
+						(new ImageIcon(	buttons[pos.x][pos.y].pathOfState(value)).getImage()
+						.getScaledInstance(cell_size, cell_size,java.awt.Image.SCALE_SMOOTH)
 								)))
 						);
 			}
