@@ -152,7 +152,7 @@ public class GameScreen extends JFrame{
 		// A JButton osztály kiterjesztése		class Button extends JButton{
 			
 			private static final long serialVersionUID = 1L;
-			// Szükséges tárolnun a mezõ jelenlegi állapotát, azaz hogy milyen számot/aknát takar
+			// Szükséges tárolnunk a mezõ jelenlegi állapotát, azaz hogy milyen számot/aknát takar
 			int state;
 			
 			public void setState(int st)
@@ -165,7 +165,7 @@ public class GameScreen extends JFrame{
 				return state;
 			}
 			
-			// A mezõ állapotától függõen különbüzõ képeket kell betöltenünk. Ezen képek elérési õtját
+			// A mezõ állapotától függõen különbüzõ képeket kell betöltenünk. Ezen képek elérési útját
 			// adjuk vissza ebben a metódusban
 			public String pathOfState(int state)
 			{
