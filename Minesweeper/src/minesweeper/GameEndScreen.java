@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
